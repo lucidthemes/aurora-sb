@@ -1,4 +1,4 @@
-# Aurora - TS
+# Aurora - Supabase
 
 A React conversion using Supabase of our WordPress theme called [Aurora](https://www.lucid-themes.com/theme/aurora-wordpress-blog-shop-theme/).
 
