@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { CartProvider } from '@features/cart/CartContext';
 
@@ -10,14 +11,18 @@ interface AppProvidersProps {
   children: ReactNode;
 }
 
+const queryClient = new QueryClient();
+
 export function AppProviders({ children }: AppProvidersProps) {
   return (
-    <HeaderLayoutProvider>
-      <MobileMenuProvider>
-        <AuthProvider>
-          <CartProvider>{children}</CartProvider>
-        </AuthProvider>
-      </MobileMenuProvider>
-    </HeaderLayoutProvider>
+    <QueryClientProvider client={queryClient}>
+      <HeaderLayoutProvider>
+        <MobileMenuProvider>
+          <AuthProvider>
+            <CartProvider>{children}</CartProvider>
+          </AuthProvider>
+        </MobileMenuProvider>
+      </HeaderLayoutProvider>
+    </QueryClientProvider>
   );
 }
