@@ -17,7 +17,9 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Setup Supabase CLI
-        uses: supabase/setup-cli@2.330.0
+        uses: supabase/setup-cli@v1
+        with:
+          version: 'latest'
 
       - name: Deploy migrations to Supabase (staging)
         run: |
