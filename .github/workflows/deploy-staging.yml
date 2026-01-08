@@ -24,11 +24,12 @@ jobs:
       - name: Deploy migrations to Supabase (staging)
         run: |
           supabase link --project-ref $SUPABASE_STAGING_PROJECT_REF
-          supabase db push
+          supabase db push --no-verify-jwt
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_STAGING_ACCESS_TOKEN }}
           SUPABASE_STAGING_PROJECT_REF: ${{ secrets.SUPABASE_STAGING_PROJECT_REF }}
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_STAGING_DB_PASSWORD }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_STAGING_SERVICE_ROLE_KEY }}
 
   deploy-vercel:
     if: github.event.pull_request.merged == true
