@@ -23,7 +23,11 @@ jobs:
 
       - name: Deploy migrations to Supabase (staging)
         run: |
-          supabase db push --db-url "postgresql://postgres:${SUPABASE_DB_PASSWORD}@${SUPABASE_STAGING_PROJECT_REF}.db.supabase.co:5432/postgres"
+          mkdir -p supabase
+          echo '{"default":{"kty":"oct","kid":"","alg":"ES256","k":""}}' > supabase/signing_keys.json
+
+          supabase link --project-ref $SUPABASE_STAGING_PROJECT_REF
+          supabase db push
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_STAGING_ACCESS_TOKEN }}
           SUPABASE_STAGING_PROJECT_REF: ${{ secrets.SUPABASE_STAGING_PROJECT_REF }}
