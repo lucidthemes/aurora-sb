@@ -23,9 +23,7 @@ jobs:
 
       - name: Deploy migrations to Supabase (staging)
         run: |
-          supabase link \
-            --project-ref $SUPABASE_STAGING_PROJECT_REF \
-            --non-interactive
+          supabase link --project-ref $SUPABASE_STAGING_PROJECT_REF
           supabase db push
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_STAGING_ACCESS_TOKEN }}
