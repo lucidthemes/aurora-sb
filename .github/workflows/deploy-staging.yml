@@ -8,9 +8,32 @@ on:
       - main
 
 jobs:
-  deploy:
+  deploy-supabase:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v2
+
+      - name: Deploy migrations to Supabase (staging)
+        run: |
+          supabase link \
+            --project-ref $SUPABASE_STAGING_PROJECT_REF \
+            --non-interactive
+          supabase db push
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_STAGING_ACCESS_TOKEN }}
+          SUPABASE_STAGING_PROJECT_REF: ${{ secrets.SUPABASE_STAGING_PROJECT_REF }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_STAGING_DB_PASSWORD }}
+
+  deploy-vercel:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    needs: deploy-supabase
 
     steps:
       - name: Checkout repository
