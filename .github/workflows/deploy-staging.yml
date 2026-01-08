@@ -27,7 +27,7 @@ jobs:
           echo '[]' > supabase/signing_keys.json
 
           supabase link --project-ref $SUPABASE_STAGING_PROJECT_REF
-          supabase db push --no-verify-jwt
+          supabase db push
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_STAGING_ACCESS_TOKEN }}
           SUPABASE_STAGING_PROJECT_REF: ${{ secrets.SUPABASE_STAGING_PROJECT_REF }}
