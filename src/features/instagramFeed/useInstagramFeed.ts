@@ -1,23 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { getFeed } from '@server/instagram/getFeed';
-import type { Feed } from '@typings/instagram/feed';
+import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
 
-export default function useInstagramFeed(limit?: number) {
-  const [instagramFeed, setInstagramFeed] = useState<Feed[]>([]);
+export default function useInstagramFeed(feedId: string) {
+  const feedSettingsQuery = useQuery({
+    queryKey: ['feedSettings', { feedId }],
+    queryFn: () => getFeedSettings(feedId),
+  });
 
-  useEffect(() => {
-    const fetchFeed = async () => {
-      try {
-        const feed = await getFeed(limit);
-        setInstagramFeed(feed);
-      } catch (error) {
-        console.error('Failed to fetch instagram feed.', error);
-      }
-    };
+  const feedMediaQuery = useQuery({
+    queryKey: ['feedMedia', { feedId }],
+    queryFn: () => getFeedMedia(feedId),
+  });
 
-    fetchFeed();
-  }, [limit]);
-
-  return instagramFeed;
+  return { feedSettingsQuery, feedMediaQuery };
 }

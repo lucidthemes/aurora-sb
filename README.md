@@ -49,9 +49,18 @@ Frontend
 - [React](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [TanStack Query](https://tanstack.com/query/latest)
 - [Zod](https://zod.dev/)
 - [Embla Carousel](https://www.embla-carousel.com/)
 - [Google fonts (EB Garamond)](https://fonts.google.com/specimen/EB+Garamond)
+
+Database
+
+- [Supabase](https://supabase.com/database)
+
+File storage
+
+- [Supabase](https://supabase.com/storage)
 
 Testing
 

@@ -6,6 +6,7 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
 import prettier from 'eslint-config-prettier';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
+import pluginQuery from '@tanstack/eslint-plugin-query';
 import globals from 'globals';
 
 export default defineConfig([
@@ -23,20 +24,22 @@ export default defineConfig([
       },
     },
     plugins: {
-      '@typescript-eslint': tsPlugin,
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      '@typescript-eslint': tsPlugin,
       prettier: eslintPluginPrettier,
+      '@tanstack/query': pluginQuery,
     },
     rules: {
       ...react.configs.recommended.rules,
       ...reactHooks.configs['recommended-latest'].rules,
       'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'react-hooks/preserve-manual-memoization': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
       'prettier/prettier': 'warn',
-      'react/prop-types': 'off',
-      'react-hooks/preserve-manual-memoization': 'off',
+      '@tanstack/query/exhaustive-deps': 'error',
     },
     settings: {
       react: { version: 'detect' },
@@ -44,38 +47,7 @@ export default defineConfig([
   },
 
   {
-    files: ['**/*.js', '**/*.jsx'],
-    languageOptions: {
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        ecmaFeatures: { jsx: true },
-      },
-      globals: {
-        ...globals.browser,
-      },
-    },
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
-      prettier: eslintPluginPrettier,
-    },
-    rules: {
-      ...react.configs.recommended.rules,
-      ...reactHooks.configs['recommended-latest'].rules,
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off',
-      'prettier/prettier': 'warn',
-      'react-hooks/preserve-manual-memoization': 'off',
-    },
-    settings: {
-      react: { version: 'detect' },
-    },
-  },
-
-  {
-    files: ['**/*.test.{js,jsx,ts,tsx}'],
+    files: ['**/*.test.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -95,18 +67,18 @@ export default defineConfig([
       },
     },
     plugins: {
-      '@typescript-eslint': tsPlugin,
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      '@typescript-eslint': tsPlugin,
       prettier: eslintPluginPrettier,
     },
     rules: {
       'react/react-in-jsx-scope': 'off',
-      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      'prettier/prettier': 'warn',
       'react/prop-types': 'off',
       'react-hooks/preserve-manual-memoization': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'prettier/prettier': 'warn',
     },
     settings: {
       react: { version: 'detect' },

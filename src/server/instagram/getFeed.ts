@@ -1,33 +1,51 @@
 import { z } from 'zod';
 
-import { FeedSchema } from '@schemas/instagram/feed.schema';
-import type { Feed } from '@typings/instagram/feed';
+import { FeedSettingsSchema, FeedMediaSchema } from '@schemas/instagram/feed.schema';
+import type { FeedSettings, FeedMedia } from '@typings/instagram/feed';
+import { supabase } from '@lib/supabase/client';
 
-export async function getFeed(limit?: number): Promise<Feed[]> {
+export async function getFeedSettings(feedId: string): Promise<FeedSettings> {
   try {
-    const res = await fetch('/data/instagram.json');
+    const { data, error } = await supabase.from('instagram_feeds').select('layout, button').eq('id', feedId);
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch instagram.json: ${res.status}`);
+    if (error) {
+      throw new Error(`Failed to fetch feed settings: ${error.message}`);
     }
 
-    const unparsed = await res.json();
-
-    const parsed = z.array(FeedSchema).safeParse(unparsed);
+    const parsed = z.array(FeedSettingsSchema).safeParse(data);
 
     if (!parsed.success) {
       throw new Error(`Invalid data: ${parsed.error}`);
     }
 
-    let feed = parsed.data;
+    return parsed.data[0];
+  } catch (error) {
+    console.error('getFeedSettings', error);
+    throw error;
+  }
+}
 
-    if (limit && limit > 0) {
-      feed = feed.slice(0, limit);
+export async function getFeedMedia(feedId: string): Promise<FeedMedia[]> {
+  try {
+    const { data, error } = await supabase
+      .from('instagram_feed_media')
+      .select('id, media(storage_path, alt_text)')
+      .eq('instagram_feed_id', feedId)
+      .order('position');
+
+    if (error) {
+      throw new Error(`Failed to fetch feed media: ${error.message}`);
     }
 
-    return feed;
+    const parsed = z.array(FeedMediaSchema).safeParse(data);
+
+    if (!parsed.success) {
+      throw new Error(`Invalid data: ${parsed.error}`);
+    }
+
+    return parsed.data;
   } catch (error) {
-    console.error('getFeed', error);
+    console.error('getFeedMedia', error);
     throw error;
   }
 }

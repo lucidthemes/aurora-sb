@@ -12,7 +12,7 @@ export function Sidebar() {
         padding={true}
       />
       <PostsWidget title="Latest posts" limit={2} style="wide" />
-      <InstagramWidget title="Instagram" limit={9} columns={3} />
+      <InstagramWidget feedId="6a0b506f-1717-434c-8333-f7f4e8f5bb1b" title="Instagram" />
       <SocialWidget title="Follow me" />
       <NewsletterWidget title="Newsletter" />
       <PromoBoxWidget title="Promo box" image="/images/posts/post-8.jpg" heading="Lifestyle" link="/category/lifestyle" position="center" />
@@ -33,7 +33,7 @@ export function Sidebar2() {
         centered={true}
         padding={true}
       />
-      <InstagramWidget title="Instagram" limit={9} columns={3} />
+      <InstagramWidget feedId="6a0b506f-1717-434c-8333-f7f4e8f5bb1b" title="Instagram" />
       <PromoBoxWidget image="/images/posts/post-8.jpg" heading="Lifestyle" link="/category/lifestyle" position="center" />
       <PromoBoxWidget image="/images/posts/post-2.jpg" heading="Travel" link="/category/travel" position="center" />
       <PromoBoxWidget image="/images/posts/post-12.jpg" heading="Photography" link="/category/photography" position="center" />
