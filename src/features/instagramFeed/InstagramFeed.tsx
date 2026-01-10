@@ -13,7 +13,7 @@ export default function InstagramFeed({ feedId }: InstagramFeedProps) {
   const { feedSettingsQuery, feedMediaQuery } = useInstagramFeed(feedId);
 
   if (feedSettingsQuery.isPending) {
-    return <p className="rounded-md bg-pampas p-5 text-center">Loading feed settings...</p>;
+    return <p className="rounded-md bg-pampas p-5 text-center">Loading feed...</p>;
   }
 
   if (feedSettingsQuery.isError && feedSettingsQuery.error) {
