@@ -50,7 +50,7 @@ export default function InstagramFeed({ feedId }: InstagramFeedProps) {
   const feedButton = feedSettingsQuery.data.button;
 
   return (
-    <ul className={`grid ${feedColumnClasses} ${feedGapClass} relative`}>
+    <ul className={`grid ${feedColumnClasses} ${feedGapClass} relative`} aria-label="Instagram feed">
       {feedMedia.map((feedMedia, index) => {
         let visibilityClasses = '';
 

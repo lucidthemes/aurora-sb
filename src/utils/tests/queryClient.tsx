@@ -6,7 +6,7 @@ const createTestQueryClient = () =>
   new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false, // 🔑 important for tests
+        retry: false,
       },
     },
   });
