@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('@server/instagram/getFeed', () => ({
@@ -65,11 +65,12 @@ describe('InstagramFeed component', () => {
 
     renderWithQueryClient(
       <MemoryRouter>
-        <InstagramFeed feedId="491b660b-3ed1-4281-b53b-b93d06231205" />
+        <InstagramFeed feedId="123456" />
       </MemoryRouter>
     );
 
-    const images = await screen.findAllByRole('listitem');
+    const feed = await screen.findByLabelText('Instagram feed');
+    const images = await within(feed).findAllByRole('listitem');
     expect(images).toHaveLength(3);
 
     const follow = await screen.findByRole('link', { name: /follow on Instagram/i });

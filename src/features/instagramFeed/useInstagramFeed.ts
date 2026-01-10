@@ -11,6 +11,7 @@ export default function useInstagramFeed(feedId: string) {
   const feedMediaQuery = useQuery({
     queryKey: ['feedMedia', { feedId }],
     queryFn: () => getFeedMedia(feedId),
+    enabled: feedSettingsQuery.isSuccess,
   });
 
   return { feedSettingsQuery, feedMediaQuery };
