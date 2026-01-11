@@ -12,7 +12,8 @@
       "@styles/*": ["src/styles/*"],
       "@typings/*": ["src/types/*"],
       "@utils/*": ["src/utils/*"],
-      "@lib/*": ["src/lib/*"]
+      "@lib/*": ["src/lib/*"],
+      "@services/*": ["src/services/*"]
     },
     "allowJs": true,
     "checkJs": false,
