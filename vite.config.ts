@@ -22,6 +22,7 @@ export default defineConfig({
       '@typings': path.resolve(__dirname, 'src/types'),
       '@utils': path.resolve(__dirname, 'src/utils'),
       '@lib': path.resolve(__dirname, 'src/lib'),
+      '@services': path.resolve(__dirname, 'src/services'),
     },
   },
   test: {
