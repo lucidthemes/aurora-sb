@@ -1,16 +1,17 @@
 interface ErrorProps {
-  message: string;
+  code: string;
 }
 
-export default function Error({ message }: ErrorProps) {
+export default function Error({ code }: ErrorProps) {
   let errorMessage = '';
 
-  switch (message) {
-    case 'FEED_NOT_FOUND':
+  switch (code) {
+    case 'FETCH_FEED_NOT_FOUND':
       errorMessage = 'This feed does not exist or has been removed';
       break;
-    case 'FETCH_FAILED':
-    case 'INVALID_DATA':
+    case 'FETCH_FEED_SETTINGS_FAILED':
+    case 'FETCH_FEED_INVALID_DATA':
+    case 'FETCH_FEED_MEDIA_FAILED':
     default:
       errorMessage = 'Error loading feed';
       break;
