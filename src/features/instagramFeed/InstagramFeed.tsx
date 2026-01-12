@@ -17,7 +17,7 @@ export default function InstagramFeed({ feedId }: InstagramFeedProps) {
   }
 
   if (feedSettingsQuery.isError && feedSettingsQuery.error) {
-    return <Error message={feedSettingsQuery.error.message} />;
+    return <Error code={feedSettingsQuery.error.code} />;
   }
 
   const feedLayout = feedSettingsQuery.data.layout;
@@ -42,7 +42,7 @@ export default function InstagramFeed({ feedId }: InstagramFeedProps) {
   }
 
   if (feedMediaQuery.isError && feedMediaQuery.error) {
-    return <Error message={feedMediaQuery.error.message} />;
+    return <Error code={feedMediaQuery.error.code} />;
   }
 
   const feedMedia = feedMediaQuery.data;
