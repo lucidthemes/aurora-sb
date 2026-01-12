@@ -65,9 +65,35 @@ jobs:
       - name: Build app
         run: npm run build
 
-  deploy:
+  deploy-supabase:
     runs-on: ubuntu-latest
     needs: build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 'latest'
+
+      - name: Deploy migrations to Supabase (production)
+        run: |
+          mkdir -p supabase
+          echo '[]' > supabase/signing_keys.json
+
+          supabase link --project-ref $SUPABASE_PROD_PROJECT_REF
+          supabase db push
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_PROD_ACCESS_TOKEN }}
+          SUPABASE_PROD_PROJECT_REF: ${{ secrets.SUPABASE_PROD_PROJECT_REF }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_PROD_DB_PASSWORD }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_PROD_SERVICE_ROLE_KEY }}
+
+  deploy-vercel:
+    runs-on: ubuntu-latest
+    needs: deploy-supabase
 
     steps:
       - name: Checkout repository
