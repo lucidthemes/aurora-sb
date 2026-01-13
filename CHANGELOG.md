@@ -34,6 +34,12 @@ All notable changes to this project will be documented in this file.
 
 - instagram feed type to include settings and media types
 
+### Fixed
+
+#### ProductPost
+
+- tab buttons not spanning full width on mobile
+
 ### Removed
 
 #### Root
