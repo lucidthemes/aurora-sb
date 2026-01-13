@@ -38,6 +38,7 @@ All notable changes to this project will be documented in this file.
 
 #### ProductPost
 
+- add to cart quantity button icons not being centered on mobile
 - tab buttons not spanning full width on mobile
 
 ### Removed
