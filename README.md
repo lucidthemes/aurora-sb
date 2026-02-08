@@ -51,6 +51,7 @@ Frontend
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TanStack Query](https://tanstack.com/query/latest)
 - [Zod](https://zod.dev/)
+- [React Hook Form](https://react-hook-form.com/)
 - [Embla Carousel](https://www.embla-carousel.com/)
 - [Google fonts (EB Garamond)](https://fonts.google.com/specimen/EB+Garamond)
 

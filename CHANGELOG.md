@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - [Unreleased]
+
+### Added
+
+#### Root
+
+- React hook form dependency
+- Zod react hook form resolver dependency
+
+#### Schemas
+
+- auth sub folder
+- login schema
+
+### Changed
+
+#### Auth
+
+- convert login form component to use react hook form
+- convert login form hook to use react hook form
+
 ## [0.1.1] - 2026-01-14
 
 ### Changed
