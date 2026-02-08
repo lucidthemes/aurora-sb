@@ -2,6 +2,7 @@
 .branches
 .temp
 signing_keys.json
+config.local.toml
 
 # dotenvx
 .env.keys
