@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 
 - auth sub folder
 - login schema
+- register schema
 
 ### Changed
 
@@ -22,6 +23,8 @@ All notable changes to this project will be documented in this file.
 
 - convert login form component to use react hook form
 - convert login form hook to use react hook form
+- convert register form component to use react hook form
+- convert register form hook to use react hook form
 
 ## [0.1.1] - 2026-01-14
 
