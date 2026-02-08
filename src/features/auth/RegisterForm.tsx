@@ -18,12 +18,12 @@ export default function RegisterForm() {
           onClose={() => resetRegisterFormNotification()}
         />
       )}
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6" aria-label="Login" noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6" aria-label="Register" noValidate>
         <Input type="email" {...register('email')} placeholder="Email address" label="Email address" error={errors.email?.message} />
         <Password {...register('password')} placeholder="Password" label="Password" error={errors.password?.message} />
         <Password {...register('confirmPassword')} placeholder="Confirm password" label="Confirm password" error={errors.confirmPassword?.message} />
         <Button type="submit" className="max-w-fit">
-          Login
+          Register
         </Button>
       </form>
     </div>
