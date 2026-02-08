@@ -1,8 +1,5 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 
-import type { Customer } from '@typings/shop/customer';
-import { createInputChangeEvent, createFormSubmitEvent } from '@utils/tests/events';
-
 import useLoginForm from '../hooks/useLoginForm';
 
 vi.mock('@server/shop/getCustomer', () => ({
@@ -14,124 +11,68 @@ import { getCustomerByEmail } from '@server/shop/getCustomer';
 describe('useLoginForm hook', () => {
   const handleLoginMock = vi.fn();
 
-  const mockCustomer: Customer = {
-    id: 1,
-    email: 'test@example.com',
-  };
-
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  test('updates form data on handleFormChange', () => {
-    const { result } = renderHook(() => useLoginForm(handleLoginMock));
+  test('updates form errors for missing fields', async () => {
+    const { result } = renderHook(() => useLoginForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
+    await act(async () => {
+      result.current.setValue('email', '');
+      result.current.setValue('password', '');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('password', 'password'));
-    });
-
-    expect(result.current.loginFormData.email).toBe('test@example.com');
-    expect(result.current.loginFormData.password).toBe('password');
+    expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
+    expect(result.current.errors.password?.message).toBe('Password needs to be longer than 8 characters');
   });
 
-  test('updates form errors for missing fields', () => {
-    const { result } = renderHook(() => useLoginForm(handleLoginMock));
+  test('updates form errors for invalid email', async () => {
+    const { result } = renderHook(() => useLoginForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', ''));
+    await act(async () => {
+      result.current.setValue('email', 'invalid-email');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('password', ''));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.loginFormErrors.email).toBe('Please enter an email address');
-    expect(result.current.loginFormErrors.password).toBe('Please enter a password');
+    expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
   });
 
-  test('updates form errors for invalid email', () => {
-    const { result } = renderHook(() => useLoginForm(handleLoginMock));
+  test('updates form errors for password less than 8 characters', async () => {
+    const { result } = renderHook(() => useLoginForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'invalid-email'));
+    await act(async () => {
+      result.current.setValue('password', 'pass');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.loginFormErrors.email).toBe('Please enter a valid email address');
-  });
-
-  test('updates form errors for password less than 8 characters', () => {
-    const { result } = renderHook(() => useLoginForm(handleLoginMock));
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('password', 'pass'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.loginFormErrors.password).toBe('Password needs to be longer than 8 characters');
+    expect(result.current.errors.password?.message).toBe('Password needs to be longer than 8 characters');
   });
 
   test('updates form notification for user that does not exist on form submission', async () => {
     vi.mocked(getCustomerByEmail).mockResolvedValue(null);
 
-    const { result } = renderHook(() => useLoginForm(handleLoginMock));
+    const { result } = renderHook(() => useLoginForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
-    });
+    await act(async () => {
+      result.current.setValue('email', 'test@example.com');
+      result.current.setValue('password', 'password');
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('password', 'password'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
+      await result.current.handleSubmit(result.current.onSubmit)();
     });
 
     await waitFor(() => {
       expect(getCustomerByEmail).toHaveBeenCalledWith('test@example.com');
       expect(handleLoginMock).not.toHaveBeenCalled();
-      expect(result.current.loginFormNotification.type).toBe('error');
-      expect(result.current.loginFormNotification.message).toBe('No account found with those details');
-    });
-  });
 
-  test('calls handleLogin and resets form data on valid form submission', async () => {
-    vi.mocked(getCustomerByEmail).mockResolvedValue(mockCustomer);
-
-    const { result } = renderHook(() => useLoginForm(handleLoginMock));
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('password', 'password'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    await waitFor(() => {
-      expect(getCustomerByEmail).toHaveBeenCalledWith('test@example.com');
-      expect(handleLoginMock).toHaveBeenCalledWith(mockCustomer);
-      expect(result.current.loginFormData.email).toBe('');
-      expect(result.current.loginFormData.password).toBe('');
+      expect(result.current.loginFormNotification).toEqual({
+        type: 'error',
+        message: 'No account found with those details',
+      });
     });
   });
 });

@@ -82,7 +82,7 @@ describe('LoginForm component', () => {
     expect(passwordInput).toHaveAttribute('type', 'text');
   });
 
-  test('shows error messages for missing fields', () => {
+  test('shows error messages for missing fields', async () => {
     render(
       <MemoryRouter>
         <LoginForm />
@@ -91,11 +91,13 @@ describe('LoginForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
-    expect(screen.getByText(/please enter an email address/i)).toBeInTheDocument();
-    expect(screen.getByText(/please enter a password/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+      expect(screen.getByText(/password needs to be longer than 8 characters/i)).toBeInTheDocument();
+    });
   });
 
-  test('shows error message for invalid email', () => {
+  test('shows error message for invalid email', async () => {
     render(
       <MemoryRouter>
         <LoginForm />
@@ -108,10 +110,12 @@ describe('LoginForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
-    expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+    });
   });
 
-  test('shows error message for password less than 8 characters', () => {
+  test('shows error message for password less than 8 characters', async () => {
     render(
       <MemoryRouter>
         <LoginForm />
@@ -124,7 +128,9 @@ describe('LoginForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
 
-    expect(screen.getByText(/password needs to be longer than 8 characters/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/password needs to be longer than 8 characters/i)).toBeInTheDocument();
+    });
   });
 
   test('show error notification for user that does not exist on form submission', async () => {
