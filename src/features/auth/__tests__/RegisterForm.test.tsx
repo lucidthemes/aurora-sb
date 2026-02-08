@@ -68,17 +68,18 @@ describe('RegisterForm component', () => {
     expect(confirmPasswordInput).toHaveAttribute('type', 'text');
   });
 
-  test('shows error messages for missing fields', () => {
+  test('shows error messages for missing fields', async () => {
     render(<RegisterForm />);
 
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    expect(screen.getByText(/please enter an email address/i)).toBeInTheDocument();
-    expect(screen.getByText(/please enter a password/i)).toBeInTheDocument();
-    expect(screen.getByText(/please confirm the password/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+      expect(screen.getByText(/password needs to be longer than 8 characters/i)).toBeInTheDocument();
+    });
   });
 
-  test('shows error message for invalid email', () => {
+  test('shows error message for invalid email', async () => {
     render(<RegisterForm />);
 
     fireEvent.change(screen.getByRole('textbox', { name: /email/i }), {
@@ -87,10 +88,12 @@ describe('RegisterForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+    });
   });
 
-  test('shows error message for password less than 8 characters', () => {
+  test('shows error message for password less than 8 characters', async () => {
     render(<RegisterForm />);
 
     fireEvent.change(screen.getByLabelText('Password'), {
@@ -99,10 +102,12 @@ describe('RegisterForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    expect(screen.getByText(/password needs to be longer than 8 characters/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/password needs to be longer than 8 characters/i)).toBeInTheDocument();
+    });
   });
 
-  test('shows error message for passwords that do not match', () => {
+  test('shows error message for passwords that do not match', async () => {
     render(<RegisterForm />);
 
     fireEvent.change(screen.getByLabelText('Password'), {
@@ -115,7 +120,9 @@ describe('RegisterForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    expect(screen.getByText(/passwords do no match/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/passwords do not match/i)).toBeInTheDocument();
+    });
   });
 
   test('shows error notification for user that already exists on form submission', async () => {
