@@ -23,9 +23,6 @@ jobs:
 
       - name: Deploy migrations to Supabase (staging)
         run: |
-          mkdir -p supabase
-          echo '[]' > supabase/signing_keys.json
-
           supabase link --project-ref $SUPABASE_STAGING_PROJECT_REF
           supabase db push
         env:
