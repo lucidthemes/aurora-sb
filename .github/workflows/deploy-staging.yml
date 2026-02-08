@@ -21,11 +21,6 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Prepare Supabase CLI
-        run: |
-          mkdir -p supabase
-          echo '[{"kty":"EC","kid":"ci","use":"sig","key_ops":["sign","verify"],"alg":"ES256","ext":true,"d":"ci","crv":"P-256","x":"ci","y":"ci"}]' > supabase/signing_keys.json
-
       - name: Deploy migrations to Supabase (staging)
         run: |
           supabase link --project-ref $SUPABASE_STAGING_PROJECT_REF
