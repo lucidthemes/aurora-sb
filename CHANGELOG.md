@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
 - register schema
 - lost password schema
 
+#### Supabase
+
+- add user roles table migration
+
 ### Changed
 
 #### Auth
