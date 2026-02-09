@@ -1,61 +1,46 @@
-import { renderHook, act } from '@testing-library/react';
-
-import { createInputChangeEvent, createFormSubmitEvent } from '@utils/tests/events';
+import { renderHook, act, waitFor } from '@testing-library/react';
 
 import useLostPasswordForm from '../hooks/useLostPasswordForm';
 
 describe('useLostPasswordForm hook', () => {
-  test('updates form email on handleFormChange', () => {
+  test('updates form error for missing email', async () => {
     const { result } = renderHook(() => useLostPasswordForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
+    await act(async () => {
+      result.current.setValue('email', '');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    expect(result.current.lostPasswordFormEmail).toBe('test@example.com');
+    expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
   });
 
-  test('updates form error for missing email', () => {
+  test('updates form error for invalid email', async () => {
     const { result } = renderHook(() => useLostPasswordForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', ''));
+    await act(async () => {
+      result.current.setValue('email', 'invalid-email');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.lostPasswordFormError).toBe('Please enter an email address');
+    expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
   });
 
-  test('updates form error for invalid email', () => {
+  test('resets form data and shows notification on valid form submission', async () => {
     const { result } = renderHook(() => useLostPasswordForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'invalid-email'));
+    await act(async () => {
+      result.current.setValue('email', 'test@example.com');
+
+      await result.current.handleSubmit(result.current.onSubmit)();
     });
 
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
+    await waitFor(() => {
+      expect(result.current.lostPasswordFormNotification).toEqual({
+        type: 'success',
+        message: 'Password reset email sent. Please check your inbox.',
+      });
     });
-
-    expect(result.current.lostPasswordFormError).toBe('Please enter a valid email address');
-  });
-
-  test('resets form data and shows notification on valid form submission', () => {
-    const { result } = renderHook(() => useLostPasswordForm());
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.lostPasswordFormEmail).toBe('');
-    expect(result.current.lostPasswordFormNotification.type).toBe('success');
-    expect(result.current.lostPasswordFormNotification.message).toBe('Password reset email sent. Please check your inbox.');
   });
 });
