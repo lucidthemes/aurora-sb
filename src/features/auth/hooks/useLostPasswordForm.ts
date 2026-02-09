@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import type { ChangeEventHandler, FormEventHandler } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { validateEmail } from '@utils/validators';
+import { LostPasswordFormSchema } from '@schemas/auth/lostPassword.schema';
+import type { LostPasswordForm } from '@schemas/auth/lostPassword.schema';
 
 interface LostPasswordFormNotification {
   type: string;
@@ -9,9 +11,6 @@ interface LostPasswordFormNotification {
 }
 
 export default function useLostPasswordForm() {
-  const [lostPasswordFormEmail, setLostPasswordFormEmail] = useState('');
-  const [lostPasswordFormError, setLostPasswordFormError] = useState('');
-
   const [lostPasswordFormNotification, setLostPasswordFormNotification] = useState<LostPasswordFormNotification>({
     type: '',
     message: '',
@@ -24,52 +23,34 @@ export default function useLostPasswordForm() {
     });
   };
 
-  const handleFormChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.target;
-    setLostPasswordFormEmail(value);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    reset,
+  } = useForm({
+    resolver: zodResolver(LostPasswordFormSchema),
+  });
 
-  const validateFormData = () => {
-    let formError = '';
-    let formIsValid = true;
+  const onSubmit = async (data: LostPasswordForm) => {
+    console.log(data); // temp
 
-    const trimmedEmail = lostPasswordFormEmail?.trim();
+    setLostPasswordFormNotification({
+      type: 'success',
+      message: 'Password reset email sent. Please check your inbox.',
+    });
 
-    if (!trimmedEmail || !validateEmail(trimmedEmail)) {
-      if (!trimmedEmail) {
-        formError = 'Please enter an email address';
-      } else {
-        formError = 'Please enter a valid email address';
-      }
-      formIsValid = false;
-    }
-
-    setLostPasswordFormError(formError);
-
-    return formIsValid;
-  };
-
-  const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
-    let isFormValid = validateFormData();
-
-    if (isFormValid === true) {
-      setLostPasswordFormEmail('');
-
-      setLostPasswordFormNotification({
-        type: 'success',
-        message: 'Password reset email sent. Please check your inbox.',
-      });
-    }
+    reset();
   };
 
   return {
-    lostPasswordFormEmail,
-    lostPasswordFormError,
+    register,
+    handleSubmit,
+    onSubmit,
+    errors,
+    setValue,
     lostPasswordFormNotification,
     resetLostPasswordFormNotification,
-    handleFormChange,
-    handleFormSubmit,
   };
 }

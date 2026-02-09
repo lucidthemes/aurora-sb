@@ -5,8 +5,7 @@ import Button from '@components/UI/Button';
 import useLostPasswordForm from './hooks/useLostPasswordForm';
 
 export default function LostPasswordForm() {
-  const { lostPasswordFormEmail, lostPasswordFormError, lostPasswordFormNotification, resetLostPasswordFormNotification, handleFormChange, handleFormSubmit } =
-    useLostPasswordForm();
+  const { register, handleSubmit, onSubmit, errors, lostPasswordFormNotification, resetLostPasswordFormNotification } = useLostPasswordForm();
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -18,18 +17,8 @@ export default function LostPasswordForm() {
           onClose={() => resetLostPasswordFormNotification()}
         />
       )}
-      <form onSubmit={handleFormSubmit} className="flex flex-col gap-y-6" aria-label="Lost password" noValidate>
-        <Input
-          type="email"
-          name="email"
-          value={lostPasswordFormEmail}
-          onChange={handleFormChange}
-          placeholder="Email address"
-          required={true}
-          label="Email address"
-          error={lostPasswordFormError}
-        />
-
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6" aria-label="Lost password" noValidate>
+        <Input type="email" {...register('email')} placeholder="Email address" label="Email address" error={errors.email?.message} />
         <Button type="submit" className="max-w-fit">
           Reset password
         </Button>
