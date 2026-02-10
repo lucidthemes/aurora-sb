@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useMutation } from '@tanstack/react-query';
 
-import { useAuthContext } from '@contexts/AuthContext';
 import { RegisterFormSchema } from '@schemas/auth/register.schema';
-import { getCustomerByEmail } from '@server/shop/getCustomer';
+import { signUp } from '@server/auth/signUp';
+import type { FetchError } from '@services/errors/fetchError';
+import { createLogEvent } from '@services/logs/createLogEvent';
 
 interface RegisterFormNotification {
   type: string;
@@ -13,8 +15,6 @@ interface RegisterFormNotification {
 }
 
 export default function useRegisterForm() {
-  const { handleRegister } = useAuthContext();
-
   const [registerFormNotification, setRegisterFormNotification] = useState<RegisterFormNotification>({
     type: '',
     message: '',
@@ -37,28 +37,27 @@ export default function useRegisterForm() {
     resolver: zodResolver(RegisterFormSchema),
   });
 
+  const signUpUserMutation = useMutation({
+    mutationFn: signUp,
+    onSuccess: (data) => {
+      setRegisterFormNotification({
+        type: 'success',
+        message: 'User successfully created. You can now log in.',
+      });
+      createLogEvent('info', 'SIGN_UP_SUCCESSFUL', 'User signed up with email: ' + data.email);
+      reset();
+    },
+    onError: (error: FetchError) => {
+      setRegisterFormNotification({
+        type: 'error',
+        message: error.message,
+      });
+      createLogEvent('error', error.code, error.message);
+    },
+  });
+
   const onSubmit = async (data: z.infer<typeof RegisterFormSchema>) => {
-    console.log(data); // temp
-
-    try {
-      const customer = await getCustomerByEmail(data.email);
-      if (!customer) {
-        const newUser = {
-          id: 1,
-          email: data.email,
-        };
-
-        handleRegister(newUser);
-        reset();
-      } else {
-        setRegisterFormNotification({
-          type: 'error',
-          message: 'An account with this email address already exists',
-        });
-      }
-    } catch (error) {
-      console.error('Failed to fetch customer.', error);
-    }
+    signUpUserMutation.mutate(data);
   };
 
   return {
