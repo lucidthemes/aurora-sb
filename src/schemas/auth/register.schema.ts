@@ -12,3 +12,10 @@ export const RegisterFormSchema = z
   });
 
 export type RegisterForm = z.infer<typeof RegisterFormSchema>;
+
+export const RegisterFormReturnSchema = z.object({
+  id: z.string(),
+  email: z.email(),
+});
+
+export type RegisterFormReturn = z.infer<typeof RegisterFormReturnSchema>;

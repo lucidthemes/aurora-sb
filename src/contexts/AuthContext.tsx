@@ -1,63 +1,54 @@
-import { createContext, useContext, useState } from 'react';
-import type { ReactNode } from 'react';
-
-import type { Customer } from '@typings/shop/customer';
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { Session, User } from '@supabase/supabase-js';
+import { supabase } from '@lib/supabase/client';
 
 interface AuthContextType {
-  loggedInUser: Customer | null;
-  handleLogin: (userData: Customer) => void;
-  handleLogout: () => void;
-  handleRegister: (userData: Customer) => void;
-  handleUserUpdate: <K extends 'email' | 'shipping' | 'billing'>(section: K, data: Customer[K]) => void;
+  user: User | null;
+  session: Session | null;
+  signOut: () => Promise<void>;
 }
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-const AuthContext = createContext<AuthContextType>({
-  loggedInUser: null,
-  handleLogin: () => {},
-  handleLogout: () => {},
-  handleRegister: () => {},
-  handleUserUpdate: () => {},
-});
-
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [loggedInUser, setLoggedInUser] = useState<Customer | null>(() => {
-    const stored = localStorage.getItem('user');
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
-  const handleLogin = (userData: Customer) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    setLoggedInUser(userData);
-  };
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setSession(data.session);
+      setUser(data.session?.user ?? null);
+    });
 
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    setLoggedInUser(null);
-  };
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+    });
 
-  const handleRegister = (userData: Customer) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    setLoggedInUser(userData);
-  };
-
-  const handleUserUpdate = <K extends 'email' | 'shipping' | 'billing'>(section: K, data: Customer[K]) => {
-    if (!loggedInUser) return;
-
-    const updatedUser = {
-      ...loggedInUser,
-      [section]: data,
+    return () => {
+      subscription.unsubscribe();
     };
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    setLoggedInUser(updatedUser);
+  }, []);
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    setSession(null);
   };
 
-  return <AuthContext.Provider value={{ loggedInUser, handleLogin, handleLogout, handleRegister, handleUserUpdate }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ user, session, signOut }}>{children}</AuthContext.Provider>;
 };
 
 export const useAuthContext = (): AuthContextType => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuthContext must be used within an AuthProvider');
+  }
+  return context;
 };

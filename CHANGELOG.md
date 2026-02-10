@@ -18,6 +18,11 @@ All notable changes to this project will be documented in this file.
 - register schema
 - lost password schema
 
+#### Server
+
+- auth sub folder
+- sign up using supabase auth
+
 #### Supabase
 
 - add user roles table migration
@@ -25,12 +30,19 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-#### Auth
+#### Contexts
+
+- auth context to work with supabase
+
+#### Features
+
+##### Auth
 
 - convert login form component to use react hook form
 - convert login form hook to use react hook form
 - convert register form component to use react hook form
 - convert register form hook to use react hook form
+- convert register form hook to use tanstack query
 - convert lost password form component to use react hook form
 - convert lost password form hook to use react hook form
 

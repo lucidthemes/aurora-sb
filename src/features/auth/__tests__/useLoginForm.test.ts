@@ -2,14 +2,23 @@ import { renderHook, act, waitFor } from '@testing-library/react';
 
 import useLoginForm from '../hooks/useLoginForm';
 
+vi.mock('@contexts/AuthContext', () => ({
+  useAuthContext: vi.fn(),
+}));
+
 vi.mock('@server/shop/getCustomer', () => ({
   getCustomerByEmail: vi.fn(),
 }));
 
+import { useAuthContext } from '@contexts/AuthContext';
 import { getCustomerByEmail } from '@server/shop/getCustomer';
 
 describe('useLoginForm hook', () => {
   const handleLoginMock = vi.fn();
+
+  vi.mocked(useAuthContext).mockReturnValue({
+    handleLogin: handleLoginMock,
+  });
 
   beforeEach(() => {
     vi.clearAllMocks();
