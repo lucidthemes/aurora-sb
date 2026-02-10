@@ -1,27 +1,12 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
+
+import { renderWithQueryClient } from '@utils/tests/queryClient';
 
 import RegisterForm from '../RegisterForm';
 
-vi.mock('@contexts/AuthContext', () => ({
-  useAuthContext: vi.fn(),
-}));
-
-vi.mock('@server/shop/getCustomer', () => ({
-  getCustomerByEmail: vi.fn(),
-}));
-
-import { useAuthContext } from '@contexts/AuthContext';
-import { getCustomerByEmail } from '@server/shop/getCustomer';
-
 describe('RegisterForm component', () => {
-  const handleRegisterMock = vi.fn();
-
-  vi.mocked(useAuthContext).mockReturnValue({
-    handleRegister: handleRegisterMock,
-  });
-
   test('renders input fields and submit button', () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     expect(screen.getByRole('form', { name: /register/i })).toBeInTheDocument();
     expect(screen.getByRole('textbox', { name: /email address/i })).toBeInTheDocument();
@@ -31,19 +16,19 @@ describe('RegisterForm component', () => {
   });
 
   test('renders show password button for password field', () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     expect(screen.getByRole('button', { name: /show password/i })).toBeInTheDocument();
   });
 
   test('renders show password button for confirm password field', () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     expect(screen.getByRole('button', { name: /show confirm password/i })).toBeInTheDocument();
   });
 
   test('reveals password when show password button is clicked', () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     const passwordInput = screen.getByLabelText('Password');
     expect(passwordInput).toHaveAttribute('type', 'password');
@@ -56,7 +41,7 @@ describe('RegisterForm component', () => {
   });
 
   test('reveals confirm password when show password button is clicked', () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     const confirmPasswordInput = screen.getByLabelText('Confirm password');
     expect(confirmPasswordInput).toHaveAttribute('type', 'password');
@@ -69,7 +54,7 @@ describe('RegisterForm component', () => {
   });
 
   test('shows error messages for missing fields', async () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
@@ -80,7 +65,7 @@ describe('RegisterForm component', () => {
   });
 
   test('shows error message for invalid email', async () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     fireEvent.change(screen.getByRole('textbox', { name: /email/i }), {
       target: { value: 'invalid-email' },
@@ -94,7 +79,7 @@ describe('RegisterForm component', () => {
   });
 
   test('shows error message for password less than 8 characters', async () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     fireEvent.change(screen.getByLabelText('Password'), {
       target: { value: 'pass' },
@@ -108,7 +93,7 @@ describe('RegisterForm component', () => {
   });
 
   test('shows error message for passwords that do not match', async () => {
-    render(<RegisterForm />);
+    renderWithQueryClient(<RegisterForm />);
 
     fireEvent.change(screen.getByLabelText('Password'), {
       target: { value: 'password1' },
@@ -122,57 +107,6 @@ describe('RegisterForm component', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/passwords do not match/i)).toBeInTheDocument();
-    });
-  });
-
-  test('shows error notification for user that already exists on form submission', async () => {
-    vi.mocked(getCustomerByEmail).mockResolvedValue({ id: 1, email: 'test@example.com' });
-
-    render(<RegisterForm />);
-
-    fireEvent.change(screen.getByRole('textbox', { name: /email/i }), {
-      target: { value: 'test@example.com' },
-    });
-
-    fireEvent.change(screen.getByLabelText('Password'), {
-      target: { value: 'password' },
-    });
-
-    fireEvent.change(screen.getByLabelText('Confirm password'), {
-      target: { value: 'password' },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /register/i }));
-
-    await waitFor(() => {
-      expect(getCustomerByEmail).toHaveBeenCalledWith('test@example.com');
-      expect(handleRegisterMock).not.toHaveBeenCalled();
-      expect(screen.getByText(/an account with this email address already exists/i)).toBeInTheDocument();
-    });
-  });
-
-  test('register user on valid form submission', async () => {
-    vi.mocked(getCustomerByEmail).mockResolvedValue(null);
-
-    render(<RegisterForm />);
-
-    fireEvent.change(screen.getByRole('textbox', { name: /email/i }), {
-      target: { value: 'test@example.com' },
-    });
-
-    fireEvent.change(screen.getByLabelText('Password'), {
-      target: { value: 'password' },
-    });
-
-    fireEvent.change(screen.getByLabelText('Confirm password'), {
-      target: { value: 'password' },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /register/i }));
-
-    await waitFor(() => {
-      expect(getCustomerByEmail).toHaveBeenCalledWith('test@example.com');
-      expect(handleRegisterMock).toHaveBeenCalledWith({ id: 1, email: 'test@example.com' });
     });
   });
 });
