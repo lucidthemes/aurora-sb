@@ -28,6 +28,7 @@ All notable changes to this project will be documented in this file.
 - add user roles table migration
 - add user role trigger migration
 - add customers table migration
+- add customer trigger migration
 
 ### Changed
 
