@@ -3,9 +3,9 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthContext } from '@contexts/AuthContext';
 
 export default function RequireAuth() {
-  const { loggedInUser } = useAuthContext();
+  const { user } = useAuthContext();
 
-  if (!loggedInUser) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
