@@ -43,6 +43,7 @@ All notable changes to this project will be documented in this file.
 
 - nav log out link to use supabase auth signout
 - dashboard log out link to use supabase auth signout
+- dashboard hello message to use supabase auth email
 
 ##### Auth
 
