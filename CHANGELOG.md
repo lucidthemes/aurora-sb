@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 
 - auth sub folder
 - sign up using supabase auth
+- sign in using supabase auth
 
 #### Supabase
 
@@ -42,6 +43,7 @@ All notable changes to this project will be documented in this file.
 
 - convert login form component to use react hook form
 - convert login form hook to use react hook form
+- convert login form hook to use tanstack query
 - convert register form component to use react hook form
 - convert register form hook to use react hook form
 - convert register form hook to use tanstack query

@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useMutation } from '@tanstack/react-query';
 
-import { useAuthContext } from '@contexts/AuthContext';
 import { LoginFormSchema } from '@schemas/auth/login.schema';
-import { getCustomerByEmail } from '@server/shop/getCustomer';
+import { signIn } from '@server/auth/signIn';
+import { FetchError } from '@services/errors/fetchError';
+import { createLogEvent } from '@services/logs/createLogEvent';
 
 interface LoginFormNotification {
   type: string;
@@ -13,8 +15,6 @@ interface LoginFormNotification {
 }
 
 export default function useLoginForm() {
-  const { handleLogin } = useAuthContext();
-
   const [loginFormNotification, setLoginFormNotification] = useState<LoginFormNotification>({
     type: '',
     message: '',
@@ -37,23 +37,23 @@ export default function useLoginForm() {
     resolver: zodResolver(LoginFormSchema),
   });
 
-  const onSubmit = async (data: z.infer<typeof LoginFormSchema>) => {
-    console.log(data); // temp
+  const loginFormMutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: (data) => {
+      createLogEvent('info', 'SIGN_IN_SUCCESSFUL', 'User signed in with email: ' + data.email);
+      reset();
+    },
+    onError: (error: FetchError) => {
+      setLoginFormNotification({
+        type: 'error',
+        message: error.message,
+      });
+      createLogEvent('error', error.code, error.message);
+    },
+  });
 
-    try {
-      const customer = await getCustomerByEmail('test@example.com');
-      if (customer) {
-        handleLogin(customer);
-        reset();
-      } else {
-        setLoginFormNotification({
-          type: 'error',
-          message: 'No account found with those details',
-        });
-      }
-    } catch (error) {
-      console.error('Failed to fetch customer.', error);
-    }
+  const onSubmit = async (data: z.infer<typeof LoginFormSchema>) => {
+    loginFormMutation.mutate(data);
   };
 
   return {

@@ -6,3 +6,10 @@ export const LoginFormSchema = z.object({
 });
 
 export type LoginForm = z.infer<typeof LoginFormSchema>;
+
+export const LoginFormReturnSchema = z.object({
+  id: z.string(),
+  email: z.email(),
+});
+
+export type LoginFormReturn = z.infer<typeof LoginFormReturnSchema>;
