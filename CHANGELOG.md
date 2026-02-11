@@ -41,14 +41,19 @@ All notable changes to this project will be documented in this file.
 
 ##### Auth
 
-- convert login form component to use react hook form
-- convert login form hook to use react hook form
-- convert login form hook to use tanstack query
-- convert register form component to use react hook form
-- convert register form hook to use react hook form
-- convert register form hook to use tanstack query
-- convert lost password form component to use react hook form
-- convert lost password form hook to use react hook form
+- login form component to use react hook form
+- login form hook to use react hook form
+- login form hook to use tanstack query
+- register form component to use react hook form
+- register form hook to use react hook form
+- register form hook to use tanstack query
+- lost password form component to use react hook form
+- lost password form hook to use react hook form
+- require auth to use supabase auth user
+
+#### Pages
+
+- login page to use supabase auth user
 
 ## [0.1.1] - 2026-01-14
 

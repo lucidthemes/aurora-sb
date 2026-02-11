@@ -6,13 +6,13 @@ import LoginForm from '@features/auth/LoginForm';
 import RegisterForm from '@features/auth/RegisterForm';
 
 export default function Login() {
+  const { user } = useAuthContext();
   const location = useLocation();
-  const { loggedInUser } = useAuthContext();
 
   const queryParams = new URLSearchParams(location.search);
   const redirectPath = queryParams.get('redirect') || '/account';
 
-  if (loggedInUser) {
+  if (user) {
     return <Navigate to={redirectPath} replace />;
   }
 
