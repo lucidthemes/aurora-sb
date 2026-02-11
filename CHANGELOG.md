@@ -41,7 +41,8 @@ All notable changes to this project will be documented in this file.
 
 ##### Account
 
-- log out link to use supabase auth signout
+- nav log out link to use supabase auth signout
+- dashboard log out link to use supabase auth signout
 
 ##### Auth
 
