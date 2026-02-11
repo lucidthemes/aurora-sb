@@ -1,10 +1,24 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
+vi.mock('@contexts/AuthContext', () => ({
+  useAuthContext: vi.fn(),
+}));
+
+import { useAuthContext } from '@contexts/AuthContext';
+
 import Nav from '../components/Nav';
 
 describe('Nav component', () => {
-  const handleLogoutMock = vi.fn();
+  const signOutMock = vi.fn();
+
+  vi.mocked(useAuthContext).mockReturnValue({
+    signOut: signOutMock,
+  });
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -13,7 +27,7 @@ describe('Nav component', () => {
   test('renders navigation links', () => {
     render(
       <MemoryRouter>
-        <Nav handleLogout={handleLogoutMock} />
+        <Nav />
       </MemoryRouter>
     );
 
@@ -35,7 +49,7 @@ describe('Nav component', () => {
   test('logs user out after clicking log out link', () => {
     render(
       <MemoryRouter>
-        <Nav handleLogout={handleLogoutMock} />
+        <Nav />
       </MemoryRouter>
     );
 
@@ -43,6 +57,6 @@ describe('Nav component', () => {
     expect(logoutLink).toBeInTheDocument();
 
     fireEvent.click(logoutLink);
-    expect(handleLogoutMock).toHaveBeenCalled();
+    expect(signOutMock).toHaveBeenCalled();
   });
 });
