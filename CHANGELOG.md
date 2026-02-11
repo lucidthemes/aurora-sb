@@ -39,6 +39,10 @@ All notable changes to this project will be documented in this file.
 
 #### Features
 
+##### Account
+
+- log out link to use supabase auth signout
+
 ##### Auth
 
 - login form component to use react hook form
