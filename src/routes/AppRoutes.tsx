@@ -16,6 +16,7 @@ import OrderReceivedPage from '@pages/OrderReceived';
 import RequireAuth from '@features/auth/RequireAuth';
 import Login from '@pages/Login';
 import LostPassword from '@pages/LostPassword';
+import ResetPassword from '@pages/ResetPassword';
 
 import { AccountPage } from '@pages/Account';
 import Dashboard from '@features/account/components/Dashboard';
@@ -55,6 +56,7 @@ export default function AppRoutes() {
     { path: '/checkout/order-received/:slug', element: <OrderReceivedPage /> },
     { path: '/login', element: <Login /> },
     { path: '/lost-password', element: <LostPassword /> },
+    { path: '/reset-password', element: <ResetPassword /> },
     { path: '*', element: <NotFound /> },
   ];
 
