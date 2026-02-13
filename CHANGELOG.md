@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - auth sub folder
 - sign up using supabase auth
 - sign in using supabase auth
+- lost password using supabase auth
 
 #### Supabase
 
@@ -55,6 +56,7 @@ All notable changes to this project will be documented in this file.
 - register form hook to use tanstack query
 - lost password form component to use react hook form
 - lost password form hook to use react hook form
+- lost password form hook to use tanstack query
 - require auth to use supabase auth user
 
 #### Pages
