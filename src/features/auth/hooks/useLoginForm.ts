@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 
 import { LoginFormSchema } from '@schemas/auth/login.schema';
+import type { LoginForm } from '@schemas/auth/login.schema';
 import { signIn } from '@server/auth/signIn';
 import { FetchError } from '@services/errors/fetchError';
 import { createLogEvent } from '@services/logs/createLogEvent';
@@ -52,7 +52,7 @@ export default function useLoginForm() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof LoginFormSchema>) => {
+  const onSubmit = async (data: LoginForm) => {
     loginFormMutation.mutate(data);
   };
 
