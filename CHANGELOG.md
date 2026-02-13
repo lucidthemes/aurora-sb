@@ -11,12 +11,18 @@ All notable changes to this project will be documented in this file.
 - React hook form dependency
 - Zod react hook form resolver dependency
 
+#### Auth
+
+- reset password form component
+- reset password form hook
+
 #### Schemas
 
 - auth sub folder
-- login schema
-- register schema
-- lost password schema
+- login form
+- register form
+- lost password form
+- reset password form
 
 #### Server
 
@@ -24,6 +30,7 @@ All notable changes to this project will be documented in this file.
 - sign up using supabase auth
 - sign in using supabase auth
 - lost password using supabase auth
+- reset password using supabase auth
 
 #### Supabase
 
@@ -31,6 +38,14 @@ All notable changes to this project will be documented in this file.
 - add user role trigger migration
 - add customers table migration
 - add customer trigger migration
+
+#### Pages
+
+- reset password
+
+#### Routes
+
+- reset password
 
 ### Changed
 
