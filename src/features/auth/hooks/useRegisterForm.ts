@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { useMutation } from '@tanstack/react-query';
 
 import { RegisterFormSchema } from '@schemas/auth/register.schema';
+import type { RegisterForm } from '@schemas/auth/register.schema';
 import { signUp } from '@server/auth/signUp';
 import type { FetchError } from '@services/errors/fetchError';
 import { createLogEvent } from '@services/logs/createLogEvent';
@@ -56,7 +56,7 @@ export default function useRegisterForm() {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof RegisterFormSchema>) => {
+  const onSubmit = async (data: RegisterForm) => {
     signUpUserMutation.mutate(data);
   };
 
