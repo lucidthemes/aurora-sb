@@ -61,7 +61,8 @@ All notable changes to this project will be documented in this file.
 
 #### Pages
 
-- login page to use supabase auth user
+- login to use supabase auth user
+- lost password to use supabase auth user
 
 ## [0.1.1] - 2026-01-14
 
