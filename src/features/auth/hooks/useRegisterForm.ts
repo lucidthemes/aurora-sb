@@ -8,14 +8,10 @@ import type { RegisterForm } from '@schemas/auth/register.schema';
 import { signUp } from '@server/auth/signUp';
 import type { FetchError } from '@services/errors/fetchError';
 import { createLogEvent } from '@services/logs/createLogEvent';
-
-interface RegisterFormNotification {
-  type: string;
-  message: string;
-}
+import type { FormNotification } from '@typings/forms/notification';
 
 export default function useRegisterForm() {
-  const [registerFormNotification, setRegisterFormNotification] = useState<RegisterFormNotification>({
+  const [registerFormNotification, setRegisterFormNotification] = useState<FormNotification>({
     type: '',
     message: '',
   });
