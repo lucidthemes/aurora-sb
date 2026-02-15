@@ -8,14 +8,10 @@ import type { ResetPasswordForm } from '@schemas/auth/resetPassword.schema';
 import { resetPassword } from '@server/auth/resetPassword';
 import { FetchError } from '@services/errors/fetchError';
 import { createLogEvent } from '@services/logs/createLogEvent';
-
-interface ResetPasswordFormNotification {
-  type: string;
-  message: string;
-}
+import type { FormNotification } from '@typings/forms/notification';
 
 export default function useResetPasswordForm() {
-  const [resetPasswordFormNotification, setResetPasswordFormNotification] = useState<ResetPasswordFormNotification>({
+  const [resetPasswordFormNotification, setResetPasswordFormNotification] = useState<FormNotification>({
     type: '',
     message: '',
   });
