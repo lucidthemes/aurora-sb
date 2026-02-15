@@ -11,6 +11,13 @@ All notable changes to this project will be documented in this file.
 - React hook form dependency
 - Zod react hook form resolver dependency
 
+#### Account
+
+- details name component
+- details name hook
+- details name form component
+- details name form hook
+
 #### Auth
 
 - reset password form component
@@ -33,6 +40,7 @@ All notable changes to this project will be documented in this file.
 - reset password form
 - account sub folder
 - details email form
+- details name form
 
 #### Server
 
