@@ -1,15 +1,12 @@
-import type { Customer } from '@typings/shop/customer';
+import type { User } from '@supabase/supabase-js';
+
+import Notification from '@components/Notification';
 
 import useEmail from '../../hooks/details/useEmail';
 import EmailForm from './EmailForm';
 
-interface EmailProps {
-  loggedInUser: Customer | null;
-  handleUserUpdate: <K extends 'email' | 'shipping' | 'billing'>(section: K, data: Customer[K]) => void;
-}
-
-export default function Email({ loggedInUser, handleUserUpdate }: EmailProps) {
-  const { emailEditShow, handleEmailEditShow } = useEmail();
+export default function Email({ user }: { user: User | null }) {
+  const { emailEditShow, handleEmailEditShow, emailFormNotification, setEmailFormNotification, resetEmailFormNotification } = useEmail();
 
   return (
     <div className="flex basis-1/2 flex-col gap-y-5">
@@ -19,11 +16,21 @@ export default function Email({ loggedInUser, handleUserUpdate }: EmailProps) {
           {!emailEditShow ? 'edit' : 'cancel'}
         </button>
       </div>
-      {!emailEditShow ? (
-        <p>{loggedInUser?.email}</p>
-      ) : (
-        <EmailForm loggedInUser={loggedInUser} handleUserUpdate={handleUserUpdate} handleEmailEditShow={handleEmailEditShow} />
-      )}
+      <div className="flex flex-col gap-y-5">
+        {emailFormNotification.type !== '' && (
+          <Notification
+            type={emailFormNotification.type}
+            message={emailFormNotification.message}
+            duration={10000}
+            onClose={() => resetEmailFormNotification()}
+          />
+        )}
+        {!emailEditShow ? (
+          <p>{user?.email}</p>
+        ) : (
+          <EmailForm user={user} handleEmailEditShow={handleEmailEditShow} setEmailFormNotification={setEmailFormNotification} />
+        )}
+      </div>
     </div>
   );
 }

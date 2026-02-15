@@ -16,6 +16,14 @@ All notable changes to this project will be documented in this file.
 - reset password form component
 - reset password form hook
 
+#### Pages
+
+- reset password
+
+#### Routes
+
+- reset password
+
 #### Schemas
 
 - auth sub folder
@@ -23,6 +31,8 @@ All notable changes to this project will be documented in this file.
 - register form
 - lost password form
 - reset password form
+- account sub folder
+- details email form
 
 #### Server
 
@@ -39,13 +49,10 @@ All notable changes to this project will be documented in this file.
 - add customers table migration
 - add customer trigger migration
 
-#### Pages
+#### Types
 
-- reset password
-
-#### Routes
-
-- reset password
+- forms sub folder
+- notification
 
 ### Changed
 
@@ -60,6 +67,8 @@ All notable changes to this project will be documented in this file.
 - nav log out link to use supabase auth signout
 - dashboard log out link to use supabase auth signout
 - dashboard hello message to use supabase auth email
+- details email form component to use react hook form
+- details email form hook to use react hook form
 
 ##### Auth
 
