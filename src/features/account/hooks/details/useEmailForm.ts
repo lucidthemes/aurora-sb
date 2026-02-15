@@ -1,68 +1,44 @@
-import { useState } from 'react';
-import type { ChangeEventHandler, FormEventHandler } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { User } from '@supabase/supabase-js';
+import type { Dispatch, SetStateAction } from 'react';
 
-import type { Customer } from '@typings/shop/customer';
-import { validateEmail } from '@utils/validators';
+import { DetailsEmailFormSchema } from '@schemas/account/detailsEmail.schema';
+import type { DetailsEmailForm } from '@schemas/account/detailsEmail.schema';
+import type { FormNotification } from '@typings/forms/notification';
 
-export default function useEmailForm(
-  loggedInUser: Customer | null,
-  handleUserUpdate: <K extends 'email' | 'shipping' | 'billing'>(section: K, data: Customer[K]) => void,
-  handleEmailEditShow: () => void
-) {
-  const [emailFormData, setEmailFormData] = useState(() => {
-    return loggedInUser?.email ? loggedInUser.email : null;
+export default function useEmailForm(user: User | null, handleEmailEditShow: () => void, setEmailFormNotification: Dispatch<SetStateAction<FormNotification>>) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    reset,
+  } = useForm({
+    defaultValues: {
+      email: user?.email ?? '',
+    },
+    resolver: zodResolver(DetailsEmailFormSchema),
   });
 
-  const [emailFormError, setEmailFormError] = useState('');
+  const onSubmit = async (data: DetailsEmailForm) => {
+    if (user?.email !== data.email) {
+      console.log(data); // temp
 
-  const [emailFormDataUpdated, setEmailFormDataUpdated] = useState(false);
-
-  const handleFormChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.target;
-
-    if (emailFormData !== value) {
-      setEmailFormData(value);
-
-      setEmailFormDataUpdated(true);
-    }
-  };
-
-  const validateFormData = () => {
-    let formError = '';
-    let formIsValid = true;
-
-    const trimmedEmail = emailFormData?.trim();
-
-    if (!trimmedEmail || !validateEmail(trimmedEmail)) {
-      if (!trimmedEmail) {
-        formError = 'Please enter an email address';
-      } else {
-        formError = 'Please enter a valid email address';
-      }
-      formIsValid = false;
-    }
-
-    setEmailFormError(formError);
-
-    return formIsValid;
-  };
-
-  const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
-    const isFormValid = validateFormData();
-
-    // check data has changed. only update user if it has
-    if (emailFormData && emailFormDataUpdated) {
-      if (isFormValid) {
-        handleUserUpdate('email', emailFormData);
-
-        handleEmailEditShow();
-      }
-    } else {
+      setEmailFormNotification({
+        type: 'success',
+        message: 'Email address successfully updated',
+      });
       handleEmailEditShow();
+      reset();
     }
   };
 
-  return { emailFormData, emailFormError, handleFormChange, handleFormSubmit };
+  return {
+    register,
+    handleSubmit,
+    onSubmit,
+    errors,
+    setValue,
+  };
 }
