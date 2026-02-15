@@ -8,14 +8,10 @@ import type { LoginForm } from '@schemas/auth/login.schema';
 import { signIn } from '@server/auth/signIn';
 import { FetchError } from '@services/errors/fetchError';
 import { createLogEvent } from '@services/logs/createLogEvent';
-
-interface LoginFormNotification {
-  type: string;
-  message: string;
-}
+import type { FormNotification } from '@typings/forms/notification';
 
 export default function useLoginForm() {
-  const [loginFormNotification, setLoginFormNotification] = useState<LoginFormNotification>({
+  const [loginFormNotification, setLoginFormNotification] = useState<FormNotification>({
     type: '',
     message: '',
   });
