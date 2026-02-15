@@ -8,14 +8,10 @@ import type { LostPasswordForm } from '@schemas/auth/lostPassword.schema';
 import { lostPassword } from '@server/auth/lostPassword';
 import { FetchError } from '@services/errors/fetchError';
 import { createLogEvent } from '@services/logs/createLogEvent';
-
-interface LostPasswordFormNotification {
-  type: string;
-  message: string;
-}
+import type { FormNotification } from '@typings/forms/notification';
 
 export default function useLostPasswordForm() {
-  const [lostPasswordFormNotification, setLostPasswordFormNotification] = useState<LostPasswordFormNotification>({
+  const [lostPasswordFormNotification, setLostPasswordFormNotification] = useState<FormNotification>({
     type: '',
     message: '',
   });
