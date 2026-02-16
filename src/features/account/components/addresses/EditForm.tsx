@@ -1,146 +1,99 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import Input from '@components/Form/Input';
 import Select from '@components/Form/Select';
 import Button from '@components/UI/Button';
-import type { Customer } from '@typings/shop/customer';
+import type { FormNotification } from '@typings/forms/notification';
 
 import useEditForm from '../../hooks/addresses/useEditForm';
 
 interface EditFormProps {
-  loggedInUser: Customer | null;
   section: 'shipping' | 'billing';
-  handleUserUpdate: <K extends 'email' | 'shipping' | 'billing'>(section: K, data: Customer[K]) => void;
   handleShippingEditShow?: () => void;
   handleBillingEditShow?: () => void;
+  setShippingFormNotification?: Dispatch<SetStateAction<FormNotification>>;
+  setBillingFormNotification?: Dispatch<SetStateAction<FormNotification>>;
 }
 
-export default function EditForm({ loggedInUser, section, handleUserUpdate, handleShippingEditShow, handleBillingEditShow }: EditFormProps) {
-  const { editFormData, editFormErrors, handleFormChange, handleFormKeyDown, handleFormSubmit } = useEditForm(
-    loggedInUser,
+export default function EditForm({
+  section,
+  handleShippingEditShow,
+  handleBillingEditShow,
+  setShippingFormNotification,
+  setBillingFormNotification,
+}: EditFormProps) {
+  const { register, handleSubmit, onSubmit, errors } = useEditForm(
     section,
-    handleUserUpdate,
     handleShippingEditShow,
-    handleBillingEditShow
+    handleBillingEditShow,
+    setShippingFormNotification,
+    setBillingFormNotification
   );
 
   const countryOptions = [{ value: 'GB', text: 'United Kingdom (UK)' }];
 
   return (
-    <form onKeyDown={handleFormKeyDown} onSubmit={handleFormSubmit} className="flex flex-col gap-y-5" aria-label={`${section} address`} noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6" aria-label={`${section} address`} noValidate>
       <div className="flex flex-col gap-5 sm:flex-row">
         <div className="sm:basis-1/2">
           <Input
             type="text"
-            name={`${section}-firstName`}
-            value={editFormData?.firstName || ''}
-            onChange={handleFormChange}
+            {...register('firstName')}
             placeholder="First name"
-            autoComplete="given-name"
-            required={true}
             label="First name"
-            error={editFormErrors.firstName}
+            autoComplete="given-name"
+            error={errors.firstName?.message}
           />
         </div>
         <div className="sm:basis-1/2">
-          <Input
-            type="text"
-            name={`${section}-lastName`}
-            value={editFormData?.lastName}
-            onChange={handleFormChange}
-            placeholder="Last name"
-            autoComplete="family-name"
-            required={true}
-            label="Last name"
-            error={editFormErrors.lastName}
-          />
+          <Input type="text" {...register('lastName')} placeholder="Last name" label="Last name" autoComplete="family-name" error={errors.lastName?.message} />
         </div>
       </div>
       <Select
-        name={`${section}-country`}
         options={countryOptions}
-        value={editFormData?.country}
-        onChange={handleFormChange}
+        {...register('country')}
         placeholder="Select a country/region"
-        autoComplete="country"
-        required={true}
         label="Select a country/region"
-        error={editFormErrors.country}
+        autoComplete="country"
+        error={errors.country?.message}
       />
       <Input
         type="text"
-        name={`${section}-addressLine1`}
-        value={editFormData?.addressLine1}
-        onChange={handleFormChange}
+        {...register('addressLine1')}
         placeholder="Address line 1"
         autoComplete="address-line1"
-        required={true}
         label="Address line 1"
-        error={editFormErrors.addressLine1}
+        error={errors.addressLine1?.message}
       />
       <Input
         type="text"
-        name={`${section}-addressLine2`}
-        value={editFormData?.addressLine2}
-        onChange={handleFormChange}
-        placeholder="Address line 2 (optional)"
+        {...register('addressLine2')}
+        placeholder="Address line 2"
         autoComplete="address-line2"
-        required={false}
         label="Address line 2"
-        error={editFormErrors.addressLine2}
+        error={errors.addressLine2?.message}
       />
       <div className="flex flex-col gap-5 sm:flex-row">
         <div className="sm:basis-1/2">
-          <Input
-            type="text"
-            name={`${section}-city`}
-            value={editFormData?.city}
-            onChange={handleFormChange}
-            placeholder="City"
-            autoComplete="address-level2"
-            required={true}
-            label="City"
-            error={editFormErrors.city}
-          />
+          <Input type="text" {...register('city')} placeholder="City" label="City" autoComplete="address-level2" error={errors.city?.message} />
         </div>
         <div className="sm:basis-1/2">
           <Input
             type="text"
-            name={`${section}-county`}
-            value={editFormData?.county}
-            onChange={handleFormChange}
+            {...register('county')}
             placeholder="County (optional)"
-            autoComplete="address-level1"
-            required={false}
             label="County (optional)"
-            error={editFormErrors.county}
+            autoComplete="address-level1"
+            error={errors.county?.message}
           />
         </div>
       </div>
       <div className="flex flex-col gap-5 sm:flex-row">
         <div className="sm:basis-1/2">
-          <Input
-            type="text"
-            name={`${section}-postcode`}
-            value={editFormData?.postcode}
-            onChange={handleFormChange}
-            placeholder="Postcode"
-            autoComplete="postal-code"
-            required={true}
-            label="Postcode"
-            error={editFormErrors.postcode}
-          />
+          <Input type="text" {...register('postcode')} placeholder="Postcode" label="Postcode" autoComplete="postal-code" error={errors.postcode?.message} />
         </div>
         <div className="sm:basis-1/2">
-          <Input
-            type="tel"
-            name={`${section}-phone`}
-            value={editFormData?.phone}
-            onChange={handleFormChange}
-            placeholder="Phone (optional)"
-            autoComplete="tel"
-            required={false}
-            label="Phone (optional)"
-            error={editFormErrors.phone}
-          />
+          <Input type="text" {...register('phone')} placeholder="Phone (optional)" label="Phone (optional)" autoComplete="tel" error={errors.phone?.message} />
         </div>
       </div>
       <Button type="submit" className="max-w-fit">
