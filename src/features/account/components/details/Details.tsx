@@ -2,6 +2,7 @@ import { useAuthContext } from '@contexts/AuthContext';
 
 import Name from './Name';
 import Email from './Email';
+import Password from './Password';
 
 export default function Details() {
   const { user } = useAuthContext();
@@ -10,6 +11,7 @@ export default function Details() {
     <div className="flex flex-col gap-y-10">
       <Name />
       <Email user={user} />
+      <Password />
     </div>
   );
 }

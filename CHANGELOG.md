@@ -17,6 +17,10 @@ All notable changes to this project will be documented in this file.
 - details name hook
 - details name form component
 - details name form hook
+- details password component
+- details password hook
+- details password form component
+- details password form hook
 
 #### Auth
 
@@ -41,6 +45,7 @@ All notable changes to this project will be documented in this file.
 - account sub folder
 - details email form
 - details name form
+- details password form
 
 #### Server
 
