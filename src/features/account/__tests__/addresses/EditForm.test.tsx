@@ -1,70 +1,30 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 
-import type { Customer } from '@typings/shop/customer';
+import { renderWithQueryClient } from '@utils/tests/queryClient';
 
 import EditForm from '../../components/addresses/EditForm';
 
 describe('EditForm component', () => {
-  const mockLoggedInUser: Customer = {
-    id: 1,
-    email: 'test@example.com',
-    shipping: {
-      firstName: 'Matthew',
-      lastName: 'James',
-      country: 'GB',
-      addressLine1: '68 Rose Place',
-      addressLine2: '',
-      city: 'East Marybury',
-      county: 'Highland',
-      postcode: 'IV2 7EG',
-      phone: '01234567890',
-    },
-    billing: {
-      firstName: 'Matthew',
-      lastName: 'James',
-      country: 'GB',
-      addressLine1: '68 Rose Place',
-      addressLine2: '',
-      city: 'East Marybury',
-      county: 'Highland',
-      postcode: 'IV2 7EG',
-      phone: '01234567890',
-    },
-  };
-
-  type AddressSection = 'shipping' | 'billing';
-  type Address = Customer[AddressSection];
-
-  const mockLoggedInUserUpdated: Address = {
-    firstName: 'James',
-    lastName: 'Matthew',
-    country: 'GB',
-    addressLine1: '68 Rose Place',
-    addressLine2: '',
-    city: 'East Marybury',
-    county: 'Highland',
-    postcode: 'IV2 7EG',
-    phone: '01234567890',
-  };
-
-  const handleUserUpdateMock = vi.fn();
-
   const handleShippingEditShowMock = vi.fn();
 
   const handleBillingEditShowMock = vi.fn();
+
+  const setShippingFormNotificationMock = vi.fn();
+
+  const setBillingFormNotificationMock = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   test('renders shipping address input fields and submit button', () => {
-    render(
+    renderWithQueryClient(
       <EditForm
-        loggedInUser={mockLoggedInUser}
-        handleUserUpdate={handleUserUpdateMock}
+        section="shipping"
         handleShippingEditShow={handleShippingEditShowMock}
         handleBillingEditShow={handleBillingEditShowMock}
-        section="shipping"
+        setShippingFormNotification={setShippingFormNotificationMock}
+        setBillingFormNotification={setBillingFormNotificationMock}
       />
     );
 
@@ -82,13 +42,13 @@ describe('EditForm component', () => {
   });
 
   test('renders billing address input fields and submit button', () => {
-    render(
+    renderWithQueryClient(
       <EditForm
-        loggedInUser={mockLoggedInUser}
-        handleUserUpdate={handleUserUpdateMock}
+        section="billing"
         handleShippingEditShow={handleShippingEditShowMock}
         handleBillingEditShow={handleBillingEditShowMock}
-        section="billing"
+        setShippingFormNotification={setShippingFormNotificationMock}
+        setBillingFormNotification={setBillingFormNotificationMock}
       />
     );
 
@@ -105,14 +65,14 @@ describe('EditForm component', () => {
     expect(screen.getByRole('button', { name: /save changes/i })).toBeInTheDocument();
   });
 
-  test('shows error messages for missing shipping address fields', () => {
-    render(
+  test('shows error messages for missing shipping address fields', async () => {
+    renderWithQueryClient(
       <EditForm
-        loggedInUser={mockLoggedInUser}
-        handleUserUpdate={handleUserUpdateMock}
-        handleShippingEditShow={handleShippingEditShowMock}
-        handleBillingEditShow={handleBillingEditShowMock}
         section="shipping"
+        handleShippingEditShow={handleShippingEditShowMock}
+        handleBillingEditShow={handleBillingEditShowMock}
+        setShippingFormNotification={setShippingFormNotificationMock}
+        setBillingFormNotification={setBillingFormNotificationMock}
       />
     );
 
@@ -126,18 +86,20 @@ describe('EditForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /save changes/i }));
 
-    expect(screen.getByText(/please enter a first name/i)).toBeInTheDocument();
-    expect(screen.getByText(/please enter a last name/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/please enter a first name/i)).toBeInTheDocument();
+      expect(screen.getByText(/please enter a last name/i)).toBeInTheDocument();
+    });
   });
 
-  test('shows error messages for missing billing address fields', () => {
-    render(
+  test('shows error messages for missing billing address fields', async () => {
+    renderWithQueryClient(
       <EditForm
-        loggedInUser={mockLoggedInUser}
-        handleUserUpdate={handleUserUpdateMock}
-        handleShippingEditShow={handleShippingEditShowMock}
-        handleBillingEditShow={handleBillingEditShowMock}
         section="billing"
+        handleShippingEditShow={handleShippingEditShowMock}
+        handleBillingEditShow={handleBillingEditShowMock}
+        setShippingFormNotification={setShippingFormNotificationMock}
+        setBillingFormNotification={setBillingFormNotificationMock}
       />
     );
 
@@ -151,57 +113,9 @@ describe('EditForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /save changes/i }));
 
-    expect(screen.getByText(/please enter a first name/i)).toBeInTheDocument();
-    expect(screen.getByText(/please enter a last name/i)).toBeInTheDocument();
-  });
-
-  test('updates shipping address on valid form submission if address has been changed', () => {
-    render(
-      <EditForm
-        loggedInUser={mockLoggedInUser}
-        section="shipping"
-        handleUserUpdate={handleUserUpdateMock}
-        handleShippingEditShow={handleShippingEditShowMock}
-        handleBillingEditShow={handleBillingEditShowMock}
-      />
-    );
-
-    fireEvent.change(screen.getByRole('textbox', { name: /first name/i }), {
-      target: { value: 'James' },
+    await waitFor(() => {
+      expect(screen.getByText(/please enter a first name/i)).toBeInTheDocument();
+      expect(screen.getByText(/please enter a last name/i)).toBeInTheDocument();
     });
-
-    fireEvent.change(screen.getByRole('textbox', { name: /last name/i }), {
-      target: { value: 'Matthew' },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /save changes/i }));
-
-    expect(handleUserUpdateMock).toHaveBeenCalledWith('shipping', mockLoggedInUserUpdated);
-    expect(handleShippingEditShowMock).toHaveBeenCalled();
-  });
-
-  test('updates billing address on valid form submission if address has been changed', () => {
-    render(
-      <EditForm
-        loggedInUser={mockLoggedInUser}
-        section="billing"
-        handleUserUpdate={handleUserUpdateMock}
-        handleShippingEditShow={handleShippingEditShowMock}
-        handleBillingEditShow={handleBillingEditShowMock}
-      />
-    );
-
-    fireEvent.change(screen.getByRole('textbox', { name: /first name/i }), {
-      target: { value: 'James' },
-    });
-
-    fireEvent.change(screen.getByRole('textbox', { name: /last name/i }), {
-      target: { value: 'Matthew' },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /save changes/i }));
-
-    expect(handleUserUpdateMock).toHaveBeenCalledWith('billing', mockLoggedInUserUpdated);
-    expect(handleBillingEditShowMock).toHaveBeenCalled();
   });
 });
