@@ -1,12 +1,22 @@
-import { useAuthContext } from '@contexts/AuthContext';
+import Notification from '@components/Notification';
 
 import useAddresses from '../../hooks/addresses/useAddresses';
 import Address from './Address';
 import EditForm from './EditForm';
 
 export default function Addresses() {
-  const { loggedInUser, handleUserUpdate } = useAuthContext();
-  const { shippingEditShow, billingEditShow, handleShippingEditShow, handleBillingEditShow } = useAddresses();
+  const {
+    shippingEditShow,
+    billingEditShow,
+    handleShippingEditShow,
+    handleBillingEditShow,
+    shippingFormNotification,
+    billingFormNotification,
+    setShippingFormNotification,
+    setBillingFormNotification,
+    resetShippingFormNotification,
+    resetBillingFormNotification,
+  } = useAddresses();
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -19,11 +29,21 @@ export default function Addresses() {
               {!shippingEditShow ? 'edit' : 'cancel'}
             </button>
           </div>
-          {!shippingEditShow ? (
-            <Address loggedInUser={loggedInUser} section="shipping" />
-          ) : (
-            <EditForm loggedInUser={loggedInUser} section="shipping" handleUserUpdate={handleUserUpdate} handleShippingEditShow={handleShippingEditShow} />
-          )}
+          <div className="flex flex-col gap-y-5">
+            {shippingFormNotification.type !== '' && (
+              <Notification
+                type={shippingFormNotification.type}
+                message={shippingFormNotification.message}
+                duration={10000}
+                onClose={() => resetShippingFormNotification()}
+              />
+            )}
+            {!shippingEditShow ? (
+              <Address section="shipping" />
+            ) : (
+              <EditForm section="shipping" handleShippingEditShow={handleShippingEditShow} setShippingFormNotification={setShippingFormNotification} />
+            )}
+          </div>
         </div>
         <div className="flex basis-1/2 flex-col gap-y-5">
           <div className="flex flex-wrap justify-between gap-y-2.5">
@@ -32,11 +52,21 @@ export default function Addresses() {
               {!billingEditShow ? 'edit' : 'cancel'}
             </button>
           </div>
-          {!billingEditShow ? (
-            <Address loggedInUser={loggedInUser} section="billing" />
-          ) : (
-            <EditForm loggedInUser={loggedInUser} section="billing" handleUserUpdate={handleUserUpdate} handleBillingEditShow={handleBillingEditShow} />
-          )}
+          <div className="flex flex-col gap-y-5">
+            {billingFormNotification.type !== '' && (
+              <Notification
+                type={billingFormNotification.type}
+                message={billingFormNotification.message}
+                duration={10000}
+                onClose={() => resetBillingFormNotification()}
+              />
+            )}
+            {!billingEditShow ? (
+              <Address section="billing" />
+            ) : (
+              <EditForm section="billing" handleBillingEditShow={handleBillingEditShow} setBillingFormNotification={setBillingFormNotification} />
+            )}
+          </div>
         </div>
       </div>
     </div>

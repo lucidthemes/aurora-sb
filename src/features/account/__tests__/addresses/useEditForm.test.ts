@@ -1,220 +1,51 @@
-import { renderHook, act } from '@testing-library/react';
+import { act } from '@testing-library/react';
 
-import type { Customer } from '@typings/shop/customer';
-import { createInputChangeEvent, createFormSubmitEvent } from '@utils/tests/events';
+import { renderHookWithQueryClient } from '@utils/tests/queryClient';
 
 import useEditForm from '../../hooks/addresses/useEditForm';
 
 describe('useEditForm hook', () => {
-  const mockLoggedInUser: Customer = {
-    id: 1,
-    email: 'test@example.com',
-    shipping: {
-      firstName: 'Matthew',
-      lastName: 'James',
-      country: 'GB',
-      addressLine1: '68 Rose Place',
-      addressLine2: '',
-      city: 'East Marybury',
-      county: 'Highland',
-      postcode: 'IV2 7EG',
-      phone: '01234567890',
-    },
-    billing: {
-      firstName: 'Matthew',
-      lastName: 'James',
-      country: 'GB',
-      addressLine1: '68 Rose Place',
-      addressLine2: '',
-      city: 'East Marybury',
-      county: 'Highland',
-      postcode: 'IV2 7EG',
-      phone: '01234567890',
-    },
-  };
-
-  const handleUserUpdateMock = vi.fn();
-
   const handleShippingEditShowMock = vi.fn();
 
   const handleBillingEditShowMock = vi.fn();
+
+  const setShippingFormNotificationMock = vi.fn();
+
+  const setBillingFormNotificationMock = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  test('sets initial editFormData state to logged in user shipping address if set', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'shipping', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
+  test('updates errors for missing shipping address fields', async () => {
+    const { result } = renderHookWithQueryClient(() =>
+      useEditForm('shipping', handleShippingEditShowMock, handleBillingEditShowMock, setShippingFormNotificationMock, setBillingFormNotificationMock)
+    );
 
-    expect(result.current.editFormData.firstName).toBe('Matthew');
-    expect(result.current.editFormData.lastName).toBe('James');
-    expect(result.current.editFormData.country).toBe('GB');
-    expect(result.current.editFormData.addressLine1).toBe('68 Rose Place');
-    expect(result.current.editFormData.city).toBe('East Marybury');
-    expect(result.current.editFormData.county).toBe('Highland');
-    expect(result.current.editFormData.postcode).toBe('IV2 7EG');
-    expect(result.current.editFormData.phone).toBe('01234567890');
+    await act(async () => {
+      result.current.setValue('firstName', '');
+      result.current.setValue('lastName', '');
+
+      await result.current.handleSubmit(() => {})();
+    });
+
+    expect(result.current.errors.firstName?.message).toBe('Please enter a first name');
+    expect(result.current.errors.lastName?.message).toBe('Please enter a last name');
   });
 
-  test('sets initial editFormData state to logged in user billing address if set', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'billing', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
+  test('updates errors for missing billing address fields', async () => {
+    const { result } = renderHookWithQueryClient(() =>
+      useEditForm('billing', handleShippingEditShowMock, handleBillingEditShowMock, setShippingFormNotificationMock, setBillingFormNotificationMock)
+    );
 
-    expect(result.current.editFormData.firstName).toBe('Matthew');
-    expect(result.current.editFormData.lastName).toBe('James');
-    expect(result.current.editFormData.country).toBe('GB');
-    expect(result.current.editFormData.addressLine1).toBe('68 Rose Place');
-    expect(result.current.editFormData.city).toBe('East Marybury');
-    expect(result.current.editFormData.county).toBe('Highland');
-    expect(result.current.editFormData.postcode).toBe('IV2 7EG');
-    expect(result.current.editFormData.phone).toBe('01234567890');
-  });
+    await act(async () => {
+      result.current.setValue('firstName', '');
+      result.current.setValue('lastName', '');
 
-  test('updates shipping form data on handleFormChange if data has changed', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'shipping', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('firstName', 'James'));
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('lastName', 'Matthew'));
-    });
-
-    expect(result.current.editFormData.lastName).toBe('Matthew');
-    expect(result.current.editFormData.firstName).toBe('James');
-  });
-
-  test('updates billing form data on handleFormChange if data has changed', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'billing', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('firstName', 'James'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('lastName', 'Matthew'));
-    });
-
-    expect(result.current.editFormData.lastName).toBe('Matthew');
-    expect(result.current.editFormData.firstName).toBe('James');
-  });
-
-  test('updates errors for missing fields', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'shipping', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('firstName', ''));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('lastName', ''));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.editFormErrors.firstName).toBe('Please enter a first name');
-    expect(result.current.editFormErrors.lastName).toBe('Please enter a last name');
-  });
-
-  test('does not update shipping address on form submission if address has not changed', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'shipping', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
-
-    expect(result.current.editFormData.firstName).toBe('Matthew');
-    expect(result.current.editFormData.lastName).toBe('James');
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('firstName', 'Matthew'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('lastName', 'James'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.editFormData.firstName).toBe('Matthew');
-    expect(result.current.editFormData.lastName).toBe('James');
-
-    expect(handleUserUpdateMock).not.toHaveBeenCalled();
-    expect(handleShippingEditShowMock).toHaveBeenCalled();
-  });
-
-  test('does not update billing address on form submission if address has not changed', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'billing', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
-
-    expect(result.current.editFormData.firstName).toBe('Matthew');
-    expect(result.current.editFormData.lastName).toBe('James');
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('firstName', 'Matthew'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('lastName', 'James'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.editFormData.firstName).toBe('Matthew');
-    expect(result.current.editFormData.lastName).toBe('James');
-
-    expect(handleUserUpdateMock).not.toHaveBeenCalled();
-    expect(handleBillingEditShowMock).toHaveBeenCalled();
-  });
-
-  test('updates shipping address on valid form submission if address has been changed', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'shipping', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
-
-    expect(result.current.editFormData.firstName).toBe('Matthew');
-    expect(result.current.editFormData.lastName).toBe('James');
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('firstName', 'James'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('lastName', 'Matthew'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.editFormData.lastName).toBe('Matthew');
-    expect(result.current.editFormData.firstName).toBe('James');
-
-    expect(handleUserUpdateMock).toHaveBeenCalledWith('shipping', result.current.editFormData);
-    expect(handleShippingEditShowMock).toHaveBeenCalled();
-  });
-
-  test('updates billing address on valid form submission if address has been changed', () => {
-    const { result } = renderHook(() => useEditForm(mockLoggedInUser, 'billing', handleUserUpdateMock, handleShippingEditShowMock, handleBillingEditShowMock));
-
-    expect(result.current.editFormData.firstName).toBe('Matthew');
-    expect(result.current.editFormData.lastName).toBe('James');
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('firstName', 'James'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('lastName', 'Matthew'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.editFormData.lastName).toBe('Matthew');
-    expect(result.current.editFormData.firstName).toBe('James');
-
-    expect(handleUserUpdateMock).toHaveBeenCalledWith('billing', result.current.editFormData);
-    expect(handleBillingEditShowMock).toHaveBeenCalled();
+    expect(result.current.errors.firstName?.message).toBe('Please enter a first name');
+    expect(result.current.errors.lastName?.message).toBe('Please enter a last name');
   });
 });

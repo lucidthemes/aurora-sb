@@ -46,6 +46,7 @@ All notable changes to this project will be documented in this file.
 - details email form
 - details name form
 - details password form
+- address form
 
 #### Server
 
@@ -82,6 +83,8 @@ All notable changes to this project will be documented in this file.
 - dashboard hello message to use supabase auth email
 - details email form component to use react hook form
 - details email form hook to use react hook form
+- address form component to use react hook form
+- address form hook to use react hook form
 
 ##### Auth
 
