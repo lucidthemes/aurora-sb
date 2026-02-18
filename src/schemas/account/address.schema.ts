@@ -13,3 +13,7 @@ export const AddressFormSchema = z.object({
 });
 
 export type AddressForm = z.infer<typeof AddressFormSchema>;
+
+export const AddressFormReturnSchema = z.email();
+
+export type AddressFormReturn = z.infer<typeof AddressFormReturnSchema>;
