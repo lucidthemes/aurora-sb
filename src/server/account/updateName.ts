@@ -9,7 +9,10 @@ interface updateAccountDetailsNameParams {
 }
 
 export async function updateAccountDetailsName({ user, formData }: updateAccountDetailsNameParams): Promise<DetailsNameFormReturn> {
-  const { error } = await supabase.from('customers').update({ first_name: formData.firstName, last_name: formData.lastName }).eq('id', user.id);
+  const { error } = await supabase
+    .from('customers')
+    .update({ first_name: formData.firstName, last_name: formData.lastName, updated_at: new Date() })
+    .eq('id', user.id);
 
   if (error) {
     throw new FetchError('UPDATE_NAME_FAILED', error.message);
