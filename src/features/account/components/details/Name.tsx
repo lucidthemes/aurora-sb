@@ -1,9 +1,11 @@
+import type { User } from '@supabase/supabase-js';
+
 import Notification from '@components/Notification';
 
 import useName from '../../hooks/details/useName';
 import NameForm from './NameForm';
 
-export default function Name() {
+export default function Name({ user }: { user: User | null }) {
   const { nameEditShow, handleNameEditShow, nameFormNotification, setNameFormNotification, resetNameFormNotification } = useName();
 
   return (
@@ -24,7 +26,7 @@ export default function Name() {
             <p>James</p>
           </div>
         ) : (
-          <NameForm handleNameEditShow={handleNameEditShow} setNameFormNotification={setNameFormNotification} />
+          <NameForm user={user} handleNameEditShow={handleNameEditShow} setNameFormNotification={setNameFormNotification} />
         )}
       </div>
     </div>

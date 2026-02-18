@@ -6,3 +6,7 @@ export const DetailsNameFormSchema = z.object({
 });
 
 export type DetailsNameForm = z.infer<typeof DetailsNameFormSchema>;
+
+export const DetailsNameFormReturnSchema = z.email();
+
+export type DetailsNameFormReturn = z.infer<typeof DetailsNameFormReturnSchema>;
