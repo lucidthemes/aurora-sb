@@ -1,9 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Dispatch, SetStateAction } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
 import { DetailsPasswordFormSchema } from '@schemas/account/detailsPassword.schema';
 import type { DetailsPasswordForm } from '@schemas/account/detailsPassword.schema';
+import { updateAccountDetailsPassword } from '@server/account/updatePassword';
+import { FetchError } from '@services/errors/fetchError';
+import { createLogEvent } from '@services/logs/createLogEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function usePasswordForm(handlePasswordEditShow: () => void, setPasswordFormNotification: Dispatch<SetStateAction<FormNotification>>) {
@@ -17,15 +21,28 @@ export default function usePasswordForm(handlePasswordEditShow: () => void, setP
     resolver: zodResolver(DetailsPasswordFormSchema),
   });
 
-  const onSubmit = async (data: DetailsPasswordForm) => {
-    console.log(data); // temp
+  const detailsPasswordFormMutation = useMutation({
+    mutationFn: updateAccountDetailsPassword,
+    onSuccess: (data) => {
+      setPasswordFormNotification({
+        type: 'success',
+        message: 'Password successfully updated',
+      });
+      createLogEvent('info', 'UPDATE_PASSWORD_SUCCESSFUL', 'Password updated for user with email: ' + data);
+      handlePasswordEditShow();
+      reset();
+    },
+    onError: (error: FetchError) => {
+      setPasswordFormNotification({
+        type: 'error',
+        message: error.message,
+      });
+      createLogEvent('error', error.code, error.message);
+    },
+  });
 
-    setPasswordFormNotification({
-      type: 'success',
-      message: 'Password successfully updated',
-    });
-    handlePasswordEditShow();
-    reset();
+  const onSubmit = async (data: DetailsPasswordForm) => {
+    detailsPasswordFormMutation.mutate(data);
   };
 
   return {
