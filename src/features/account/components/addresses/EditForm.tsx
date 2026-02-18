@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import type { User } from '@supabase/supabase-js';
 
 import Input from '@components/Form/Input';
 import Select from '@components/Form/Select';
@@ -8,6 +9,7 @@ import type { FormNotification } from '@typings/forms/notification';
 import useEditForm from '../../hooks/addresses/useEditForm';
 
 interface EditFormProps {
+  user: User | null;
   section: 'shipping' | 'billing';
   handleShippingEditShow?: () => void;
   handleBillingEditShow?: () => void;
@@ -16,6 +18,7 @@ interface EditFormProps {
 }
 
 export default function EditForm({
+  user,
   section,
   handleShippingEditShow,
   handleBillingEditShow,
@@ -23,6 +26,7 @@ export default function EditForm({
   setBillingFormNotification,
 }: EditFormProps) {
   const { register, handleSubmit, onSubmit, errors } = useEditForm(
+    user,
     section,
     handleShippingEditShow,
     handleBillingEditShow,

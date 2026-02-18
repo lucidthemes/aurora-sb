@@ -1,12 +1,18 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Dispatch, SetStateAction } from 'react';
+import type { User } from '@supabase/supabase-js';
+import { useMutation } from '@tanstack/react-query';
 
 import { AddressFormSchema } from '@schemas/account/address.schema';
 import type { AddressForm } from '@schemas/account/address.schema';
+import { updateAccountAddress } from '@server/account/updateAddress';
+import { FetchError } from '@services/errors/fetchError';
+import { createLogEvent } from '@services/logs/createLogEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useEditForm(
+  user: User | null,
   section: 'shipping' | 'billing',
   handleShippingEditShow?: () => void,
   handleBillingEditShow?: () => void,
@@ -23,14 +29,9 @@ export default function useEditForm(
     resolver: zodResolver(AddressFormSchema),
   });
 
-  const onSubmit = async (data: AddressForm) => {
-    console.log(data); // temp
-
-    if (section === 'shipping') {
-      console.log('shipping updated');
-
-      if (handleShippingEditShow) handleShippingEditShow();
-
+  const shippingAddressFormMutation = useMutation({
+    mutationFn: updateAccountAddress,
+    onSuccess: (data) => {
       if (setShippingFormNotification) {
         setShippingFormNotification({
           type: 'success',
@@ -38,12 +39,27 @@ export default function useEditForm(
         });
       }
 
+      createLogEvent('info', 'UPDATE_SHIPPING_ADDRESS_SUCCESSFUL', 'Shipping address updated for user with email: ' + data);
+
+      if (handleShippingEditShow) handleShippingEditShow();
+
       reset();
-    } else {
-      console.log('billing updated');
+    },
+    onError: (error: FetchError) => {
+      if (setShippingFormNotification) {
+        setShippingFormNotification({
+          type: 'error',
+          message: error.message,
+        });
+      }
 
-      if (handleBillingEditShow) handleBillingEditShow();
+      createLogEvent('error', error.code, error.message);
+    },
+  });
 
+  const billingAddressFormMutation = useMutation({
+    mutationFn: updateAccountAddress,
+    onSuccess: (data) => {
       if (setBillingFormNotification) {
         setBillingFormNotification({
           type: 'success',
@@ -51,7 +67,31 @@ export default function useEditForm(
         });
       }
 
+      createLogEvent('info', 'UPDATE_BILLING_ADDRESS_SUCCESSFUL', 'Billing address updated for user with email: ' + data);
+
+      if (handleBillingEditShow) handleBillingEditShow();
+
       reset();
+    },
+    onError: (error: FetchError) => {
+      if (setBillingFormNotification) {
+        setBillingFormNotification({
+          type: 'error',
+          message: error.message,
+        });
+      }
+
+      createLogEvent('error', error.code, error.message);
+    },
+  });
+
+  const onSubmit = async (data: AddressForm) => {
+    if (!user) return;
+
+    if (section === 'shipping') {
+      shippingAddressFormMutation.mutate({ user, addressColumn: 'shipping_address', formData: data });
+    } else {
+      billingAddressFormMutation.mutate({ user, addressColumn: 'billing_address', formData: data });
     }
   };
 
