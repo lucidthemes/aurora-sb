@@ -55,6 +55,7 @@ All notable changes to this project will be documented in this file.
 - sign in using supabase auth
 - lost password using supabase auth
 - reset password using supabase auth
+- update email using supabase auth
 
 #### Supabase
 
