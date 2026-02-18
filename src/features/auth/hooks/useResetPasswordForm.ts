@@ -40,7 +40,7 @@ export default function useResetPasswordForm() {
         type: 'success',
         message: 'Password successfully reset. You can now log in.',
       });
-      createLogEvent('info', 'RESET_PASSWORD_SUCCESSFUL', 'Password reset for email: ' + data.email);
+      createLogEvent('info', 'RESET_PASSWORD_SUCCESSFUL', 'Password reset for email: ' + data);
       reset();
     },
     onError: (error: FetchError) => {
