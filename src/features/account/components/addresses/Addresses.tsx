@@ -1,3 +1,4 @@
+import { useAuthContext } from '@contexts/AuthContext';
 import Notification from '@components/Notification';
 
 import useAddresses from '../../hooks/addresses/useAddresses';
@@ -5,6 +6,8 @@ import Address from './Address';
 import EditForm from './EditForm';
 
 export default function Addresses() {
+  const { user } = useAuthContext();
+
   const {
     shippingEditShow,
     billingEditShow,
@@ -41,7 +44,12 @@ export default function Addresses() {
             {!shippingEditShow ? (
               <Address section="shipping" />
             ) : (
-              <EditForm section="shipping" handleShippingEditShow={handleShippingEditShow} setShippingFormNotification={setShippingFormNotification} />
+              <EditForm
+                user={user}
+                section="shipping"
+                handleShippingEditShow={handleShippingEditShow}
+                setShippingFormNotification={setShippingFormNotification}
+              />
             )}
           </div>
         </div>
@@ -64,7 +72,7 @@ export default function Addresses() {
             {!billingEditShow ? (
               <Address section="billing" />
             ) : (
-              <EditForm section="billing" handleBillingEditShow={handleBillingEditShow} setBillingFormNotification={setBillingFormNotification} />
+              <EditForm user={user} section="billing" handleBillingEditShow={handleBillingEditShow} setBillingFormNotification={setBillingFormNotification} />
             )}
           </div>
         </div>

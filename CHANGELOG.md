@@ -58,6 +58,7 @@ All notable changes to this project will be documented in this file.
 - update email using supabase auth
 - update password using supabase auth
 - update name using supabase
+- update address using supabase
 
 #### Supabase
 
