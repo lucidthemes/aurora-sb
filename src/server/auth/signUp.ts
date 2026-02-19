@@ -17,12 +17,7 @@ export async function signUp(formData: RegisterForm): Promise<RegisterFormReturn
     throw new FetchError('SIGN_UP_NO_USER', 'Error creating new user');
   }
 
-  const signUpUser = {
-    id: data.user.id,
-    email: data.user.email!,
-  };
-
-  const parsed = RegisterFormReturnSchema.safeParse(signUpUser);
+  const parsed = RegisterFormReturnSchema.safeParse(data.user.id);
 
   if (!parsed.success) {
     throw new FetchError('SIGN_UP_INVALID_DATA', 'Sign up failed schema validation');
