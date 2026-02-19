@@ -16,7 +16,7 @@ export async function resetPassword(formData: ResetPasswordForm): Promise<ResetP
     throw new FetchError('RESET_PASSWORD_NO_USER', 'No user found');
   }
 
-  const parsed = ResetPasswordFormReturnSchema.safeParse(data.user.email);
+  const parsed = ResetPasswordFormReturnSchema.safeParse(data.user.id);
 
   if (!parsed.success) {
     throw new FetchError('RESET_PASSWORD_INVALID_DATA', 'Reset password failed schema validation');
