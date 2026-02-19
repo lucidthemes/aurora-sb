@@ -17,12 +17,7 @@ export async function signIn(formData: LoginForm): Promise<LoginFormReturn> {
     throw new FetchError('SIGN_IN_NO_USER', 'No user found');
   }
 
-  const signInUser = {
-    id: data.user.id,
-    email: data.user.email!,
-  };
-
-  const parsed = LoginFormReturnSchema.safeParse(signInUser);
+  const parsed = LoginFormReturnSchema.safeParse(data.user.id);
 
   if (!parsed.success) {
     throw new FetchError('SIGN_IN_INVALID_DATA', 'Sign in failed schema validation');
