@@ -17,12 +17,13 @@ serve(async (req) => {
     return new Response('Method not allowed', { status: 405 });
   }
 
-  const { log_level, event_name, message } = await req.json();
+  const { log_level, event_name, message, user_id } = await req.json();
 
   await supabase.from('logs').insert({
     log_level,
     event_name,
     message,
+    user_id,
   });
 
   return new Response(null, { headers: corsHeaders, status: 204 });
