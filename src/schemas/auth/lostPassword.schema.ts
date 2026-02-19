@@ -5,9 +5,3 @@ export const LostPasswordFormSchema = z.object({
 });
 
 export type LostPasswordForm = z.infer<typeof LostPasswordFormSchema>;
-
-export const LostPasswordFormReturnSchema = z.object({
-  email: z.email(),
-});
-
-export type LostPasswordFormReturn = z.infer<typeof LostPasswordFormReturnSchema>;
