@@ -26,20 +26,20 @@ export default function useEmailForm(user: User | null, handleEmailEditShow: () 
 
   const detailsEmailFormMutation = useMutation({
     mutationFn: updateAccountDetailsEmail,
-    onSuccess: (data) => {
+    onSuccess: () => {
       setEmailFormNotification({
         type: 'success',
         message: 'Email address update submitted. Please check your email to confirm',
       });
-      createLogEvent('info', 'UPDATE_EMAIL_SUCCESSFUL', 'Email update submitted for user with email: ' + data);
+      createLogEvent('info', 'UPDATE_EMAIL_SUCCESSFUL', 'Email updated', user?.id);
       handleEmailEditShow();
     },
-    onError: (error: FetchError) => {
+    onError: (error: FetchError, variables) => {
       setEmailFormNotification({
         type: 'error',
         message: error.message,
       });
-      createLogEvent('error', error.code, error.message);
+      createLogEvent('error', error.code, error.message + '. Email: ' + variables.email, user?.id);
     },
   });
 
