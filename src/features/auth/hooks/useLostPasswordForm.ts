@@ -35,20 +35,20 @@ export default function useLostPasswordForm() {
 
   const LostPasswordFormMutation = useMutation({
     mutationFn: lostPassword,
-    onSuccess: (data) => {
+    onSuccess: (_, variables) => {
       setLostPasswordFormNotification({
         type: 'success',
         message: 'Password reset email sent. Please check your inbox.',
       });
-      createLogEvent('info', 'LOST_PASSWORD_SUCCESSFUL', 'Lost password submitted for email: ' + data.email);
+      createLogEvent('info', 'LOST_PASSWORD_SUCCESSFUL', 'Lost password. Email: ' + variables.email);
       reset();
     },
-    onError: (error: FetchError) => {
+    onError: (error: FetchError, variables) => {
       setLostPasswordFormNotification({
         type: 'error',
         message: error.message,
       });
-      createLogEvent('error', error.code, error.message);
+      createLogEvent('error', error.code, error.message + '. Email: ' + variables.email);
     },
   });
 
