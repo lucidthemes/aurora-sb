@@ -6,6 +6,6 @@ export const ResetPasswordFormSchema = z.object({
 
 export type ResetPasswordForm = z.infer<typeof ResetPasswordFormSchema>;
 
-export const ResetPasswordFormReturnSchema = z.email();
+export const ResetPasswordFormReturnSchema = z.string();
 
 export type ResetPasswordFormReturn = z.infer<typeof ResetPasswordFormReturnSchema>;
