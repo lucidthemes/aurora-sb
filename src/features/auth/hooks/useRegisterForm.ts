@@ -43,12 +43,12 @@ export default function useRegisterForm() {
       createLogEvent('info', 'SIGN_UP_SUCCESSFUL', 'User signed up', userId);
       reset();
     },
-    onError: (error: FetchError) => {
+    onError: (error: FetchError, variables) => {
       setRegisterFormNotification({
         type: 'error',
         message: error.message,
       });
-      createLogEvent('error', error.code, error.message);
+      createLogEvent('error', error.code, error.message + '. Email: ' + variables.email);
     },
   });
 
