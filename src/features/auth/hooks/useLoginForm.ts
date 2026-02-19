@@ -39,12 +39,12 @@ export default function useLoginForm() {
       createLogEvent('info', 'SIGN_IN_SUCCESSFUL', 'User signed in', userId);
       reset();
     },
-    onError: (error: FetchError) => {
+    onError: (error: FetchError, variables) => {
       setLoginFormNotification({
         type: 'error',
         message: error.message,
       });
-      createLogEvent('error', error.code, error.message);
+      createLogEvent('error', error.code, error.message + '. Email: ' + variables.email);
     },
   });
 
