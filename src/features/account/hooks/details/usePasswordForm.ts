@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Dispatch, SetStateAction } from 'react';
+import type { User } from '@supabase/supabase-js';
 import { useMutation } from '@tanstack/react-query';
 
 import { DetailsPasswordFormSchema } from '@schemas/account/detailsPassword.schema';
@@ -10,7 +11,11 @@ import { FetchError } from '@services/errors/fetchError';
 import { createLogEvent } from '@services/logs/createLogEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
-export default function usePasswordForm(handlePasswordEditShow: () => void, setPasswordFormNotification: Dispatch<SetStateAction<FormNotification>>) {
+export default function usePasswordForm(
+  user: User | null,
+  handlePasswordEditShow: () => void,
+  setPasswordFormNotification: Dispatch<SetStateAction<FormNotification>>
+) {
   const {
     register,
     handleSubmit,
@@ -23,12 +28,12 @@ export default function usePasswordForm(handlePasswordEditShow: () => void, setP
 
   const detailsPasswordFormMutation = useMutation({
     mutationFn: updateAccountDetailsPassword,
-    onSuccess: (data) => {
+    onSuccess: () => {
       setPasswordFormNotification({
         type: 'success',
         message: 'Password successfully updated',
       });
-      createLogEvent('info', 'UPDATE_PASSWORD_SUCCESSFUL', 'Password updated for user with email: ' + data);
+      createLogEvent('info', 'UPDATE_PASSWORD_SUCCESSFUL', 'Password updated', user?.id);
       handlePasswordEditShow();
       reset();
     },
@@ -37,7 +42,7 @@ export default function usePasswordForm(handlePasswordEditShow: () => void, setP
         type: 'error',
         message: error.message,
       });
-      createLogEvent('error', error.code, error.message);
+      createLogEvent('error', error.code, error.message, user?.id);
     },
   });
 

@@ -11,7 +11,7 @@ export default function Details() {
     <div className="flex flex-col gap-y-10">
       <Name user={user} />
       <Email user={user} />
-      <Password />
+      <Password user={user} />
     </div>
   );
 }
