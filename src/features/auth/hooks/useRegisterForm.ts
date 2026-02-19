@@ -35,12 +35,12 @@ export default function useRegisterForm() {
 
   const signUpUserMutation = useMutation({
     mutationFn: signUp,
-    onSuccess: (data) => {
+    onSuccess: (userId) => {
       setRegisterFormNotification({
         type: 'success',
         message: 'User successfully created. You can now log in.',
       });
-      createLogEvent('info', 'SIGN_UP_SUCCESSFUL', 'User signed up with email: ' + data.email);
+      createLogEvent('info', 'SIGN_UP_SUCCESSFUL', 'User signed up', userId);
       reset();
     },
     onError: (error: FetchError) => {
