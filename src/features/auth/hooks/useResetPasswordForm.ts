@@ -35,12 +35,12 @@ export default function useResetPasswordForm() {
 
   const ResetPasswordFormMutation = useMutation({
     mutationFn: resetPassword,
-    onSuccess: (data) => {
+    onSuccess: (userId) => {
       setResetPasswordFormNotification({
         type: 'success',
         message: 'Password successfully reset. You can now log in.',
       });
-      createLogEvent('info', 'RESET_PASSWORD_SUCCESSFUL', 'Password reset for email: ' + data);
+      createLogEvent('info', 'RESET_PASSWORD_SUCCESSFUL', 'Password reset', userId);
       reset();
     },
     onError: (error: FetchError) => {
