@@ -35,8 +35,8 @@ export default function useLoginForm() {
 
   const loginFormMutation = useMutation({
     mutationFn: signIn,
-    onSuccess: (data) => {
-      createLogEvent('info', 'SIGN_IN_SUCCESSFUL', 'User signed in with email: ' + data.email);
+    onSuccess: (userId) => {
+      createLogEvent('info', 'SIGN_IN_SUCCESSFUL', 'User signed in', userId);
       reset();
     },
     onError: (error: FetchError) => {
