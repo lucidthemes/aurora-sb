@@ -24,12 +24,12 @@ export default function useNameForm(user: User | null, handleNameEditShow: () =>
 
   const detailsNameFormMutation = useMutation({
     mutationFn: updateAccountDetailsName,
-    onSuccess: (data) => {
+    onSuccess: () => {
       setNameFormNotification({
         type: 'success',
         message: 'Name successfully updated',
       });
-      createLogEvent('info', 'UPDATE_NAME_SUCCESSFUL', 'Name updated for user with email: ' + data);
+      createLogEvent('info', 'UPDATE_NAME_SUCCESSFUL', 'Name updated', user?.id);
       handleNameEditShow();
       reset();
     },
@@ -38,7 +38,7 @@ export default function useNameForm(user: User | null, handleNameEditShow: () =>
         type: 'error',
         message: error.message,
       });
-      createLogEvent('error', error.code, error.message);
+      createLogEvent('error', error.code, error.message, user?.id);
     },
   });
 
