@@ -1,6 +1,6 @@
 import { supabase } from '@lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
-import type { AddressForm, AddressFormReturn } from '@schemas/account/address.schema';
+import type { AddressForm } from '@schemas/account/address.schema';
 import { FetchError } from '@services/errors/fetchError';
 
 interface updateAccountAddressParams {
@@ -9,7 +9,7 @@ interface updateAccountAddressParams {
   formData: AddressForm;
 }
 
-export async function updateAccountAddress({ user, addressColumn, formData }: updateAccountAddressParams): Promise<AddressFormReturn> {
+export async function updateAccountAddress({ user, addressColumn, formData }: updateAccountAddressParams) {
   const { error } = await supabase
     .from('customers')
     .update({ [addressColumn]: formData, updated_at: new Date() })
@@ -22,6 +22,4 @@ export async function updateAccountAddress({ user, addressColumn, formData }: up
       throw new FetchError('UPDATE_BILLING_ADDRESS_FAILED', error.message);
     }
   }
-
-  return user.email ?? '';
 }
