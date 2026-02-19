@@ -11,7 +11,3 @@ export const DetailsPasswordFormSchema = z
   });
 
 export type DetailsPasswordForm = z.infer<typeof DetailsPasswordFormSchema>;
-
-export const DetailsPasswordFormReturnSchema = z.email();
-
-export type DetailsPasswordFormReturn = z.infer<typeof DetailsPasswordFormReturnSchema>;
