@@ -107,6 +107,10 @@ All notable changes to this project will be documented in this file.
 
 - added user id to create log event
 
+#### Supabase
+
+- added user id to log event edge function
+
 #### Pages
 
 - login to use supabase auth user
