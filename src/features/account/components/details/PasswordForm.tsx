@@ -1,4 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
+import type { User } from '@supabase/supabase-js';
 
 import Password from '@components/Form/Password';
 import Button from '@components/UI/Button';
@@ -7,12 +8,13 @@ import type { FormNotification } from '@typings/forms/notification';
 import usePasswordForm from '../../hooks/details/usePasswordForm';
 
 interface PasswordFormProps {
+  user: User | null;
   handlePasswordEditShow: () => void;
   setPasswordFormNotification: Dispatch<SetStateAction<FormNotification>>;
 }
 
-export default function PasswordForm({ handlePasswordEditShow, setPasswordFormNotification }: PasswordFormProps) {
-  const { register, handleSubmit, onSubmit, errors } = usePasswordForm(handlePasswordEditShow, setPasswordFormNotification);
+export default function PasswordForm({ user, handlePasswordEditShow, setPasswordFormNotification }: PasswordFormProps) {
+  const { register, handleSubmit, onSubmit, errors } = usePasswordForm(user, handlePasswordEditShow, setPasswordFormNotification);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6" aria-label="Password" noValidate>

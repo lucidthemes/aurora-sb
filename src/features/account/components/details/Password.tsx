@@ -1,9 +1,11 @@
+import type { User } from '@supabase/supabase-js';
+
 import Notification from '@components/Notification';
 
 import usePassword from '../../hooks/details/usePassword';
 import PasswordForm from './PasswordForm';
 
-export default function Password() {
+export default function Password({ user }: { user: User | null }) {
   const { passwordEditShow, handlePasswordEditShow, passwordFormNotification, setPasswordFormNotification, resetPasswordFormNotification } = usePassword();
 
   return (
@@ -32,7 +34,7 @@ export default function Password() {
             ))}
           </div>
         ) : (
-          <PasswordForm handlePasswordEditShow={handlePasswordEditShow} setPasswordFormNotification={setPasswordFormNotification} />
+          <PasswordForm user={user} handlePasswordEditShow={handlePasswordEditShow} setPasswordFormNotification={setPasswordFormNotification} />
         )}
       </div>
     </div>
