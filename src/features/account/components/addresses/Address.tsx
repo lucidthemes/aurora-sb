@@ -1,36 +1,31 @@
-// import type { Customer } from '@typings/shop/customer';
+import type { Address } from '@schemas/shop/address.schema';
 
-interface AddressProps {
-  section: 'shipping' | 'billing';
-}
+export default function Address({ address }: { address?: Address }) {
+  if (!address) return;
 
-export default function Address({ section }: AddressProps) {
-  // let country = '';
+  let country = '';
 
-  // if (loggedInUser && loggedInUser[section]?.country) {
-  //   switch (loggedInUser[section].country) {
-  //     case 'GB':
-  //       country = 'United Kingdom';
-  //       break;
-  //   }
-  // }
+  if (address?.country) {
+    switch (address.country) {
+      case 'GB':
+        country = 'United Kingdom';
+        break;
+    }
+  }
 
   return (
-    <>
-      {/* {loggedInUser && loggedInUser[section] ? (
-        <address className="not-italic">
-          <p>{loggedInUser[section]?.firstName + ' ' + loggedInUser[section]?.lastName}</p>
-          <p>{loggedInUser[section]?.addressLine1}</p>
-          <p>{loggedInUser[section]?.addressLine2}</p>
-          <p>{loggedInUser[section]?.city}</p>
-          <p>{loggedInUser[section]?.county}</p>
-          <p>{loggedInUser[section]?.postcode}</p>
-          {country && <p>{country}</p>}
-          <p>{loggedInUser[section]?.phone}</p>
-        </address>
-      ) : ( */}
-      <p>You have not set up a {section} address yet</p>
-      {/* )} */}
-    </>
+    <address className="not-italic">
+      <div className="flex gap-1.5">
+        {address.firstName && <p>{address.firstName}</p>}
+        {address.lastName && <p>{address.lastName}</p>}
+      </div>
+      {address.addressLine1 && <p>{address.addressLine1}</p>}
+      {address.addressLine2 && <p>{address.addressLine2}</p>}
+      {address.city && <p>{address.city}</p>}
+      {address.county && <p>{address.county}</p>}
+      {address.postcode && <p>{address.postcode}</p>}
+      {country && <p>{country}</p>}
+      {address.phone && <p>{address.phone}</p>}
+    </address>
   );
 }
