@@ -8,13 +8,15 @@ import type { FormNotification } from '@typings/forms/notification';
 import useNameForm from '../../hooks/details/useNameForm';
 
 interface NameFormProps {
-  user: User | null;
+  user: User;
   handleNameEditShow: () => void;
   setNameFormNotification: Dispatch<SetStateAction<FormNotification>>;
+  firstName?: string;
+  lastName?: string;
 }
 
-export default function NameForm({ user, handleNameEditShow, setNameFormNotification }: NameFormProps) {
-  const { register, handleSubmit, onSubmit, errors } = useNameForm(user, handleNameEditShow, setNameFormNotification);
+export default function NameForm({ user, handleNameEditShow, setNameFormNotification, firstName, lastName }: NameFormProps) {
+  const { register, handleSubmit, onSubmit, errors } = useNameForm(user, handleNameEditShow, setNameFormNotification, firstName, lastName);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6" aria-label="Name" noValidate>
