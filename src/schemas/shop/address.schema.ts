@@ -11,3 +11,5 @@ export const AddressSchema = z.object({
   postcode: z.string(),
   phone: z.string().optional(),
 });
+
+export type Address = z.infer<typeof AddressSchema>;
