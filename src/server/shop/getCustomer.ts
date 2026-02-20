@@ -1,38 +1,29 @@
-import { z } from 'zod';
+import { supabase } from '@lib/supabase/client';
 
 import { CustomerSchema } from '@schemas/shop/customer.schema';
-import type { Customer } from '@typings/shop/customer';
+import type { Customer } from '@schemas/shop/customer.schema';
+import { FetchError } from '@services/errors/fetchError';
 
-export async function getCustomer<K extends 'id' | 'email'>(field: K, value: Customer[K]): Promise<Customer | undefined> {
-  try {
-    const res = await fetch('/data/shop-customers.json');
+export async function getCustomer(id: string): Promise<Customer | undefined> {
+  const { data, error } = await supabase.from('customers').select('first_name, last_name, shipping_address, billing_address').eq('id', id).maybeSingle();
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch shop-customers.json: ${res.status}`);
-    }
-
-    const unparsed = await res.json();
-
-    const parsed = z.array(CustomerSchema).safeParse(unparsed);
-
-    if (!parsed.success) {
-      throw new Error(`Invalid data: ${parsed.error}`);
-    }
-
-    const customers = parsed.data;
-    const customer = customers.find((customer) => customer[field] === value);
-
-    return customer;
-  } catch (error) {
-    console.error('getCustomer', error);
-    throw error;
+  if (error) {
+    throw new FetchError('FETCH_CUSTOMER_FAILED', error.message);
   }
+
+  if (!data) {
+    throw new FetchError('FETCH_CUSTOMER_NO_USER', 'No user found');
+  }
+
+  const parsed = CustomerSchema.safeParse(data);
+
+  if (!parsed.success) {
+    throw new FetchError('FETCH_CUSTOMER_INVALID_DATA', 'Get customer failed schema validation');
+  }
+
+  return parsed.data;
 }
 
-export function getCustomerById(id: number) {
-  return getCustomer('id', id);
-}
-
-export function getCustomerByEmail(email: string) {
-  return getCustomer('email', email);
+export function getCustomerById(id: string) {
+  return getCustomer(id);
 }

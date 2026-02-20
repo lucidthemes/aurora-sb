@@ -103,6 +103,14 @@ All notable changes to this project will be documented in this file.
 - lost password form hook to use tanstack query
 - require auth to use supabase auth user
 
+#### Schemas
+
+- shop customer fields
+
+#### Server
+
+- shop get customer to use supabase
+
 #### Services
 
 - added user id to create log event
