@@ -1,10 +1,28 @@
 import { act } from '@testing-library/react';
+import type { User } from '@supabase/supabase-js';
 
 import { renderHookWithQueryClient } from '@utils/tests/queryClient';
 
 import useEditForm from '../../hooks/addresses/useEditForm';
 
 describe('useEditForm hook', () => {
+  const mockLoggedInUser: User = {
+    id: '11111111-1111-1111-1111-111111111111',
+    aud: 'authenticated',
+    email: 'test@example.com',
+    app_metadata: {
+      provider: 'email',
+      providers: ['email'],
+    },
+    user_metadata: {
+      email: 'example@email.com',
+      email_verified: false,
+      phone_verified: false,
+      sub: '11111111-1111-1111-1111-111111111111',
+    },
+    created_at: '2026-01-01T00:00:00Z',
+  };
+
   const handleShippingEditShowMock = vi.fn();
 
   const handleBillingEditShowMock = vi.fn();
@@ -19,7 +37,14 @@ describe('useEditForm hook', () => {
 
   test('updates errors for missing shipping address fields', async () => {
     const { result } = renderHookWithQueryClient(() =>
-      useEditForm('shipping', handleShippingEditShowMock, handleBillingEditShowMock, setShippingFormNotificationMock, setBillingFormNotificationMock)
+      useEditForm(
+        mockLoggedInUser,
+        'shipping',
+        handleShippingEditShowMock,
+        handleBillingEditShowMock,
+        setShippingFormNotificationMock,
+        setBillingFormNotificationMock
+      )
     );
 
     await act(async () => {
@@ -35,7 +60,14 @@ describe('useEditForm hook', () => {
 
   test('updates errors for missing billing address fields', async () => {
     const { result } = renderHookWithQueryClient(() =>
-      useEditForm('billing', handleShippingEditShowMock, handleBillingEditShowMock, setShippingFormNotificationMock, setBillingFormNotificationMock)
+      useEditForm(
+        mockLoggedInUser,
+        'billing',
+        handleShippingEditShowMock,
+        handleBillingEditShowMock,
+        setShippingFormNotificationMock,
+        setBillingFormNotificationMock
+      )
     );
 
     await act(async () => {
