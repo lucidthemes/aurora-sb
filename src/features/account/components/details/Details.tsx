@@ -7,6 +7,8 @@ import Password from './Password';
 export default function Details() {
   const { user } = useAuthContext();
 
+  if (!user) return;
+
   return (
     <div className="flex flex-col gap-y-10">
       <Name user={user} />
