@@ -118,6 +118,7 @@ All notable changes to this project will be documented in this file.
 #### Supabase
 
 - added user id to log event edge function
+- updated instagram feed media table unique constraint
 
 #### Pages
 
