@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 
 - add apikey to create log event headers for auth
 
+#### Supabase
+
+- set verify jwt to false for log event edge function
+
 ## [0.2.0] - 2026-02-21
 
 ### Added
