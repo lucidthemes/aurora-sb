@@ -23,7 +23,7 @@ export default function useName(userId: string) {
   };
 
   const detailsNameQuery = useQuery({
-    queryKey: ['detailsName', userId],
+    queryKey: ['accountDetailsName', userId],
     queryFn: () => getCustomerById(userId),
     select: (data) => ({
       firstName: data?.first_name,

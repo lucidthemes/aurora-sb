@@ -37,7 +37,7 @@ export default function useNameForm(
     mutationFn: updateAccountDetailsName,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['detailsName'],
+        queryKey: ['accountDetailsName'],
       });
 
       setNameFormNotification({
