@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - [Unreleased]
+
+### Fixed
+
+#### Services
+
+- add apikey to create log event headers for auth
+
 ## [0.2.0] - 2026-02-21
 
 ### Added
