@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 #### Services
 
 - add apikey to create log event headers for auth
+- add authorization bearer to create log event headers
 
 #### Supabase
 
