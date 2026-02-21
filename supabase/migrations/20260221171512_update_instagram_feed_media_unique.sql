@@ -1,0 +1,6 @@
+ALTER TABLE instagram_feed_media
+DROP CONSTRAINT instagram_feed_media_instagram_feed_id_position_key;
+
+ALTER TABLE instagram_feed_media
+ADD CONSTRAINT instagram_feed_media_instagram_feed_id_media_id_key
+UNIQUE (instagram_feed_id, media_id);
