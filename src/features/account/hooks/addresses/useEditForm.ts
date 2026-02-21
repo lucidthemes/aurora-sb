@@ -2,36 +2,72 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { Dispatch, SetStateAction } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { AddressFormSchema } from '@schemas/account/address.schema';
 import type { AddressForm } from '@schemas/account/address.schema';
 import { updateAccountAddress } from '@server/account/updateAddress';
 import { FetchError } from '@services/errors/fetchError';
 import { createLogEvent } from '@services/logs/createLogEvent';
+import type { Address } from '@schemas/shop/address.schema';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useEditForm(
   user: User | null,
   section: 'shipping' | 'billing',
+  firstName?: string,
+  lastName?: string,
+  shippingAddress?: Address,
+  billingAddress?: Address,
   handleShippingEditShow?: () => void,
   handleBillingEditShow?: () => void,
   setShippingFormNotification?: Dispatch<SetStateAction<FormNotification>>,
   setBillingFormNotification?: Dispatch<SetStateAction<FormNotification>>
 ) {
+  const formDefaultValues =
+    section === 'shipping'
+      ? {
+          firstName: shippingAddress?.firstName ?? firstName ?? '',
+          lastName: shippingAddress?.lastName ?? lastName ?? '',
+          addressLine1: shippingAddress?.addressLine1 ?? '',
+          addressLine2: shippingAddress?.addressLine2 ?? '',
+          city: shippingAddress?.city ?? '',
+          county: shippingAddress?.county ?? '',
+          postcode: shippingAddress?.postcode ?? '',
+          country: shippingAddress?.country ?? '',
+          phone: shippingAddress?.phone ?? '',
+        }
+      : {
+          firstName: billingAddress?.firstName ?? firstName ?? '',
+          lastName: billingAddress?.lastName ?? lastName ?? '',
+          addressLine1: billingAddress?.addressLine1 ?? '',
+          addressLine2: billingAddress?.addressLine2 ?? '',
+          city: billingAddress?.city ?? '',
+          county: billingAddress?.county ?? '',
+          postcode: billingAddress?.postcode ?? '',
+          country: billingAddress?.country ?? '',
+          phone: billingAddress?.phone ?? '',
+        };
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-    reset,
   } = useForm({
+    defaultValues: formDefaultValues,
     resolver: zodResolver(AddressFormSchema),
   });
+
+  const queryClient = useQueryClient();
 
   const addressFormMutation = useMutation({
     mutationFn: updateAccountAddress,
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['accountAddresses'],
+      });
+
       if (section === 'shipping') {
         if (setShippingFormNotification) {
           setShippingFormNotification({
@@ -55,8 +91,6 @@ export default function useEditForm(
 
         if (handleBillingEditShow) handleBillingEditShow();
       }
-
-      reset();
     },
     onError: (error: FetchError) => {
       if (section === 'shipping' && setShippingFormNotification) {

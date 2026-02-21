@@ -4,6 +4,7 @@ import type { User } from '@supabase/supabase-js';
 import Input from '@components/Form/Input';
 import Select from '@components/Form/Select';
 import Button from '@components/UI/Button';
+import type { Address } from '@schemas/shop/address.schema';
 import type { FormNotification } from '@typings/forms/notification';
 
 import useEditForm from '../../hooks/addresses/useEditForm';
@@ -11,6 +12,10 @@ import useEditForm from '../../hooks/addresses/useEditForm';
 interface EditFormProps {
   user: User | null;
   section: 'shipping' | 'billing';
+  firstName?: string;
+  lastName?: string;
+  shippingAddress?: Address;
+  billingAddress?: Address;
   handleShippingEditShow?: () => void;
   handleBillingEditShow?: () => void;
   setShippingFormNotification?: Dispatch<SetStateAction<FormNotification>>;
@@ -20,6 +25,10 @@ interface EditFormProps {
 export default function EditForm({
   user,
   section,
+  firstName,
+  lastName,
+  shippingAddress,
+  billingAddress,
   handleShippingEditShow,
   handleBillingEditShow,
   setShippingFormNotification,
@@ -28,6 +37,10 @@ export default function EditForm({
   const { register, handleSubmit, onSubmit, errors } = useEditForm(
     user,
     section,
+    firstName,
+    lastName,
+    shippingAddress,
+    billingAddress,
     handleShippingEditShow,
     handleBillingEditShow,
     setShippingFormNotification,

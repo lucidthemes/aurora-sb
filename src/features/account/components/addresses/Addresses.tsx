@@ -8,6 +8,8 @@ import EditForm from './EditForm';
 export default function Addresses() {
   const { user } = useAuthContext();
 
+  const userId = user?.id ?? '';
+
   const {
     shippingEditShow,
     billingEditShow,
@@ -19,7 +21,13 @@ export default function Addresses() {
     setBillingFormNotification,
     resetShippingFormNotification,
     resetBillingFormNotification,
-  } = useAddresses();
+    addressesQuery,
+  } = useAddresses(userId);
+
+  const firstName = addressesQuery.data?.firstName;
+  const lastName = addressesQuery.data?.lastName;
+  const shippingAddress = addressesQuery.data?.shippingAddress;
+  const billingAddress = addressesQuery.data?.billingAddress;
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -42,11 +50,15 @@ export default function Addresses() {
               />
             )}
             {!shippingEditShow ? (
-              <Address section="shipping" />
+              <>{!addressesQuery.isPending && shippingAddress ? <Address address={shippingAddress} /> : <p>You have not set up a shipping address yet</p>}</>
             ) : (
               <EditForm
                 user={user}
                 section="shipping"
+                firstName={firstName}
+                lastName={lastName}
+                shippingAddress={shippingAddress}
+                billingAddress={billingAddress}
                 handleShippingEditShow={handleShippingEditShow}
                 setShippingFormNotification={setShippingFormNotification}
               />
@@ -70,9 +82,18 @@ export default function Addresses() {
               />
             )}
             {!billingEditShow ? (
-              <Address section="billing" />
+              <>{!addressesQuery.isPending && billingAddress ? <Address address={billingAddress} /> : <p>You have not set up a billing address yet</p>}</>
             ) : (
-              <EditForm user={user} section="billing" handleBillingEditShow={handleBillingEditShow} setBillingFormNotification={setBillingFormNotification} />
+              <EditForm
+                user={user}
+                section="billing"
+                firstName={firstName}
+                lastName={lastName}
+                shippingAddress={shippingAddress}
+                billingAddress={billingAddress}
+                handleBillingEditShow={handleBillingEditShow}
+                setBillingFormNotification={setBillingFormNotification}
+              />
             )}
           </div>
         </div>
