@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 - contact form
 - newsletter sub folder
 - newsletter form
+- search sub folder
+- search form
 
 ### Changed
 
@@ -24,6 +26,23 @@ All notable changes to this project will be documented in this file.
 
 - newsletter form component to use react hook form
 - newsletter form hook to use react hook form
+
+#### Search form
+
+- search form component to use react hook form
+- search form hook to use react hook form
+
+### Removed
+
+#### Components
+
+##### Header
+
+- use search hook for overlay ref
+
+#### Pages
+
+- blog search page term prop from search form
 
 ## [0.2.2] - 2026-02-22
 
