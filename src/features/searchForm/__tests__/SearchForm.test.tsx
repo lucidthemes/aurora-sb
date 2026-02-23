@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 import SearchForm from '../SearchForm';
@@ -38,7 +38,7 @@ describe('SearchForm component', () => {
     expect(screen.getByRole('button', { name: /search/i })).toBeInTheDocument();
   });
 
-  test('shows error message for missing search term', () => {
+  test('shows error message for missing search term', async () => {
     render(
       <MemoryRouter>
         <SearchForm location="page" />
@@ -47,6 +47,8 @@ describe('SearchForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /search/i }));
 
-    expect(screen.getByRole('alert')).toHaveTextContent(/please enter a search term/i);
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent(/please enter a search term/i);
+    });
   });
 });
