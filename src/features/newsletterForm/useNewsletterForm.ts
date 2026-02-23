@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import type { ChangeEventHandler, FormEventHandler } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { validateEmail } from '@utils/validators';
+import { NewsletterFormSchema } from '@schemas/newsletter/newsletter.schema';
+import type { NewsletterForm } from '@schemas/newsletter/newsletter.schema';
+import type { FormNotification } from '@typings/forms/notification';
 
 export default function useNewsletterForm() {
-  const [newsletterFormEmail, setNewsletterFormEmail] = useState('');
-  const [newsletterFormError, setNewsletterFormError] = useState('');
-
-  const [newsletterFormNotification, setNewsletterFormNotification] = useState({
+  const [newsletterFormNotification, setNewsletterFormNotification] = useState<FormNotification>({
     type: '',
     message: '',
   });
@@ -19,53 +19,34 @@ export default function useNewsletterForm() {
     });
   };
 
-  const handleFormChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.target;
-    setNewsletterFormEmail(value);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    reset,
+  } = useForm({
+    resolver: zodResolver(NewsletterFormSchema),
+  });
 
-  const validateFormData = () => {
-    let formError = '';
-    let formIsValid = true;
+  const onSubmit = async (data: NewsletterForm) => {
+    console.log(data); // temp
 
-    const trimmedEmail = newsletterFormEmail.trim();
+    setNewsletterFormNotification({
+      type: 'success',
+      message: 'Subscribed',
+    });
 
-    if (!trimmedEmail || !validateEmail(trimmedEmail)) {
-      if (!trimmedEmail) {
-        formError = 'Please enter an email address';
-      } else {
-        formError = 'Please enter a valid email address';
-      }
-      formIsValid = false;
-    }
-
-    setNewsletterFormError(formError);
-
-    return formIsValid;
-  };
-
-  const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
-    let isFormValid = validateFormData();
-
-    if (isFormValid === true) {
-      setNewsletterFormEmail('');
-      setNewsletterFormError('');
-
-      setNewsletterFormNotification({
-        type: 'success',
-        message: 'Subscribed',
-      });
-    }
+    reset();
   };
 
   return {
-    newsletterFormEmail,
-    newsletterFormError,
+    register,
+    handleSubmit,
+    onSubmit,
+    errors,
+    setValue,
     newsletterFormNotification,
     resetNewsletterFormNotification,
-    handleFormChange,
-    handleFormSubmit,
   };
 }

@@ -4,13 +4,8 @@ import Button from '@components/UI/Button';
 
 import useNewsletterForm from './useNewsletterForm';
 
-interface NewsletterFormProps {
-  layout?: string;
-}
-
-export default function NewsletterForm({ layout = 'page' }: NewsletterFormProps) {
-  const { newsletterFormEmail, newsletterFormError, newsletterFormNotification, resetNewsletterFormNotification, handleFormChange, handleFormSubmit } =
-    useNewsletterForm();
+export default function NewsletterForm({ layout = 'page' }: { layout?: string }) {
+  const { register, handleSubmit, onSubmit, errors, newsletterFormNotification, resetNewsletterFormNotification } = useNewsletterForm();
 
   const newsletterFormClasses = layout === 'widget' ? 'flex-col' : 'flex-col lg:flex-row';
 
@@ -24,17 +19,8 @@ export default function NewsletterForm({ layout = 'page' }: NewsletterFormProps)
           onClose={() => resetNewsletterFormNotification()}
         />
       )}
-      <form onSubmit={handleFormSubmit} className={`flex gap-6 ${newsletterFormClasses}`} aria-label="Newsletter subscribe" noValidate>
-        <Input
-          type="email"
-          name="email"
-          value={newsletterFormEmail}
-          onChange={handleFormChange}
-          placeholder="Email address"
-          required={true}
-          label="Email address"
-          error={newsletterFormError}
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className={`flex gap-6 ${newsletterFormClasses}`} aria-label="Newsletter subscribe" noValidate>
+        <Input type="email" {...register('email')} placeholder="Email address" label="Email address" error={errors.email?.message} />
         <Button type="submit" className="max-h-12.5">
           Subscribe
         </Button>
