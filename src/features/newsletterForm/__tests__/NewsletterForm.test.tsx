@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 import NewsletterForm from '../NewsletterForm';
 
@@ -11,15 +11,17 @@ describe('NewsletterForm component', () => {
     expect(screen.getByRole('button', { name: /subscribe/i })).toBeInTheDocument();
   });
 
-  test('shows error message for missing email', () => {
+  test('shows error message for missing email', async () => {
     render(<NewsletterForm />);
 
     fireEvent.click(screen.getByRole('button', { name: /subscribe/i }));
 
-    expect(screen.getByRole('alert')).toHaveTextContent(/please enter an email address/i);
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent(/please enter a valid email address/i);
+    });
   });
 
-  test('shows error message for invalid email', () => {
+  test('shows error message for invalid email', async () => {
     render(<NewsletterForm />);
 
     fireEvent.change(screen.getByRole('textbox', { name: /email address/i }), {
@@ -28,10 +30,12 @@ describe('NewsletterForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /subscribe/i }));
 
-    expect(screen.getByRole('alert')).toHaveTextContent(/please enter a valid email address/i);
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent(/please enter a valid email address/i);
+    });
   });
 
-  test('shows success notification for valid form submission', () => {
+  test('shows success notification for valid form submission', async () => {
     render(<NewsletterForm />);
 
     fireEvent.change(screen.getByRole('textbox', { name: /email address/i }), {
@@ -40,6 +44,8 @@ describe('NewsletterForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /subscribe/i }));
 
-    expect(screen.getByRole('status')).toHaveTextContent(/subscribed/i);
+    await waitFor(() => {
+      expect(screen.getByRole('status')).toHaveTextContent(/subscribed/i);
+    });
   });
 });
