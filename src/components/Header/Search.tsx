@@ -1,26 +1,17 @@
 import SearchForm from '@features/searchForm';
 
-import useSearch from './useSearch';
-
 interface SearchProps {
   headerSearchActive: boolean;
   handleHeaderSearchActive: () => void;
 }
 
 export default function Search({ headerSearchActive, handleHeaderSearchActive }: SearchProps) {
-  const overlayInputRef = useSearch(headerSearchActive);
-
   if (!headerSearchActive) return null;
 
   return (
     <div className="fixed top-0 left-0 z-10 h-full w-full bg-black">
       <div className="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 lg:w-fit">
-        <SearchForm
-          location="header"
-          overlayInputRef={overlayInputRef}
-          headerSearchActive={headerSearchActive}
-          handleHeaderSearchActive={handleHeaderSearchActive}
-        />
+        <SearchForm location="header" headerSearchActive={headerSearchActive} handleHeaderSearchActive={handleHeaderSearchActive} />
       </div>
       <button className="absolute top-15 right-15 cursor-pointer p-2.5" onClick={handleHeaderSearchActive} aria-label="Close search overlay">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" className="w-5 fill-white">
