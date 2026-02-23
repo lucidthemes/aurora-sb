@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 import ContactForm from '../ContactForm';
 
@@ -14,18 +14,20 @@ describe('ContactForm component', () => {
     expect(screen.getByRole('button', { name: /send message/i })).toBeInTheDocument();
   });
 
-  test('shows error messages for missing fields', () => {
+  test('shows error messages for missing fields', async () => {
     render(<ContactForm />);
 
     fireEvent.click(screen.getByRole('button', { name: /send message/i }));
 
-    expect(screen.getByText(/please enter a name/i)).toBeInTheDocument();
-    expect(screen.getByText(/please enter an email address/i)).toBeInTheDocument();
-    expect(screen.getByText(/please enter a subject/i)).toBeInTheDocument();
-    expect(screen.getByText(/please enter a message/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/please enter a name/i)).toBeInTheDocument();
+      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+      expect(screen.getByText(/please enter a subject/i)).toBeInTheDocument();
+      expect(screen.getByText(/please enter a message/i)).toBeInTheDocument();
+    });
   });
 
-  test('shows error message for invalid email', () => {
+  test('shows error message for invalid email', async () => {
     render(<ContactForm />);
 
     fireEvent.change(screen.getByRole('textbox', { name: /email/i }), {
@@ -34,10 +36,12 @@ describe('ContactForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /send message/i }));
 
-    expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
+    });
   });
 
-  test('shows success notification for valid form submission', () => {
+  test('shows success notification for valid form submission', async () => {
     render(<ContactForm />);
 
     fireEvent.change(screen.getByRole('textbox', { name: /name/i }), {
@@ -58,6 +62,8 @@ describe('ContactForm component', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /send message/i }));
 
-    expect(screen.getByRole('status')).toHaveTextContent(/your message has successfully been sent/i);
+    await waitFor(() => {
+      expect(screen.getByRole('status')).toHaveTextContent(/your message has successfully been sent/i);
+    });
   });
 });
