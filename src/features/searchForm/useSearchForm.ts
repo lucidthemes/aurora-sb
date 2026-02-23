@@ -1,40 +1,50 @@
-import { useState } from 'react';
-import type { ChangeEventHandler, FormEventHandler } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { SearchFormSchema } from '@schemas/search/search.schema';
+import type { SearchForm } from '@schemas/search/search.schema';
 
 export default function useSearchForm(
-  term: string,
   location: 'page' | 'widget' | 'header',
   headerSearchActive: boolean = false,
   handleHeaderSearchActive: () => void = () => {}
 ) {
-  const [searchFormTerm, setSearchFormTerm] = useState(term || '');
-  const [searchFormError, setSearchFormError] = useState('');
   const navigate = useNavigate();
 
-  const handleFormChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.target;
-    setSearchFormTerm(value);
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    reset,
+    setFocus,
+  } = useForm({
+    resolver: zodResolver(SearchFormSchema),
+  });
 
-  const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+  const onSubmit = async (data: SearchForm) => {
+    navigate(`/search/${data.term}`);
 
-    const trimmedSearchTerm = searchFormTerm.trim();
-
-    if (trimmedSearchTerm) {
-      setSearchFormError('');
-      navigate(`/search/${trimmedSearchTerm}`);
-
-      if (location === 'header' && headerSearchActive) {
-        handleHeaderSearchActive();
-      }
-    } else {
-      if (location !== 'header') {
-        setSearchFormError('Please enter a search term');
-      }
+    if (location === 'header' && headerSearchActive) {
+      handleHeaderSearchActive();
     }
+
+    reset();
   };
 
-  return { searchFormTerm, searchFormError, handleFormChange, handleFormSubmit };
+  useEffect(() => {
+    if (headerSearchActive) {
+      setFocus('term');
+    }
+  }, [headerSearchActive, setFocus]);
+
+  return {
+    register,
+    handleSubmit,
+    onSubmit,
+    errors,
+    setValue,
+  };
 }

@@ -120,7 +120,7 @@ export function BlogSearch() {
         <>
           <header className="mb-10 flex flex-col gap-y-5">
             <h1>Search results: {term}</h1>
-            <SearchForm term={term} />
+            <SearchForm />
           </header>
           <BlogList search={term} style="wide-small-small" />
         </>
