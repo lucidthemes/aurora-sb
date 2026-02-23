@@ -1,101 +1,55 @@
-import { renderHook, act } from '@testing-library/react';
-
-import { createInputChangeEvent, createTextAreaChangeEvent, createFormSubmitEvent } from '@utils/tests/events';
+import { renderHook, act, waitFor } from '@testing-library/react';
 
 import useContactForm from '../useContactForm';
 
 describe('useContactForm hook', () => {
-  test('updates form data on handleFormChange', () => {
+  test('updates form errors for missing fields', async () => {
     const { result } = renderHook(() => useContactForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('name', 'John Doe'));
+    await act(async () => {
+      result.current.setValue('name', '');
+      result.current.setValue('email', '');
+      result.current.setValue('subject', '');
+      result.current.setValue('message', '');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('subject', 'Test subject'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createTextAreaChangeEvent('message', 'Test message'));
-    });
-
-    expect(result.current.contactFormData.name).toBe('John Doe');
-    expect(result.current.contactFormData.email).toBe('test@example.com');
-    expect(result.current.contactFormData.subject).toBe('Test subject');
-    expect(result.current.contactFormData.message).toBe('Test message');
+    expect(result.current.errors.name?.message).toBe('Please enter a name');
+    expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
+    expect(result.current.errors.subject?.message).toBe('Please enter a subject');
+    expect(result.current.errors.message?.message).toBe('Please enter a message');
   });
 
-  test('updates form errors for missing fields', () => {
+  test('updates email form error for invalid email', async () => {
     const { result } = renderHook(() => useContactForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('name', ''));
+    await act(async () => {
+      result.current.setValue('name', '');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', ''));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('subject', ''));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createTextAreaChangeEvent('message', ''));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.contactFormErrors.name).toBe('Please enter a name');
-    expect(result.current.contactFormErrors.email).toBe('Please enter an email address');
-    expect(result.current.contactFormErrors.subject).toBe('Please enter a subject');
-    expect(result.current.contactFormErrors.message).toBe('Please enter a message');
+    expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
   });
 
-  test('updates email form error for invalid email', () => {
+  test('sets success notification type for valid form submission', async () => {
     const { result } = renderHook(() => useContactForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'invalid-email'));
+    await act(async () => {
+      result.current.setValue('name', 'John Doe');
+      result.current.setValue('email', 'test@example.com');
+      result.current.setValue('subject', 'Test subject');
+      result.current.setValue('message', 'Test message');
+
+      await result.current.handleSubmit(result.current.onSubmit)();
     });
 
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
+    await waitFor(() => {
+      expect(result.current.contactFormNotification).toEqual({
+        type: 'success',
+        message: 'Your message has successfully been sent',
+      });
     });
-
-    expect(result.current.contactFormErrors.email).toBe('Please enter a valid email address');
-  });
-
-  test('sets success notification type for valid form submission', () => {
-    const { result } = renderHook(() => useContactForm());
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('name', 'John Doe'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('subject', 'Test subject'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createTextAreaChangeEvent('message', 'Test message'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.contactFormNotification.type).toBe('success');
   });
 });
