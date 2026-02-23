@@ -1,59 +1,46 @@
-import { renderHook, act } from '@testing-library/react';
-
-import { createInputChangeEvent, createFormSubmitEvent } from '@utils/tests/events';
+import { renderHook, act, waitFor } from '@testing-library/react';
 
 import useNewsletterForm from '../useNewsletterForm';
 
 describe('useNewsletterForm hook', () => {
-  test('updates email on handleFormChange', () => {
+  test('updates error for missing email', async () => {
     const { result } = renderHook(() => useNewsletterForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
+    await act(async () => {
+      result.current.setValue('email', '');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    expect(result.current.newsletterFormEmail).toBe('test@example.com');
+    expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
   });
 
-  test('updates error for missing email', () => {
+  test('updates error for invalid email', async () => {
     const { result } = renderHook(() => useNewsletterForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', ''));
+    await act(async () => {
+      result.current.setValue('email', 'invalid-email');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.newsletterFormError).toBe('Please enter an email address');
+    expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
   });
 
-  test('updates error for invalid email', () => {
+  test('sets success notification type for valid form submission', async () => {
     const { result } = renderHook(() => useNewsletterForm());
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'invalid-email'));
+    await act(async () => {
+      result.current.setValue('email', 'test@example.com');
+
+      await result.current.handleSubmit(result.current.onSubmit)();
     });
 
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
+    await waitFor(() => {
+      expect(result.current.newsletterFormNotification).toEqual({
+        type: 'success',
+        message: 'Subscribed',
+      });
     });
-
-    expect(result.current.newsletterFormError).toBe('Please enter a valid email address');
-  });
-
-  test('sets success notification type for valid form submission', () => {
-    const { result } = renderHook(() => useNewsletterForm());
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('email', 'test@example.com'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.newsletterFormNotification.type).toBe('success');
   });
 });

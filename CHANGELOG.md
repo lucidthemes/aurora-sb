@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 - contact sub folder
 - contact form
+- newsletter sub folder
+- newsletter form
 
 ### Changed
 
@@ -17,6 +19,11 @@ All notable changes to this project will be documented in this file.
 
 - contact form component to use react hook form
 - contact form hook to use react hook form
+
+#### Newsletter form
+
+- newsletter form component to use react hook form
+- newsletter form hook to use react hook form
 
 ## [0.2.2] - 2026-02-22
 
