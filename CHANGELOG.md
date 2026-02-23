@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.3.0] - [Unreleased]
+
+### Added
+
+#### Schemas
+
+- contact sub folder
+- contact form
+
+### Changed
+
+#### Contact form
+
+- contact form component to use react hook form
+- contact form hook to use react hook form
+
 ## [0.2.2] - 2026-02-22
 
 ### Changed
