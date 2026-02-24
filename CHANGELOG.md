@@ -15,6 +15,14 @@ All notable changes to this project will be documented in this file.
 - search sub folder
 - search form
 
+#### Server
+
+- create newsletter subscriber using supabase
+
+#### Supabase
+
+- add newsletter table migration
+
 ### Changed
 
 #### Contact form
