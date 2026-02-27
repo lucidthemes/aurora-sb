@@ -1,13 +1,17 @@
-export async function createLogEvent(logLevel: 'info' | 'warning' | 'error' | 'critical', eventName: string, message?: string, userId?: string) {
-  const payload = { log_level: logLevel, event_name: eventName, message, user_id: userId };
+import { supabase } from '@lib/supabase/client';
 
-  await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/log-event`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-      Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+export async function createLogEvent(logLevel: 'info' | 'warning' | 'error' | 'critical', eventName: string, message?: string, userId?: string) {
+  const { error } = await supabase.functions.invoke('log-event', {
+    body: {
+      log_level: logLevel,
+      event_name: eventName,
+      message,
+      user_id: userId,
+      source: 'frontend',
     },
-    body: JSON.stringify(payload),
   });
+
+  if (error) {
+    console.error('Log event failed:', error.message);
+  }
 }
