@@ -16,6 +16,10 @@ All notable changes to this project will be documented in this file.
 
 - create log event to use supabase function invoke
 
+#### Supabase
+
+- log event edge function to accept source value
+
 ## [0.3.0] - 2026-02-24
 
 ### Added
