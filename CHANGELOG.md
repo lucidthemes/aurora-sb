@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file.
 
 - add source column logs table migration
 
+### Changed
+
+#### Services
+
+- create log event to use supabase function invoke
+
 ## [0.3.0] - 2026-02-24
 
 ### Added
