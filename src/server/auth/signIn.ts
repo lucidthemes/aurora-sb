@@ -1,27 +1,26 @@
 import { supabase } from '@lib/supabase/client';
-import { LoginFormReturnSchema } from '@schemas/auth/login.schema';
-import type { LoginForm, LoginFormReturn } from '@schemas/auth/login.schema';
-import { FetchError } from '@services/errors/fetchError';
+import type { LoginForm } from '@schemas/auth/login.schema';
+import { createLogEvent } from '@services/logs/createLogEvent';
 
-export async function signIn(formData: LoginForm): Promise<LoginFormReturn> {
+export async function signIn(formData: LoginForm) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: formData.email,
     password: formData.password,
   });
 
   if (error) {
-    throw new FetchError('SIGN_IN_FAILED', error.message);
+    createLogEvent('error', 'SIGN_IN_FAILED', error.message + '. Email: ' + formData.email);
+
+    return { success: false };
   }
 
   if (!data.user) {
-    throw new FetchError('SIGN_IN_NO_USER', 'No user found');
+    createLogEvent('error', 'SIGN_IN_NO_USER', 'No user found. Email: ' + formData.email);
+
+    return { success: false };
   }
 
-  const parsed = LoginFormReturnSchema.safeParse(data.user.id);
+  createLogEvent('info', 'SIGN_IN_SUCCESSFUL', 'User signed in', data.user.id);
 
-  if (!parsed.success) {
-    throw new FetchError('SIGN_IN_INVALID_DATA', 'Sign in failed schema validation');
-  }
-
-  return parsed.data;
+  return { success: true };
 }
