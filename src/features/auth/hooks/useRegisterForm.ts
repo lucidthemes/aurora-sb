@@ -6,8 +6,6 @@ import { useMutation } from '@tanstack/react-query';
 import { RegisterFormSchema } from '@schemas/auth/register.schema';
 import type { RegisterForm } from '@schemas/auth/register.schema';
 import { signUp } from '@server/auth/signUp';
-import type { FetchError } from '@services/errors/fetchError';
-import { createLogEvent } from '@services/logs/createLogEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useRegisterForm() {
@@ -28,32 +26,24 @@ export default function useRegisterForm() {
     handleSubmit,
     formState: { errors },
     setValue,
-    reset,
   } = useForm({
     resolver: zodResolver(RegisterFormSchema),
   });
 
-  const signUpUserMutation = useMutation({
+  const registerFormMutation = useMutation({
     mutationFn: signUp,
-    onSuccess: (userId) => {
-      setRegisterFormNotification({
-        type: 'success',
-        message: 'User successfully created. You can now log in.',
-      });
-      createLogEvent('info', 'SIGN_UP_SUCCESSFUL', 'User signed up', userId);
-      reset();
-    },
-    onError: (error: FetchError, variables) => {
-      setRegisterFormNotification({
-        type: 'error',
-        message: error.message,
-      });
-      createLogEvent('error', error.code, error.message + '. Email: ' + variables.email);
+    onSuccess: (result) => {
+      if (!result.success) {
+        setRegisterFormNotification({
+          type: 'error',
+          message: 'Something went wrong. Please try again',
+        });
+      }
     },
   });
 
   const onSubmit = async (data: RegisterForm) => {
-    signUpUserMutation.mutate(data);
+    registerFormMutation.mutate(data);
   };
 
   return {

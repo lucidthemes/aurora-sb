@@ -12,7 +12,3 @@ export const RegisterFormSchema = z
   });
 
 export type RegisterForm = z.infer<typeof RegisterFormSchema>;
-
-export const RegisterFormReturnSchema = z.string();
-
-export type RegisterFormReturn = z.infer<typeof RegisterFormReturnSchema>;

@@ -1,27 +1,26 @@
 import { supabase } from '@lib/supabase/client';
-import { RegisterFormReturnSchema } from '@schemas/auth/register.schema';
-import type { RegisterForm, RegisterFormReturn } from '@schemas/auth/register.schema';
-import { FetchError } from '@services/errors/fetchError';
+import type { RegisterForm } from '@schemas/auth/register.schema';
+import { createLogEvent } from '@services/logs/createLogEvent';
 
-export async function signUp(formData: RegisterForm): Promise<RegisterFormReturn> {
+export async function signUp(formData: RegisterForm) {
   const { data, error } = await supabase.auth.signUp({
     email: formData.email,
     password: formData.password,
   });
 
   if (error) {
-    throw new FetchError('SIGN_UP_FAILED', error.message);
+    createLogEvent('error', 'SIGN_UP_FAILED', error.message + '. Email: ' + formData.email);
+
+    return { success: false };
   }
 
   if (!data.user) {
-    throw new FetchError('SIGN_UP_NO_USER', 'Error creating new user');
+    createLogEvent('error', 'SIGN_UP_NO_USER', 'Error creating new user. Email: ' + formData.email);
+
+    return { success: false };
   }
 
-  const parsed = RegisterFormReturnSchema.safeParse(data.user.id);
+  createLogEvent('info', 'SIGN_UP_SUCCESSFUL', 'User signed up', data.user.id);
 
-  if (!parsed.success) {
-    throw new FetchError('SIGN_UP_INVALID_DATA', 'Sign up failed schema validation');
-  }
-
-  return parsed.data;
+  return { success: true };
 }
