@@ -6,8 +6,6 @@ import { useMutation } from '@tanstack/react-query';
 import { ResetPasswordFormSchema } from '@schemas/auth/resetPassword.schema';
 import type { ResetPasswordForm } from '@schemas/auth/resetPassword.schema';
 import { resetPassword } from '@server/auth/resetPassword';
-import { FetchError } from '@services/errors/fetchError';
-import { createLogEvent } from '@services/logs/createLogEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useResetPasswordForm() {
@@ -33,27 +31,27 @@ export default function useResetPasswordForm() {
     resolver: zodResolver(ResetPasswordFormSchema),
   });
 
-  const ResetPasswordFormMutation = useMutation({
+  const resetPasswordFormMutation = useMutation({
     mutationFn: resetPassword,
-    onSuccess: (userId) => {
-      setResetPasswordFormNotification({
-        type: 'success',
-        message: 'Password successfully reset. You can now log in.',
-      });
-      createLogEvent('info', 'RESET_PASSWORD_SUCCESSFUL', 'Password reset', userId);
-      reset();
-    },
-    onError: (error: FetchError) => {
-      setResetPasswordFormNotification({
-        type: 'error',
-        message: error.message,
-      });
-      createLogEvent('error', error.code, error.message);
+    onSuccess: (result) => {
+      if (result.success) {
+        setResetPasswordFormNotification({
+          type: 'success',
+          message: 'Password successfully reset',
+        });
+
+        reset();
+      } else {
+        setResetPasswordFormNotification({
+          type: 'error',
+          message: 'Something went wrong. Please try again',
+        });
+      }
     },
   });
 
   const onSubmit = async (data: ResetPasswordForm) => {
-    ResetPasswordFormMutation.mutate(data);
+    resetPasswordFormMutation.mutate(data);
   };
 
   return {
