@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+#### Features
+
+##### Auth
+
+- move login form hook create log event call into server sign in function
+
 #### Services
 
 - create log event to use supabase function invoke
