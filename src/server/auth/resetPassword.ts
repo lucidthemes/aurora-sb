@@ -1,26 +1,25 @@
 import { supabase } from '@lib/supabase/client';
-import { ResetPasswordFormReturnSchema } from '@schemas/auth/resetPassword.schema';
-import type { ResetPasswordForm, ResetPasswordFormReturn } from '@schemas/auth/resetPassword.schema';
-import { FetchError } from '@services/errors/fetchError';
+import type { ResetPasswordForm } from '@schemas/auth/resetPassword.schema';
+import { createLogEvent } from '@services/logs/createLogEvent';
 
-export async function resetPassword(formData: ResetPasswordForm): Promise<ResetPasswordFormReturn> {
+export async function resetPassword(formData: ResetPasswordForm) {
   const { data, error } = await supabase.auth.updateUser({
     password: formData.password,
   });
 
   if (error) {
-    throw new FetchError('RESET_PASSWORD_FAILED', error.message);
+    createLogEvent('error', 'RESET_PASSWORD_FAILED', error.message);
+
+    return { success: false };
   }
 
   if (!data.user) {
-    throw new FetchError('RESET_PASSWORD_NO_USER', 'No user found');
+    createLogEvent('error', 'RESET_PASSWORD_NO_USER', 'No user found');
+
+    return { success: false };
   }
 
-  const parsed = ResetPasswordFormReturnSchema.safeParse(data.user.id);
+  createLogEvent('info', 'RESET_PASSWORD_SUCCESSFUL', 'Password reset', data.user.id);
 
-  if (!parsed.success) {
-    throw new FetchError('RESET_PASSWORD_INVALID_DATA', 'Reset password failed schema validation');
-  }
-
-  return parsed.data;
+  return { success: true };
 }

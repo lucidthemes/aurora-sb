@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - move login form hook create log event call into server sign in function
 - move register form hook create log event call into server sign up function
 - move lost password form hook create log event call into server lost password function
+- move reset password form hook create log event call into server reset password function
 
 #### Services
 
@@ -34,6 +35,7 @@ All notable changes to this project will be documented in this file.
 
 - login form return schema
 - register form return schema
+- reset password form return schema
 
 #### Server
 
