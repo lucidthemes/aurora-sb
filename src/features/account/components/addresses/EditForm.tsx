@@ -12,10 +12,10 @@ import useEditForm from '../../hooks/addresses/useEditForm';
 interface EditFormProps {
   user: User | null;
   section: 'shipping' | 'billing';
-  firstName?: string;
-  lastName?: string;
-  shippingAddress?: Address;
-  billingAddress?: Address;
+  firstName?: string | null;
+  lastName?: string | null;
+  shippingAddress?: Address | null;
+  billingAddress?: Address | null;
   handleShippingEditShow?: () => void;
   handleBillingEditShow?: () => void;
   setShippingFormNotification?: Dispatch<SetStateAction<FormNotification>>;
