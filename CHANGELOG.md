@@ -20,6 +20,12 @@ All notable changes to this project will be documented in this file.
 
 - log event edge function to accept source value
 
+### Removed
+
+#### Server
+
+- lost password supabase auth redirect
+
 ## [0.3.0] - 2026-02-24
 
 ### Added
