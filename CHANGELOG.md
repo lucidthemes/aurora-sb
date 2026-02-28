@@ -14,12 +14,20 @@ All notable changes to this project will be documented in this file.
 
 #### Features
 
+##### Account
+
+- move address form hook create log event call into server update address function
+
 ##### Auth
 
 - move login form hook create log event call into server sign in function
 - move register form hook create log event call into server sign up function
 - move lost password form hook create log event call into server lost password function
 - move reset password form hook create log event call into server reset password function
+
+#### Schemas
+
+- shop customer fields to allow nullable
 
 #### Services
 

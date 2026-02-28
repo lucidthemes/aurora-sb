@@ -7,18 +7,16 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AddressFormSchema } from '@schemas/account/address.schema';
 import type { AddressForm } from '@schemas/account/address.schema';
 import { updateAccountAddress } from '@server/account/updateAddress';
-import { FetchError } from '@services/errors/fetchError';
-import { createLogEvent } from '@services/logs/createLogEvent';
 import type { Address } from '@schemas/shop/address.schema';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useEditForm(
   user: User | null,
   section: 'shipping' | 'billing',
-  firstName?: string,
-  lastName?: string,
-  shippingAddress?: Address,
-  billingAddress?: Address,
+  firstName?: string | null,
+  lastName?: string | null,
+  shippingAddress?: Address | null,
+  billingAddress?: Address | null,
   handleShippingEditShow?: () => void,
   handleBillingEditShow?: () => void,
   setShippingFormNotification?: Dispatch<SetStateAction<FormNotification>>,
@@ -63,51 +61,40 @@ export default function useEditForm(
 
   const addressFormMutation = useMutation({
     mutationFn: updateAccountAddress,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['accountAddresses'],
-      });
+    onSuccess: (result) => {
+      if (result.success) {
+        queryClient.invalidateQueries({
+          queryKey: ['accountAddresses'],
+        });
 
-      if (section === 'shipping') {
-        if (setShippingFormNotification) {
-          setShippingFormNotification({
-            type: 'success',
-            message: 'Shipping address successfully updated',
-          });
+        const successMessage = {
+          type: 'success',
+          message: `${section} address successfully updated`,
+        };
+
+        if (section === 'shipping') {
+          if (setShippingFormNotification) setShippingFormNotification(successMessage);
+
+          if (handleShippingEditShow) handleShippingEditShow();
+        } else {
+          if (setBillingFormNotification) setBillingFormNotification(successMessage);
+
+          if (handleBillingEditShow) handleBillingEditShow();
         }
-
-        createLogEvent('info', 'UPDATE_SHIPPING_ADDRESS_SUCCESSFUL', 'Shipping address updated', user?.id);
-
-        if (handleShippingEditShow) handleShippingEditShow();
       } else {
-        if (setBillingFormNotification) {
-          setBillingFormNotification({
-            type: 'success',
-            message: 'Billing address successfully updated',
-          });
+        const errorMessage = {
+          type: 'error',
+          message: 'Something went wrong. Please try again',
+        };
+
+        if (section === 'shipping' && setShippingFormNotification) {
+          setShippingFormNotification(errorMessage);
         }
 
-        createLogEvent('info', 'UPDATE_BILLING_ADDRESS_SUCCESSFUL', 'Billing address updated', user?.id);
-
-        if (handleBillingEditShow) handleBillingEditShow();
+        if (section === 'billing' && setBillingFormNotification) {
+          setBillingFormNotification(errorMessage);
+        }
       }
-    },
-    onError: (error: FetchError) => {
-      if (section === 'shipping' && setShippingFormNotification) {
-        setShippingFormNotification({
-          type: 'error',
-          message: error.message,
-        });
-      }
-
-      if (section === 'billing' && setBillingFormNotification) {
-        setBillingFormNotification({
-          type: 'error',
-          message: error.message,
-        });
-      }
-
-      createLogEvent('error', error.code, error.message, user?.id);
     },
   });
 
