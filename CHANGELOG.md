@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ##### Auth
 
 - move login form hook create log event call into server sign in function
+- move register form hook create log event call into server sign up function
 
 #### Services
 
