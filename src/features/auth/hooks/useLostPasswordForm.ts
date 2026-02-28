@@ -6,8 +6,6 @@ import { useMutation } from '@tanstack/react-query';
 import { LostPasswordFormSchema } from '@schemas/auth/lostPassword.schema';
 import type { LostPasswordForm } from '@schemas/auth/lostPassword.schema';
 import { lostPassword } from '@server/auth/lostPassword';
-import { FetchError } from '@services/errors/fetchError';
-import { createLogEvent } from '@services/logs/createLogEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useLostPasswordForm() {
@@ -33,27 +31,27 @@ export default function useLostPasswordForm() {
     resolver: zodResolver(LostPasswordFormSchema),
   });
 
-  const LostPasswordFormMutation = useMutation({
+  const lostPasswordFormMutation = useMutation({
     mutationFn: lostPassword,
-    onSuccess: (_, variables) => {
-      setLostPasswordFormNotification({
-        type: 'success',
-        message: 'Password reset email sent. Please check your inbox.',
-      });
-      createLogEvent('info', 'LOST_PASSWORD_SUCCESSFUL', 'Lost password. Email: ' + variables.email);
-      reset();
-    },
-    onError: (error: FetchError, variables) => {
-      setLostPasswordFormNotification({
-        type: 'error',
-        message: error.message,
-      });
-      createLogEvent('error', error.code, error.message + '. Email: ' + variables.email);
+    onSuccess: (result) => {
+      if (result.success) {
+        setLostPasswordFormNotification({
+          type: 'success',
+          message: 'Password reset email sent',
+        });
+
+        reset();
+      } else {
+        setLostPasswordFormNotification({
+          type: 'error',
+          message: 'Something went wrong. Please try again',
+        });
+      }
     },
   });
 
   const onSubmit = async (data: LostPasswordForm) => {
-    LostPasswordFormMutation.mutate(data);
+    lostPasswordFormMutation.mutate(data);
   };
 
   return {
