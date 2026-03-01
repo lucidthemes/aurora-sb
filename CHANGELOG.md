@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ##### Account
 
 - move address form hook create log event call into server update address function
+- move address name hook create log event call into server update name function
 
 ##### Auth
 

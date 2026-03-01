@@ -11,8 +11,8 @@ interface NameFormProps {
   user: User;
   handleNameEditShow: () => void;
   setNameFormNotification: Dispatch<SetStateAction<FormNotification>>;
-  firstName?: string;
-  lastName?: string;
+  firstName?: string | null;
+  lastName?: string | null;
 }
 
 export default function NameForm({ user, handleNameEditShow, setNameFormNotification, firstName, lastName }: NameFormProps) {
