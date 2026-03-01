@@ -1,7 +1,7 @@
 import { supabase } from '@lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import type { DetailsNameForm } from '@schemas/account/detailsName.schema';
-import { FetchError } from '@services/errors/fetchError';
+import { createLogEvent } from '@services/logs/createLogEvent';
 
 interface updateAccountDetailsNameParams {
   user: User;
@@ -15,6 +15,12 @@ export async function updateAccountDetailsName({ user, formData }: updateAccount
     .eq('id', user.id);
 
   if (error) {
-    throw new FetchError('UPDATE_NAME_FAILED', error.message);
+    createLogEvent('error', error.code, error.message, user?.id);
+
+    return { success: false };
   }
+
+  createLogEvent('info', 'UPDATE_NAME_SUCCESSFUL', 'Name updated', user?.id);
+
+  return { success: true };
 }

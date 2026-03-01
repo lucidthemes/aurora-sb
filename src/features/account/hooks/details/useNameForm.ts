@@ -7,16 +7,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { DetailsNameFormSchema } from '@schemas/account/detailsName.schema';
 import type { DetailsNameForm } from '@schemas/account/detailsName.schema';
 import { updateAccountDetailsName } from '@server/account/updateName';
-import { FetchError } from '@services/errors/fetchError';
-import { createLogEvent } from '@services/logs/createLogEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useNameForm(
   user: User | null,
   handleNameEditShow: () => void,
   setNameFormNotification: Dispatch<SetStateAction<FormNotification>>,
-  firstName?: string,
-  lastName?: string
+  firstName?: string | null,
+  lastName?: string | null
 ) {
   const {
     register,
@@ -35,27 +33,24 @@ export default function useNameForm(
 
   const detailsNameFormMutation = useMutation({
     mutationFn: updateAccountDetailsName,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['accountDetailsName'],
-      });
+    onSuccess: (result) => {
+      if (result.success) {
+        queryClient.invalidateQueries({
+          queryKey: ['accountDetailsName'],
+        });
 
-      setNameFormNotification({
-        type: 'success',
-        message: 'Name successfully updated',
-      });
+        setNameFormNotification({
+          type: 'success',
+          message: 'Name successfully updated',
+        });
 
-      createLogEvent('info', 'UPDATE_NAME_SUCCESSFUL', 'Name updated', user?.id);
-
-      handleNameEditShow();
-    },
-    onError: (error: FetchError) => {
-      setNameFormNotification({
-        type: 'error',
-        message: error.message,
-      });
-
-      createLogEvent('error', error.code, error.message, user?.id);
+        handleNameEditShow();
+      } else {
+        setNameFormNotification({
+          type: 'error',
+          message: 'Something went wrong. Please try again',
+        });
+      }
     },
   });
 

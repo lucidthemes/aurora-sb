@@ -31,7 +31,7 @@ export default function Name({ user }: { user: User }) {
                 {lastName && <p>{lastName}</p>}
               </div>
             ) : (
-              <p>No name specified</p>
+              <p>You have not specified a name</p>
             )}
           </>
         ) : (
