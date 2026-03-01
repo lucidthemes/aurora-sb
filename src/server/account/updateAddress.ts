@@ -16,7 +16,11 @@ export async function updateAccountAddress({ user, addressColumn, formData }: up
     .eq('id', user.id);
 
   if (error) {
-    createLogEvent('error', error.code, error.message, user?.id);
+    if (addressColumn === 'shipping_address') {
+      createLogEvent('error', 'UPDATE_SHIPPING_ADDRESS_FAILED', error.message, user?.id);
+    } else {
+      createLogEvent('error', 'UPDATE_BILLING_ADDRESS_FAILED', error.message, user?.id);
+    }
 
     return { success: false };
   }
