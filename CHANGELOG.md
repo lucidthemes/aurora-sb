@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 #### Supabase
 
 - add source column logs table migration
+- add user role editor migration
 
 ### Changed
 
