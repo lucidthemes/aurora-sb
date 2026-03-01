@@ -7,8 +7,6 @@ import { useMutation } from '@tanstack/react-query';
 import { DetailsEmailFormSchema } from '@schemas/account/detailsEmail.schema';
 import type { DetailsEmailForm } from '@schemas/account/detailsEmail.schema';
 import { updateAccountDetailsEmail } from '@server/account/updateEmail';
-import { FetchError } from '@services/errors/fetchError';
-import { createLogEvent } from '@services/logs/createLogEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useEmailForm(user: User | null, handleEmailEditShow: () => void, setEmailFormNotification: Dispatch<SetStateAction<FormNotification>>) {
@@ -26,26 +24,28 @@ export default function useEmailForm(user: User | null, handleEmailEditShow: () 
 
   const detailsEmailFormMutation = useMutation({
     mutationFn: updateAccountDetailsEmail,
-    onSuccess: () => {
-      setEmailFormNotification({
-        type: 'success',
-        message: 'Email address update submitted. Please check your email to confirm',
-      });
-      createLogEvent('info', 'UPDATE_EMAIL_SUCCESSFUL', 'Email updated', user?.id);
-      handleEmailEditShow();
-    },
-    onError: (error: FetchError, variables) => {
-      setEmailFormNotification({
-        type: 'error',
-        message: error.message,
-      });
-      createLogEvent('error', error.code, error.message + '. Email: ' + variables.email, user?.id);
+    onSuccess: (result) => {
+      if (result.success) {
+        setEmailFormNotification({
+          type: 'success',
+          message: 'Email address update submitted. Please check your email to confirm',
+        });
+
+        handleEmailEditShow();
+      } else {
+        setEmailFormNotification({
+          type: 'error',
+          message: 'Something went wrong. Please try again',
+        });
+      }
     },
   });
 
   const onSubmit = async (data: DetailsEmailForm) => {
-    if (user?.email !== data.email) {
-      detailsEmailFormMutation.mutate(data);
+    if (!user) return;
+
+    if (user.email !== data.email) {
+      detailsEmailFormMutation.mutate({ user, formData: data });
     }
   };
 
