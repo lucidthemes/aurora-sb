@@ -15,7 +15,7 @@ export async function updateAccountDetailsName({ user, formData }: updateAccount
     .eq('id', user.id);
 
   if (error) {
-    createLogEvent('error', error.code, error.message, user?.id);
+    createLogEvent('error', 'UPDATE_NAME_FAILED', error.message, user?.id);
 
     return { success: false };
   }
