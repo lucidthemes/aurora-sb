@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 #### Supabase
 
 - add media rls policies migration
+- add media storage bucket upload rls policy migration
 
 ## [0.4.0] - 2026-03-01
 
