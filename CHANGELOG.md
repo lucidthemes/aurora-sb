@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - add media storage bucket upload rls policy migration
 - add media storage bucket upload trigger migration
 - add media storage bucket delete trigger migration
+- add media storage bucket delete rls policy migration
 
 ## [0.4.0] - 2026-03-01
 
