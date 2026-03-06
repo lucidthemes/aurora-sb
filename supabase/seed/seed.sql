@@ -1,14 +1,14 @@
 -- media - instagram feed images
 INSERT INTO "public"."media" (id, type, storage_path, alt_text, created_at) VALUES 
-('5e793f0c-4f67-4661-ac27-95f86af5247d','image', 'instagram-1.jpg', 'Instagram 1', CURRENT_DATE),
-('65a55d48-b1e8-456f-b92a-33d22e64fae0', 'image', 'instagram-2.jpg', 'Instagram 2', CURRENT_DATE),
-('d0d8efc2-c11f-4ecc-94a3-d870e606c1f6', 'image', 'instagram-3.jpg', 'Instagram 3', CURRENT_DATE),
-('009c6f80-a77e-4be6-9203-8d2908bb2b18', 'image', 'instagram-4.jpg', 'Instagram 4', CURRENT_DATE),
-('5c145a39-ce40-43b9-ad66-0ee1927e4b03', 'image', 'instagram-5.jpg', 'Instagram 5', CURRENT_DATE),
-('5ec1ca1e-f407-41d6-9a0c-ecaa2f5ca39d', 'image', 'instagram-6.jpg', 'Instagram 6', CURRENT_DATE),
-('3cdbeb91-56d3-4edb-809e-15f746c85fa1', 'image', 'instagram-7.jpg', 'Instagram 7', CURRENT_DATE),
-('84df9dcd-325c-4507-914b-575aaccfd2e4', 'image', 'instagram-8.jpg', 'Instagram 8', CURRENT_DATE),
-('aba12b37-d555-4383-9db1-fbec6ae13a1d', 'image', 'instagram-9.jpg', 'Instagram 9', CURRENT_DATE);
+('5e793f0c-4f67-4661-ac27-95f86af5247d','image', 'images/instagram-1.jpg', 'Instagram 1', CURRENT_DATE),
+('65a55d48-b1e8-456f-b92a-33d22e64fae0', 'image', 'images/instagram-2.jpg', 'Instagram 2', CURRENT_DATE),
+('d0d8efc2-c11f-4ecc-94a3-d870e606c1f6', 'image', 'images/instagram-3.jpg', 'Instagram 3', CURRENT_DATE),
+('009c6f80-a77e-4be6-9203-8d2908bb2b18', 'image', 'images/instagram-4.jpg', 'Instagram 4', CURRENT_DATE),
+('5c145a39-ce40-43b9-ad66-0ee1927e4b03', 'image', 'images/instagram-5.jpg', 'Instagram 5', CURRENT_DATE),
+('5ec1ca1e-f407-41d6-9a0c-ecaa2f5ca39d', 'image', 'images/instagram-6.jpg', 'Instagram 6', CURRENT_DATE),
+('3cdbeb91-56d3-4edb-809e-15f746c85fa1', 'image', 'images/instagram-7.jpg', 'Instagram 7', CURRENT_DATE),
+('84df9dcd-325c-4507-914b-575aaccfd2e4', 'image', 'images/instagram-8.jpg', 'Instagram 8', CURRENT_DATE),
+('aba12b37-d555-4383-9db1-fbec6ae13a1d', 'image', 'images/instagram-9.jpg', 'Instagram 9', CURRENT_DATE);
 
 -- instagram feeds
 INSERT INTO "public"."instagram_feeds" (id, name, layout, button, created_at) VALUES
