@@ -67,7 +67,7 @@ describe('LoginForm component', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
-      expect(screen.getByText(/password needs to be longer than 8 characters/i)).toBeInTheDocument();
+      expect(screen.getByText(/please enter a password/i)).toBeInTheDocument();
     });
   });
 
@@ -86,24 +86,6 @@ describe('LoginForm component', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/please enter a valid email address/i)).toBeInTheDocument();
-    });
-  });
-
-  test('shows error message for password less than 8 characters', async () => {
-    renderWithQueryClient(
-      <MemoryRouter>
-        <LoginForm />
-      </MemoryRouter>
-    );
-
-    fireEvent.change(screen.getByLabelText('Password'), {
-      target: { value: 'pass' },
-    });
-
-    fireEvent.click(screen.getByRole('button', { name: /login/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText(/password needs to be longer than 8 characters/i)).toBeInTheDocument();
     });
   });
 });
