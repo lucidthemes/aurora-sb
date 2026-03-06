@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - add media storage bucket upload trigger migration
 - add media storage bucket delete trigger migration
 - add media storage bucket delete rls policy migration
+- add media storage bucket select rls policy migration
 
 ### Changed
 
