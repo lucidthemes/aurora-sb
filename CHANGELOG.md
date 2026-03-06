@@ -43,6 +43,7 @@ All notable changes to this project will be documented in this file.
 #### Schemas
 
 - shop customer fields to allow nullable
+- login form password error message
 
 #### Services
 
