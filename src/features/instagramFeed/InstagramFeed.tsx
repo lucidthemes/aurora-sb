@@ -1,5 +1,5 @@
 import Button from '@components/UI/Button';
-import { getPublicMediaImageUrl } from '@lib/supabase/storage';
+import { getPublicMediaUrl } from '@lib/supabase/storage';
 
 import useInstagramFeed from './useInstagramFeed';
 import Loading from './components/Loading';
@@ -62,7 +62,7 @@ export default function InstagramFeed({ feedId }: InstagramFeedProps) {
           visibilityClasses = 'hidden lg:block';
         }
 
-        const publicMediaImageUrl = getPublicMediaImageUrl(feedMedia.media.storage_path);
+        const publicMediaImageUrl = getPublicMediaUrl(feedMedia.media.storage_path);
 
         return (
           <li key={feedMedia.id} className={visibilityClasses}>

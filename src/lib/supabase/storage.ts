@@ -1,3 +1,3 @@
 import { supabase } from './client';
 
-export const getPublicMediaImageUrl = (path: string) => supabase.storage.from('media/images').getPublicUrl(path).data.publicUrl;
+export const getPublicMediaUrl = (path: string) => supabase.storage.from('media').getPublicUrl(path).data.publicUrl;
