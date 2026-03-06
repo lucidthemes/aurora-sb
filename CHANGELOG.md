@@ -14,6 +14,16 @@ All notable changes to this project will be documented in this file.
 - add media storage bucket delete trigger migration
 - add media storage bucket delete rls policy migration
 
+### Changed
+
+#### Features
+
+- instagram feed component to use updated supabase storage media public url function
+
+#### Lib
+
+- supabase storage media public url to a generic function instead of specifically for images folder
+
 ## [0.4.0] - 2026-03-01
 
 ### Added
