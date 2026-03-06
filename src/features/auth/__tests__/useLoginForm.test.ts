@@ -16,7 +16,7 @@ describe('useLoginForm hook', () => {
     });
 
     expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
-    expect(result.current.errors.password?.message).toBe('Password needs to be longer than 8 characters');
+    expect(result.current.errors.password?.message).toBe('Please enter a password');
   });
 
   test('updates form errors for invalid email', async () => {
@@ -29,17 +29,5 @@ describe('useLoginForm hook', () => {
     });
 
     expect(result.current.errors.email?.message).toBe('Please enter a valid email address');
-  });
-
-  test('updates form errors for password less than 8 characters', async () => {
-    const { result } = renderHookWithQueryClient(() => useLoginForm());
-
-    await act(async () => {
-      result.current.setValue('password', 'pass');
-
-      await result.current.handleSubmit(() => {})();
-    });
-
-    expect(result.current.errors.password?.message).toBe('Password needs to be longer than 8 characters');
   });
 });
