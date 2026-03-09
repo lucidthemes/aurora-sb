@@ -14,6 +14,11 @@ All notable changes to this project will be documented in this file.
 - add media storage bucket delete trigger migration
 - add media storage bucket delete rls policy migration
 - add media storage bucket select rls policy migration
+- add instagram feeds insert rls policy migration
+- add instagram feeds update rls policy migration
+- add instagram feeds delete rls policy migration
+- add instagram feed media insert rls policy migration
+- add instagram feed media delete rls policy migration
 
 ### Changed
 
