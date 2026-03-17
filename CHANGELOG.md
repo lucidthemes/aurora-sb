@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - add instagram feed media delete rls policy migration
 - add customers select rls policy migration
 - add logs select rls policy migration
+- add customers list view migration
 
 ### Changed
 
