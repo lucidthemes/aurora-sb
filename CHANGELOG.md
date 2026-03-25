@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 - add logs select rls policy migration
 - add customers list view migration
 - add users list view migration
+- add user roles update rls policy migration
 
 ### Changed
 
