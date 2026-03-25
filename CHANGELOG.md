@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - add users list view migration
 - add user roles update rls policy migration
 - add user roles select rls policy migration
+- add admin user check function migration
 
 ### Changed
 
