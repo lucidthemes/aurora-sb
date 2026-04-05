@@ -15,12 +15,12 @@ export async function updateAccountDetailsName({ user, formData }: updateAccount
     .eq('id', user.id);
 
   if (error) {
-    createLogEvent('error', 'UPDATE_NAME_FAILED', error.message, user?.id);
+    await createLogEvent('error', 'UPDATE_NAME_FAILED', error.message, user?.id);
 
     return { success: false };
   }
 
-  createLogEvent('info', 'UPDATE_NAME_SUCCESSFUL', 'Name updated', user?.id);
+  await createLogEvent('info', 'UPDATE_NAME_SUCCESSFUL', 'Name updated', user?.id);
 
   return { success: true };
 }

@@ -17,18 +17,18 @@ export async function updateAccountAddress({ user, addressColumn, formData }: up
 
   if (error) {
     if (addressColumn === 'shipping_address') {
-      createLogEvent('error', 'UPDATE_SHIPPING_ADDRESS_FAILED', error.message, user?.id);
+      await createLogEvent('error', 'UPDATE_SHIPPING_ADDRESS_FAILED', error.message, user?.id);
     } else {
-      createLogEvent('error', 'UPDATE_BILLING_ADDRESS_FAILED', error.message, user?.id);
+      await createLogEvent('error', 'UPDATE_BILLING_ADDRESS_FAILED', error.message, user?.id);
     }
 
     return { success: false };
   }
 
   if (addressColumn === 'shipping_address') {
-    createLogEvent('info', 'UPDATE_SHIPPING_ADDRESS_SUCCESSFUL', 'Shipping address updated', user?.id);
+    await createLogEvent('info', 'UPDATE_SHIPPING_ADDRESS_SUCCESSFUL', 'Shipping address updated', user?.id);
   } else {
-    createLogEvent('info', 'UPDATE_BILLING_ADDRESS_SUCCESSFUL', 'Billing address updated', user?.id);
+    await createLogEvent('info', 'UPDATE_BILLING_ADDRESS_SUCCESSFUL', 'Billing address updated', user?.id);
   }
 
   return { success: true };
