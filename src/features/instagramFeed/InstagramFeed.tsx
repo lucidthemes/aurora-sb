@@ -16,8 +16,8 @@ export default function InstagramFeed({ feedId }: InstagramFeedProps) {
     return <p className="rounded-md bg-pampas p-5 text-center">Loading feed...</p>;
   }
 
-  if (feedSettingsQuery.isError && feedSettingsQuery.error) {
-    return <Error code={feedSettingsQuery.error.code} />;
+  if (feedSettingsQuery.isError || !feedSettingsQuery.data) {
+    return <Error code="Error loading feed" />;
   }
 
   const feedLayout = feedSettingsQuery.data.layout;
@@ -41,8 +41,8 @@ export default function InstagramFeed({ feedId }: InstagramFeedProps) {
     );
   }
 
-  if (feedMediaQuery.isError && feedMediaQuery.error) {
-    return <Error code={feedMediaQuery.error.code} />;
+  if (feedMediaQuery.isError || !feedMediaQuery.data) {
+    return <Error code="Error loading feed" />;
   }
 
   const feedMedia = feedMediaQuery.data;
