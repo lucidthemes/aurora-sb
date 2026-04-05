@@ -2,22 +2,17 @@ import Button from '@components/UI/Button';
 import { getPublicMediaUrl } from '@lib/supabase/storage';
 
 import useInstagramFeed from './useInstagramFeed';
-import Loading from './components/Loading';
-import Error from './components/Error';
+import InstagramFeedLoading from './components/Loading';
 
-interface InstagramFeedProps {
-  feedId: string;
-}
-
-export default function InstagramFeed({ feedId }: InstagramFeedProps) {
+export default function InstagramFeed({ feedId }: { feedId: string }) {
   const { feedSettingsQuery, feedMediaQuery } = useInstagramFeed(feedId);
 
-  if (feedSettingsQuery.isPending) {
-    return <p className="rounded-md bg-pampas p-5 text-center">Loading feed...</p>;
+  if (feedSettingsQuery.isPending || feedMediaQuery.isPending) {
+    return <InstagramFeedLoading />;
   }
 
-  if (feedSettingsQuery.isError || !feedSettingsQuery.data) {
-    return <Error code="Error loading feed" />;
+  if (feedSettingsQuery.isError || !feedSettingsQuery.data || feedMediaQuery.isError || !feedMediaQuery.data) {
+    return <p className="rounded-md bg-pampas p-5 text-center">Error loading feed</p>;
   }
 
   const feedLayout = feedSettingsQuery.data.layout;
@@ -27,23 +22,6 @@ export default function InstagramFeed({ feedId }: InstagramFeedProps) {
 
   const feedImageAspectRatioClass =
     feedLayout.aspectRatio === 'square' ? 'aspect-square' : feedLayout.aspectRatio === 'portrait' ? 'aspect-[4/5]' : 'aspect-square';
-
-  if (feedMediaQuery.isPending) {
-    return (
-      <Loading
-        desktopPosts={feedLayout.desktopPosts}
-        tabletPosts={feedLayout.tabletPosts}
-        mobilePosts={feedLayout.mobilePosts}
-        feedColumnClasses={feedColumnClasses}
-        feedGapClass={feedGapClass}
-        feedImageAspectRatioClass={feedImageAspectRatioClass}
-      />
-    );
-  }
-
-  if (feedMediaQuery.isError || !feedMediaQuery.data) {
-    return <Error code="Error loading feed" />;
-  }
 
   const feedMedia = feedMediaQuery.data;
 

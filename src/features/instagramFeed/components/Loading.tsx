@@ -1,31 +1,9 @@
-interface LoadingProps {
-  desktopPosts: number;
-  tabletPosts: number;
-  mobilePosts: number;
-  feedColumnClasses: string;
-  feedGapClass: string;
-  feedImageAspectRatioClass: string;
-}
-
-export default function Loading({ desktopPosts, tabletPosts, mobilePosts, feedColumnClasses, feedGapClass, feedImageAspectRatioClass }: LoadingProps) {
+export default function InstagramFeedLoading() {
   return (
-    <ul className={`grid ${feedColumnClasses} ${feedGapClass} relative`}>
-      {[...Array(desktopPosts)].map((_, index) => {
-        let visibilityClasses = '';
-
-        if (index < mobilePosts) {
-          visibilityClasses = 'block';
-        } else if (index < tabletPosts) {
-          visibilityClasses = 'hidden md:block';
-        } else if (index < desktopPosts) {
-          visibilityClasses = 'hidden lg:block';
-        }
-        return (
-          <li key={index} className={visibilityClasses}>
-            <div className={`h-full w-full max-w-full ${feedImageAspectRatioClass} animate-pulse rounded-md bg-pampas`}></div>
-          </li>
-        );
-      })}
+    <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <li className="aspect-square w-full animate-pulse rounded-md bg-pampas md:max-h-60"></li>
+      <li className="hidden aspect-square w-full animate-pulse rounded-md bg-pampas md:block md:max-h-60"></li>
+      <li className="hidden aspect-square w-full animate-pulse rounded-md bg-pampas md:block md:max-h-60"></li>
     </ul>
   );
 }

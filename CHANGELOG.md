@@ -32,6 +32,7 @@ All notable changes to this project will be documented in this file.
 #### Features
 
 - instagram feed component to use updated supabase storage media public url function
+- instagram feed to use loading skeleton
 
 #### Lib
 
