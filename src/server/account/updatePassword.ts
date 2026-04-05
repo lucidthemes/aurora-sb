@@ -14,12 +14,12 @@ export async function updateAccountDetailsPassword({ user, formData }: UpdateAcc
   });
 
   if (error) {
-    createLogEvent('error', 'UPDATE_PASSWORD_FAILED', error.message, user?.id);
+    await createLogEvent('error', 'UPDATE_PASSWORD_FAILED', error.message, user?.id);
 
     return { success: false };
   }
 
-  createLogEvent('info', 'UPDATE_PASSWORD_SUCCESSFUL', 'Password updated', user?.id);
+  await createLogEvent('info', 'UPDATE_PASSWORD_SUCCESSFUL', 'Password updated', user?.id);
 
   return { success: true };
 }

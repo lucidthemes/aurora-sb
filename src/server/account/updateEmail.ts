@@ -14,12 +14,12 @@ export async function updateAccountDetailsEmail({ user, formData }: UpdateAccoun
   });
 
   if (error) {
-    createLogEvent('error', 'UPDATE_EMAIL_FAILED', error.message, user?.id);
+    await createLogEvent('error', 'UPDATE_EMAIL_FAILED', error.message, user?.id);
 
     return { success: false };
   }
 
-  createLogEvent('info', 'UPDATE_EMAIL_SUCCESSFUL', 'Email updated', user?.id);
+  await createLogEvent('info', 'UPDATE_EMAIL_SUCCESSFUL', 'Email updated', user?.id);
 
   return { success: true };
 }
