@@ -5,9 +5,9 @@ import useOrders from '../../hooks/orders/useOrders';
 import Items from './Items';
 
 export default function Orders() {
-  const { loggedInUser } = useAuthContext();
+  const { user } = useAuthContext();
 
-  const orders = useOrders(loggedInUser?.id);
+  const orders = useOrders(user?.id ?? '');
 
   return (
     <>

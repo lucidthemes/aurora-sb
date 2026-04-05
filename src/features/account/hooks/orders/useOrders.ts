@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { getOrdersByCustomerId } from '@server/shop/getOrders';
 import type { Order } from '@typings/shop/order';
 
-export default function useOrders(customerId: number | undefined) {
+export default function useOrders(customerId: string) {
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
