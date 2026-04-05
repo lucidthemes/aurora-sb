@@ -6,8 +6,6 @@ import { useMutation } from '@tanstack/react-query';
 import { NewsletterFormSchema } from '@schemas/newsletter/newsletter.schema';
 import type { NewsletterForm } from '@schemas/newsletter/newsletter.schema';
 import { createNewsletterSubscriber } from '@server/newsletter/createNewsletterSubscriber';
-import { FetchError } from '@services/errors/fetchError';
-import { createLogEvent } from '@lib/supabase/logEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useNewsletterForm() {
@@ -35,25 +33,20 @@ export default function useNewsletterForm() {
 
   const newsletterFormMutation = useMutation({
     mutationFn: createNewsletterSubscriber,
-    onSuccess: (_, variables) => {
-      setNewsletterFormNotification({
-        type: 'success',
-        message: 'Subscribed',
-      });
+    onSuccess: (result) => {
+      if (result.success) {
+        setNewsletterFormNotification({
+          type: 'success',
+          message: 'Subscribed',
+        });
 
-      createLogEvent('info', 'CREATE_NEWSLETTER_SUBSCRIBER_SUCCESSFUL', 'Newsletter subscriber: ' + variables.email);
-
-      reset();
-    },
-    onError: (error: FetchError, variables) => {
-      if (error.message.includes('duplicate')) error.message = 'Email already subscribed';
-
-      setNewsletterFormNotification({
-        type: 'error',
-        message: error.message,
-      });
-
-      createLogEvent('error', error.code, error.message + '. Email: ' + variables.email);
+        reset();
+      } else {
+        setNewsletterFormNotification({
+          type: 'error',
+          message: 'Error subscribing',
+        });
+      }
     },
   });
 
