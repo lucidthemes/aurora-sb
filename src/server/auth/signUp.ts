@@ -9,18 +9,18 @@ export async function signUp(formData: RegisterForm) {
   });
 
   if (error) {
-    createLogEvent('error', 'SIGN_UP_FAILED', error.message + '. Email: ' + formData.email);
+    await createLogEvent('error', 'SIGN_UP_FAILED', error.message + '. Email: ' + formData.email);
 
     return { success: false };
   }
 
   if (!data.user) {
-    createLogEvent('error', 'SIGN_UP_NO_USER', 'Error creating new user. Email: ' + formData.email);
+    await createLogEvent('error', 'SIGN_UP_NO_USER', 'Error creating new user. Email: ' + formData.email);
 
     return { success: false };
   }
 
-  createLogEvent('info', 'SIGN_UP_SUCCESSFUL', 'User signed up', data.user.id);
+  await createLogEvent('info', 'SIGN_UP_SUCCESSFUL', 'User signed up', data.user.id);
 
   return { success: true };
 }
