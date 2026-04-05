@@ -29,6 +29,6 @@ export async function getOrders<K extends 'customerId'>(field: K, value: Order[K
   }
 }
 
-export function getOrdersByCustomerId(customerId: number) {
+export function getOrdersByCustomerId(customerId: string) {
   return getOrders('customerId', customerId);
 }

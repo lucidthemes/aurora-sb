@@ -6,8 +6,8 @@ import type { ShippingOption } from './shippingOption';
 import type { PaymentOption } from './paymentOption';
 
 export interface Order {
-  id: number;
-  customerId: number;
+  id: string;
+  customerId: string;
   date: string;
   checkoutData: {
     contact: { email: string };

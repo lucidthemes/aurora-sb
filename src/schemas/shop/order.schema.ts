@@ -25,8 +25,8 @@ const ItemSchema = z.object({
 });
 
 export const OrderSchema = z.object({
-  id: z.number().int().positive(),
-  customerId: z.number().int().positive(),
+  id: z.uuid(),
+  customerId: z.uuid(),
   date: z.iso.datetime(),
   checkoutData: z.object({
     contact: z.object({ email: z.email() }),
