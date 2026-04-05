@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const signOut = async () => {
-    createLogEvent('info', 'SIGN_OUT_SUCCESSFUL', 'User signed out', user?.id);
+    await createLogEvent('info', 'SIGN_OUT_SUCCESSFUL', 'User signed out', user?.id);
 
     await supabase.auth.signOut();
 
