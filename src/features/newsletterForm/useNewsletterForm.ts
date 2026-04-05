@@ -7,7 +7,7 @@ import { NewsletterFormSchema } from '@schemas/newsletter/newsletter.schema';
 import type { NewsletterForm } from '@schemas/newsletter/newsletter.schema';
 import { createNewsletterSubscriber } from '@server/newsletter/createNewsletterSubscriber';
 import { FetchError } from '@services/errors/fetchError';
-import { createLogEvent } from '@services/logs/createLogEvent';
+import { createLogEvent } from '@lib/supabase/logEvent';
 import type { FormNotification } from '@typings/forms/notification';
 
 export default function useNewsletterForm() {
