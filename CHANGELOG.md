@@ -40,6 +40,8 @@ All notable changes to this project will be documented in this file.
 #### Services
 
 - moved create log event function file into lib/supabase
+- removed fetch error
+- removed services folder
 
 ## [0.4.0] - 2026-03-01
 
