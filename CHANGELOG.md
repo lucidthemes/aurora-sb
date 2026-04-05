@@ -37,6 +37,10 @@ All notable changes to this project will be documented in this file.
 
 - supabase storage media public url to a generic function instead of specifically for images folder
 
+#### Services
+
+- moved create log event function file into lib/supabase
+
 ## [0.4.0] - 2026-03-01
 
 ### Added

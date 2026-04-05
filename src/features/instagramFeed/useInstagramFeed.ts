@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
-import { createLogEvent } from '@services/logs/createLogEvent';
+import { createLogEvent } from '@lib/supabase/logEvent';
 import { FetchError } from '@services/errors/fetchError';
 import type { FeedSettings, FeedMedia } from '@typings/instagram/feed';
 

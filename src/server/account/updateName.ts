@@ -1,7 +1,7 @@
 import { supabase } from '@lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import type { DetailsNameForm } from '@schemas/account/detailsName.schema';
-import { createLogEvent } from '@services/logs/createLogEvent';
+import { createLogEvent } from '@lib/supabase/logEvent';
 
 interface updateAccountDetailsNameParams {
   user: User;
