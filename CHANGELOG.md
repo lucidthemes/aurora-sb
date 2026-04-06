@@ -47,6 +47,7 @@ All notable changes to this project will be documented in this file.
 #### Supabase
 
 - logs select rls policy to allow admin users only
+- is admin function search path to empty string
 
 ### Fixed
 
