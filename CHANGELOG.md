@@ -26,6 +26,7 @@ All notable changes to this project will be documented in this file.
 - add user roles update rls policy migration
 - add user roles select rls policy migration
 - add admin user check function migration
+- add admin or editor check function migration
 
 ### Changed
 
@@ -46,17 +47,21 @@ All notable changes to this project will be documented in this file.
 
 #### Supabase
 
-- logs select rls policy to allow admin users only
-- is admin function search path to empty string
+- logs select rls policy to allow admin users only migration
+- is admin function search path to empty string migration
+- customers rls policies to use admin or editor check function migration
+- instagram feed media rls policies to use admin or editor check function migration
+- instagram feeds rls policies to use admin or editor check function migration
+- media rls policies to use admin or editor check function migration
 
 ### Fixed
 
 #### Supabase
 
-- handle new customer function mutable search path
-- handle new user function mutable search path
-- handle new storage object function mutable search path
-- handle delete storage object function mutable search path
+- handle new customer function mutable search path migration
+- handle new user function mutable search path migration
+- handle new storage object function mutable search path migration
+- handle delete storage object function mutable search path migration
 
 ## [0.4.0] - 2026-03-01
 
