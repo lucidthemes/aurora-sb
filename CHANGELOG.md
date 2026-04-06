@@ -44,6 +44,15 @@ All notable changes to this project will be documented in this file.
 - removed fetch error
 - removed services folder
 
+### Fixed
+
+#### Supabase
+
+- handle new customer function mutable search path
+- handle new user function mutable search path
+- handle new storage object function mutable search path
+- handle delete storage object function mutable search path
+
 ## [0.4.0] - 2026-03-01
 
 ### Added
