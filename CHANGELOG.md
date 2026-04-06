@@ -44,6 +44,10 @@ All notable changes to this project will be documented in this file.
 - removed fetch error
 - removed services folder
 
+#### Supabase
+
+- logs select rls policy to allow admin users only
+
 ### Fixed
 
 #### Supabase
