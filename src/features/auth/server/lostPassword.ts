@@ -1,7 +1,8 @@
 import { supabase } from '@lib/supabase/client';
 
-import type { LostPasswordForm } from '@features/auth/schemas/lostPassword.schema';
 import { createLogEvent } from '@lib/supabase/logEvent';
+
+import type { LostPasswordForm } from '../schemas/lostPassword.schema';
 
 export async function lostPassword(formData: LostPasswordForm) {
   const { error } = await supabase.auth.resetPasswordForEmail(formData.email);

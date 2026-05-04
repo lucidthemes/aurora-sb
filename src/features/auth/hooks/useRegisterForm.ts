@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { signUp } from '@server/auth/signUp';
 import type { FormNotification } from '@typings/forms/notification';
 
 import { RegisterFormSchema } from '../schemas/register.schema';
 import type { RegisterForm } from '../schemas/register.schema';
+import { signUp } from '../server/signUp';
 
 export default function useRegisterForm() {
   const [registerFormNotification, setRegisterFormNotification] = useState<FormNotification>({

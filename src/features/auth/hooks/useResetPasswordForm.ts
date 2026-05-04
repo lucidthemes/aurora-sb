@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { resetPassword } from '@server/auth/resetPassword';
 import type { FormNotification } from '@typings/forms/notification';
 
 import { ResetPasswordFormSchema } from '../schemas/resetPassword.schema';
 import type { ResetPasswordForm } from '../schemas/resetPassword.schema';
+import { resetPassword } from '../server/resetPassword';
 
 export default function useResetPasswordForm() {
   const [resetPasswordFormNotification, setResetPasswordFormNotification] = useState<FormNotification>({

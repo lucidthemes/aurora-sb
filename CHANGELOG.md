@@ -28,6 +28,10 @@ All notable changes to this project will be documented in this file.
 
 - move account server into features account folder
 
+##### Auth
+
+- move auth server into features auth folder
+
 ### Removed
 
 #### Schemas
@@ -38,6 +42,7 @@ All notable changes to this project will be documented in this file.
 #### Server
 
 - account sub folder
+- auth sub folder
 
 ## [0.5.0] - 2026-04-06
 

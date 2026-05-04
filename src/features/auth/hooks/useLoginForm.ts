@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { signIn } from '@server/auth/signIn';
 import type { FormNotification } from '@typings/forms/notification';
 
 import { LoginFormSchema } from '../schemas/login.schema';
 import type { LoginForm } from '../schemas/login.schema';
+import { signIn } from '../server/signIn';
 
 export default function useLoginForm() {
   const [loginFormNotification, setLoginFormNotification] = useState<FormNotification>({
