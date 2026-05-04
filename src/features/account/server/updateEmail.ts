@@ -1,8 +1,9 @@
 import { supabase } from '@lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 
-import type { DetailsEmailForm } from '@features/account/schemas/detailsEmail.schema';
 import { createLogEvent } from '@lib/supabase/logEvent';
+
+import type { DetailsEmailForm } from '../schemas/detailsEmail.schema';
 
 interface UpdateAccountDetailsEmailParams {
   user: User;

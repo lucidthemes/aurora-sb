@@ -4,11 +4,11 @@ import type { User } from '@supabase/supabase-js';
 import type { Dispatch, SetStateAction } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
-import { updateAccountDetailsEmail } from '@server/account/updateEmail';
 import type { FormNotification } from '@typings/forms/notification';
 
 import { DetailsEmailFormSchema } from '../../schemas/detailsEmail.schema';
 import type { DetailsEmailForm } from '../../schemas/detailsEmail.schema';
+import { updateAccountDetailsEmail } from '../../server/updateEmail';
 
 export default function useEmailForm(user: User | null, handleEmailEditShow: () => void, setEmailFormNotification: Dispatch<SetStateAction<FormNotification>>) {
   const {
