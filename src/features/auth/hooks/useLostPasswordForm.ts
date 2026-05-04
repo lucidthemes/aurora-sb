@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { LostPasswordFormSchema } from '@schemas/auth/lostPassword.schema';
-import type { LostPasswordForm } from '@schemas/auth/lostPassword.schema';
 import { lostPassword } from '@server/auth/lostPassword';
 import type { FormNotification } from '@typings/forms/notification';
+
+import { LostPasswordFormSchema } from '../schemas/lostPassword.schema';
+import type { LostPasswordForm } from '../schemas/lostPassword.schema';
 
 export default function useLostPasswordForm() {
   const [lostPasswordFormNotification, setLostPasswordFormNotification] = useState<FormNotification>({

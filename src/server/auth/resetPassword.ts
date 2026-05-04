@@ -1,5 +1,6 @@
 import { supabase } from '@lib/supabase/client';
-import type { ResetPasswordForm } from '@schemas/auth/resetPassword.schema';
+
+import type { ResetPasswordForm } from '@features/auth/schemas/resetPassword.schema';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
 export async function resetPassword(formData: ResetPasswordForm) {
