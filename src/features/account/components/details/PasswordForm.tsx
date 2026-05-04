@@ -18,7 +18,8 @@ export default function PasswordForm({ user, handlePasswordEditShow, setPassword
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6" aria-label="Password" noValidate>
-      <Password {...register('password')} placeholder="New password" label="New password" error={errors.password?.message} />
+      <Password {...register('currentPassword')} placeholder="Current password" label="Current password" error={errors.currentPassword?.message} />
+      <Password {...register('newPassword')} placeholder="New password" label="New password" error={errors.newPassword?.message} />
       <Password {...register('confirmPassword')} placeholder="Confirm password" label="Confirm password" error={errors.confirmPassword?.message} />
       <Button type="submit" className="max-w-fit">
         Save changes
