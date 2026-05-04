@@ -1,5 +1,6 @@
 import { supabase } from '@lib/supabase/client';
-import type { LostPasswordForm } from '@schemas/auth/lostPassword.schema';
+
+import type { LostPasswordForm } from '@features/auth/schemas/lostPassword.schema';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
 export async function lostPassword(formData: LostPasswordForm) {

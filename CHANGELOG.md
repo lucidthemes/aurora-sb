@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
 
 - move account schemas into features account folder
 
+##### Auth
+
+- move auth schemas into features auth folder
+
 #### Server
 
 ##### Account
@@ -29,6 +33,7 @@ All notable changes to this project will be documented in this file.
 #### Schemas
 
 - account sub folder
+- auth sub folder
 
 #### Server
 

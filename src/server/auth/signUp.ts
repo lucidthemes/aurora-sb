@@ -1,5 +1,6 @@
 import { supabase } from '@lib/supabase/client';
-import type { RegisterForm } from '@schemas/auth/register.schema';
+
+import type { RegisterForm } from '@features/auth/schemas/register.schema';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
 export async function signUp(formData: RegisterForm) {
