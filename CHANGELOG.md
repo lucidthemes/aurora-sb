@@ -22,6 +22,10 @@ All notable changes to this project will be documented in this file.
 
 - move auth schemas into features auth folder
 
+##### Contact
+
+- move contact schema into features contact form folder
+
 #### Server
 
 ##### Account
@@ -38,6 +42,7 @@ All notable changes to this project will be documented in this file.
 
 - account sub folder
 - auth sub folder
+- contact sub folder
 
 #### Server
 

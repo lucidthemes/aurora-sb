@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { ContactFormSchema } from '@schemas/contact/contact.schema';
-import type { ContactForm } from '@schemas/contact/contact.schema';
 import type { FormNotification } from '@typings/forms/notification';
+
+import { ContactFormSchema } from './contact.schema';
+import type { ContactForm } from './contact.schema';
 
 export default function useContactForm() {
   const [contactFormNotification, setContactFormNotification] = useState<FormNotification>({
