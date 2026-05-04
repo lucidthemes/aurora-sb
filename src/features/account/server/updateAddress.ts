@@ -4,6 +4,7 @@ import type { User } from '@supabase/supabase-js';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
 import type { AddressForm } from '../schemas/address.schema';
+import { AddressFormSchema } from '../schemas/address.schema';
 
 interface updateAccountAddressParams {
   user: User;
@@ -12,6 +13,18 @@ interface updateAccountAddressParams {
 }
 
 export async function updateAccountAddress({ user, addressColumn, formData }: updateAccountAddressParams) {
+  const parsed = AddressFormSchema.safeParse(formData);
+
+  if (!parsed.success) {
+    if (addressColumn === 'shipping_address') {
+      await createLogEvent('error', 'UPDATE_SHIPPING_INVALID_DATA', 'Update shipping address failed schema validation', user?.id);
+    } else {
+      await createLogEvent('error', 'UPDATE_BILLING_INVALID_DATA', 'Update billing address failed schema validation', user?.id);
+    }
+
+    return { success: false };
+  }
+
   const { error } = await supabase
     .from('customers')
     .update({ [addressColumn]: formData, updated_at: new Date() })
