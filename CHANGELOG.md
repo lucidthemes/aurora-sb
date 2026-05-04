@@ -12,6 +12,18 @@ All notable changes to this project will be documented in this file.
 
 - password update form to require current password
 
+#### Schemas
+
+##### Account
+
+- move account schemas into features account folder
+
+### Removed
+
+#### Schemas
+
+- account sub folder
+
 ## [0.5.0] - 2026-04-06
 
 ### Added

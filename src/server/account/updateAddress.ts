@@ -1,6 +1,7 @@
 import { supabase } from '@lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
-import type { AddressForm } from '@schemas/account/address.schema';
+
+import type { AddressForm } from '@features/account/schemas/address.schema';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
 interface updateAccountAddressParams {

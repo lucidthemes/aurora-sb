@@ -4,11 +4,12 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { AddressFormSchema } from '@schemas/account/address.schema';
-import type { AddressForm } from '@schemas/account/address.schema';
 import { updateAccountAddress } from '@server/account/updateAddress';
 import type { Address } from '@schemas/shop/address.schema';
 import type { FormNotification } from '@typings/forms/notification';
+
+import { AddressFormSchema } from '../../schemas/address.schema';
+import type { AddressForm } from '../../schemas/address.schema';
 
 export default function useEditForm(
   user: User | null,
