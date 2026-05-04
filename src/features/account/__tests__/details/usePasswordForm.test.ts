@@ -35,31 +35,34 @@ describe('usePasswordForm hook', () => {
     const { result } = renderHookWithQueryClient(() => usePasswordForm(mockLoggedInUser, handlePasswordEditShowMock, setPasswordFormNotificationMock));
 
     await act(async () => {
-      result.current.setValue('password', '');
+      result.current.setValue('currentPassword', '');
+      result.current.setValue('newPassword', '');
 
       await result.current.handleSubmit(() => {})();
     });
 
-    expect(result.current.errors.password?.message).toBe('Password needs to be longer than 8 characters');
+    expect(result.current.errors.currentPassword?.message).toBe('Please enter your current password');
+    expect(result.current.errors.newPassword?.message).toBe('Password needs to be longer than 8 characters');
   });
 
   test('updates form errors for password less than 8 characters', async () => {
     const { result } = renderHookWithQueryClient(() => usePasswordForm(mockLoggedInUser, handlePasswordEditShowMock, setPasswordFormNotificationMock));
 
     await act(async () => {
-      result.current.setValue('password', 'pass');
+      result.current.setValue('newPassword', 'pass');
 
       await result.current.handleSubmit(() => {})();
     });
 
-    expect(result.current.errors.password?.message).toBe('Password needs to be longer than 8 characters');
+    expect(result.current.errors.newPassword?.message).toBe('Password needs to be longer than 8 characters');
   });
 
   test('updates form errors for passwords that do no match', async () => {
     const { result } = renderHookWithQueryClient(() => usePasswordForm(mockLoggedInUser, handlePasswordEditShowMock, setPasswordFormNotificationMock));
 
     await act(async () => {
-      result.current.setValue('password', 'password1');
+      result.current.setValue('currentPassword', 'password3');
+      result.current.setValue('newPassword', 'password1');
       result.current.setValue('confirmPassword', 'password2');
 
       await result.current.handleSubmit(() => {})();
