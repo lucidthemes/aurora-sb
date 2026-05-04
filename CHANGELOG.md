@@ -18,9 +18,19 @@ All notable changes to this project will be documented in this file.
 
 - move account schemas into features account folder
 
+#### Server
+
+##### Account
+
+- move account server into features account folder
+
 ### Removed
 
 #### Schemas
+
+- account sub folder
+
+#### Server
 
 - account sub folder
 

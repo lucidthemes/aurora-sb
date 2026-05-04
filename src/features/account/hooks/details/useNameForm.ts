@@ -4,11 +4,11 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { updateAccountDetailsName } from '@server/account/updateName';
 import type { FormNotification } from '@typings/forms/notification';
 
 import { DetailsNameFormSchema } from '../../schemas/detailsName.schema';
 import type { DetailsNameForm } from '../../schemas/detailsName.schema';
+import { updateAccountDetailsName } from '../../server/updateName';
 
 export default function useNameForm(
   user: User | null,

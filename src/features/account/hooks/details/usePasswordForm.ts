@@ -4,11 +4,11 @@ import type { Dispatch, SetStateAction } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { useMutation } from '@tanstack/react-query';
 
-import { updateAccountDetailsPassword } from '@server/account/updatePassword';
 import type { FormNotification } from '@typings/forms/notification';
 
 import { DetailsPasswordFormSchema } from '../../schemas/detailsPassword.schema';
 import type { DetailsPasswordForm } from '../../schemas/detailsPassword.schema';
+import { updateAccountDetailsPassword } from '../../server/updatePassword';
 
 export default function usePasswordForm(
   user: User | null,

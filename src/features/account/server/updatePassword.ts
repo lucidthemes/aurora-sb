@@ -1,9 +1,10 @@
 import { supabase } from '@lib/supabase/client';
 import type { User } from '@supabase/supabase-js';
 
-import type { DetailsPasswordForm } from '@features/account/schemas/detailsPassword.schema';
-import { DetailsPasswordFormSchema } from '@features/account/schemas/detailsPassword.schema';
 import { createLogEvent } from '@lib/supabase/logEvent';
+
+import type { DetailsPasswordForm } from '../schemas/detailsPassword.schema';
+import { DetailsPasswordFormSchema } from '../schemas/detailsPassword.schema';
 
 interface UpdateAccountDetailsPasswordParams {
   user: User;
