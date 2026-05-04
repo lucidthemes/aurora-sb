@@ -3,8 +3,17 @@ import { supabase } from '@lib/supabase/client';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
 import type { ResetPasswordForm } from '../schemas/resetPassword.schema';
+import { ResetPasswordFormSchema } from '../schemas/resetPassword.schema';
 
 export async function resetPassword(formData: ResetPasswordForm) {
+  const parsed = ResetPasswordFormSchema.safeParse(formData);
+
+  if (!parsed.success) {
+    await createLogEvent('error', 'RESET_PASSWORD_INVALID_DATA', 'Password reset failed schema validation');
+
+    return { success: false };
+  }
+
   const { data, error } = await supabase.auth.updateUser({
     password: formData.password,
   });
