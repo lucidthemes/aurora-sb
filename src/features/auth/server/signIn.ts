@@ -1,7 +1,8 @@
 import { supabase } from '@lib/supabase/client';
 
-import type { LoginForm } from '@features/auth/schemas/login.schema';
 import { createLogEvent } from '@lib/supabase/logEvent';
+
+import type { LoginForm } from '../schemas/login.schema';
 
 export async function signIn(formData: LoginForm) {
   const { data, error } = await supabase.auth.signInWithPassword({
