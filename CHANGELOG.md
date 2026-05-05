@@ -14,34 +14,16 @@ All notable changes to this project will be documented in this file.
 
 #### Schemas
 
-##### Account
-
 - move account schemas into features account folder
-
-##### Auth
-
 - move auth schemas into features auth folder
-
-##### Contact
-
 - move contact schema into features contact form folder
-
-##### Instagram
-
 - move instagram schema into features instagram feed folder
+- move newsletter schema into features newsletter feed folder
 
 #### Server
 
-##### Account
-
 - move account server into features account folder
-
-##### Auth
-
 - move auth server into features auth folder
-
-##### Instagram
-
 - move instagram server into features instagram feed folder
 
 ### Removed
@@ -52,6 +34,7 @@ All notable changes to this project will be documented in this file.
 - auth sub folder
 - contact sub folder
 - instagram sub folder
+- newsletter sub folder
 
 #### Server
 
