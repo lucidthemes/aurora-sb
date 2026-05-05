@@ -1,7 +1,7 @@
 import { supabase } from '@lib/supabase/client';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
-import type { NewsletterForm } from '@features/newsletterForm/newsletter.schema';
+import type { NewsletterForm } from './newsletter.schema';
 
 export async function createNewsletterSubscriber(formData: NewsletterForm) {
   const { error } = await supabase.from('newsletter_subscribers').insert({ email: formData.email });
