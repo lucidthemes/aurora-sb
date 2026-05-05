@@ -1,14 +1,14 @@
 import { screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-vi.mock('@server/instagram/getFeed', () => ({
-  getFeedSettings: vi.fn(),
-  getFeedMedia: vi.fn(),
+vi.mock('../getInstagramFeed', () => ({
+  getInstagramFeedSettings: vi.fn(),
+  getInstagramFeedMedia: vi.fn(),
 }));
 
 import { renderWithQueryClient } from '@utils/tests/queryClient';
 
-import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
+import { getInstagramFeedSettings, getInstagramFeedMedia } from '../getInstagramFeed';
 import type { InstagramFeedSettings, InstagramFeedMedia } from '../instagram.schema';
 import InstagramFeed from '../InstagramFeed';
 
@@ -60,8 +60,8 @@ describe('InstagramFeed component', () => {
   });
 
   test('renders Instagram feed when feed settings and feed media are fetched', async () => {
-    vi.mocked(getFeedSettings).mockResolvedValue(mockFeedSettingsQuery);
-    vi.mocked(getFeedMedia).mockResolvedValue(mockFeedMediaQuery);
+    vi.mocked(getInstagramFeedSettings).mockResolvedValue(mockFeedSettingsQuery);
+    vi.mocked(getInstagramFeedMedia).mockResolvedValue(mockFeedMediaQuery);
 
     renderWithQueryClient(
       <MemoryRouter>

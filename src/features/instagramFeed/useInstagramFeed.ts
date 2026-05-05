@@ -1,19 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
-import type { FeedSettings, FeedMedia } from '@typings/instagram/feed';
+import { getInstagramFeedSettings, getInstagramFeedMedia } from './getInstagramFeed';
+import type { InstagramFeedSettings, InstagramFeedMedia } from './instagram.schema';
 
 export default function useInstagramFeed(feedId: string) {
-  const feedSettingsQuery = useQuery<FeedSettings | null>({
+  const instagramFeedSettingsQuery = useQuery<InstagramFeedSettings | null>({
     queryKey: ['feedSettings', feedId],
-    queryFn: () => getFeedSettings(feedId),
+    queryFn: () => getInstagramFeedSettings(feedId),
   });
 
-  const feedMediaQuery = useQuery<FeedMedia[]>({
+  const instagramFeedMediaQuery = useQuery<InstagramFeedMedia[]>({
     queryKey: ['feedMedia', feedId],
-    queryFn: () => getFeedMedia(feedId),
-    enabled: feedSettingsQuery.isSuccess,
+    queryFn: () => getInstagramFeedMedia(feedId),
+    enabled: instagramFeedSettingsQuery.isSuccess,
   });
 
-  return { feedSettingsQuery, feedMediaQuery };
+  return { instagramFeedSettingsQuery, instagramFeedMediaQuery };
 }

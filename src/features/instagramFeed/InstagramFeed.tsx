@@ -5,17 +5,17 @@ import useInstagramFeed from './useInstagramFeed';
 import InstagramFeedLoading from './components/Loading';
 
 export default function InstagramFeed({ feedId }: { feedId: string }) {
-  const { feedSettingsQuery, feedMediaQuery } = useInstagramFeed(feedId);
+  const { instagramFeedSettingsQuery, instagramFeedMediaQuery } = useInstagramFeed(feedId);
 
-  if (feedSettingsQuery.isPending || feedMediaQuery.isPending) {
+  if (instagramFeedSettingsQuery.isPending || instagramFeedMediaQuery.isPending) {
     return <InstagramFeedLoading />;
   }
 
-  if (feedSettingsQuery.isError || !feedSettingsQuery.data || feedMediaQuery.isError || !feedMediaQuery.data) {
+  if (instagramFeedSettingsQuery.isError || !instagramFeedSettingsQuery.data || instagramFeedMediaQuery.isError || !instagramFeedMediaQuery.data) {
     return <p className="rounded-md bg-pampas p-5 text-center">Error loading feed</p>;
   }
 
-  const feedLayout = feedSettingsQuery.data.layout;
+  const feedLayout = instagramFeedSettingsQuery.data.layout;
 
   const feedColumnClasses = `grid-cols-${feedLayout.mobileColumns} md:grid-cols-${feedLayout.tabletColumns} lg:grid-cols-${feedLayout.desktopColumns}`;
   const feedGapClass = `gap-${feedLayout.gap}`;
@@ -23,9 +23,9 @@ export default function InstagramFeed({ feedId }: { feedId: string }) {
   const feedImageAspectRatioClass =
     feedLayout.aspectRatio === 'square' ? 'aspect-square' : feedLayout.aspectRatio === 'portrait' ? 'aspect-[4/5]' : 'aspect-square';
 
-  const feedMedia = feedMediaQuery.data;
+  const feedMedia = instagramFeedMediaQuery.data;
 
-  const feedButton = feedSettingsQuery.data.button;
+  const feedButton = instagramFeedSettingsQuery.data.button;
 
   return (
     <ul className={`grid ${feedColumnClasses} ${feedGapClass} relative`} aria-label="Instagram feed">

@@ -3,10 +3,10 @@ import { z } from 'zod';
 import { supabase } from '@lib/supabase/client';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
-import { InstagramFeedSettingsSchema, InstagramFeedMediaSchema } from '@features/instagramFeed/instagram.schema';
-import type { InstagramFeedSettings, InstagramFeedMedia } from '@features/instagramFeed/instagram.schema';
+import { InstagramFeedSettingsSchema, InstagramFeedMediaSchema } from './instagram.schema';
+import type { InstagramFeedSettings, InstagramFeedMedia } from './instagram.schema';
 
-export async function getFeedSettings(feedId: string): Promise<InstagramFeedSettings | null> {
+export async function getInstagramFeedSettings(feedId: string): Promise<InstagramFeedSettings | null> {
   const { data, error } = await supabase.from('instagram_feeds').select('layout, button').eq('id', feedId).maybeSingle();
 
   if (error) {
@@ -32,7 +32,7 @@ export async function getFeedSettings(feedId: string): Promise<InstagramFeedSett
   return parsed.data;
 }
 
-export async function getFeedMedia(feedId: string): Promise<InstagramFeedMedia[]> {
+export async function getInstagramFeedMedia(feedId: string): Promise<InstagramFeedMedia[]> {
   const { data, error } = await supabase
     .from('instagram_feed_media')
     .select('id, media(storage_path, alt_text)')
