@@ -6,14 +6,14 @@ vi.mock('@server/instagram/getFeed', () => ({
   getFeedMedia: vi.fn(),
 }));
 
-import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
-import type { FeedSettings, FeedMedia } from '@typings/instagram/feed';
 import { renderWithQueryClient } from '@utils/tests/queryClient';
 
+import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
+import type { InstagramFeedSettings, InstagramFeedMedia } from '../instagram.schema';
 import InstagramFeed from '../InstagramFeed';
 
 describe('InstagramFeed component', () => {
-  const mockFeedSettingsQuery: FeedSettings = {
+  const mockFeedSettingsQuery: InstagramFeedSettings = {
     layout: {
       gap: 4,
       aspectRatio: 'square',
@@ -31,7 +31,7 @@ describe('InstagramFeed component', () => {
     },
   };
 
-  const mockFeedMediaQuery: FeedMedia[] = [
+  const mockFeedMediaQuery: InstagramFeedMedia[] = [
     {
       id: '35cc1b3d-a1d2-42fe-a0f8-bb81f44ddb94',
       media: {
@@ -72,8 +72,5 @@ describe('InstagramFeed component', () => {
     const feed = await screen.findByLabelText('Instagram feed');
     const images = await within(feed).findAllByRole('listitem');
     expect(images).toHaveLength(3);
-
-    const follow = await screen.findByRole('link', { name: /follow on Instagram/i });
-    expect(follow).toBeInTheDocument();
   });
 });

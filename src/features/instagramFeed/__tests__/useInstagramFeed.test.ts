@@ -5,16 +5,16 @@ vi.mock('@server/instagram/getFeed', () => ({
   getFeedMedia: vi.fn(),
 }));
 
-import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
-import type { FeedSettings, FeedMedia } from '@typings/instagram/feed';
 import { renderHookWithQueryClient } from '@utils/tests/queryClient';
 
+import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
+import type { InstagramFeedSettings, InstagramFeedMedia } from '../instagram.schema';
 import useInstagramFeed from '../useInstagramFeed';
 
 describe('useInstagramFeed hook', () => {
   const mockFeedId = '491b660b-3ed1-4281-b53b-b93d06231205';
 
-  const mockFeedSettingsQuery: FeedSettings = {
+  const mockFeedSettingsQuery: InstagramFeedSettings = {
     layout: {
       gap: 4,
       aspectRatio: 'square',
@@ -32,7 +32,7 @@ describe('useInstagramFeed hook', () => {
     },
   };
 
-  const mockFeedMediaQuery: FeedMedia[] = [
+  const mockFeedMediaQuery: InstagramFeedMedia[] = [
     {
       id: '35cc1b3d-a1d2-42fe-a0f8-bb81f44ddb94',
       media: {

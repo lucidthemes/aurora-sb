@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const FeedSettingsSchema = z.object({
+export const InstagramFeedSettingsSchema = z.object({
   layout: z.object({
     gap: z.number(),
     aspectRatio: z.string(),
@@ -18,10 +18,14 @@ export const FeedSettingsSchema = z.object({
   }),
 });
 
-export const FeedMediaSchema = z.object({
+export type InstagramFeedSettings = z.infer<typeof InstagramFeedSettingsSchema>;
+
+export const InstagramFeedMediaSchema = z.object({
   id: z.string(),
   media: z.object({
     storage_path: z.string(),
     alt_text: z.string().optional(),
   }),
 });
+
+export type InstagramFeedMedia = z.infer<typeof InstagramFeedMediaSchema>;
