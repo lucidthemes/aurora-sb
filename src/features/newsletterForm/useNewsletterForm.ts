@@ -3,10 +3,11 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
-import { NewsletterFormSchema } from '@schemas/newsletter/newsletter.schema';
-import type { NewsletterForm } from '@schemas/newsletter/newsletter.schema';
 import { createNewsletterSubscriber } from '@server/newsletter/createNewsletterSubscriber';
 import type { FormNotification } from '@typings/forms/notification';
+
+import { NewsletterFormSchema } from './newsletter.schema';
+import type { NewsletterForm } from './newsletter.schema';
 
 export default function useNewsletterForm() {
   const [newsletterFormNotification, setNewsletterFormNotification] = useState<FormNotification>({

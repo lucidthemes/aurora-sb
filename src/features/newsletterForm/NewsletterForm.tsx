@@ -4,7 +4,7 @@ import Button from '@components/UI/Button';
 
 import useNewsletterForm from './useNewsletterForm';
 
-export default function NewsletterForm({ layout = 'page' }: { layout?: string }) {
+export default function NewsletterForm({ layout = 'page' }: { layout?: 'page' | 'widget' }) {
   const { register, handleSubmit, onSubmit, errors, newsletterFormNotification, resetNewsletterFormNotification } = useNewsletterForm();
 
   const newsletterFormClasses = layout === 'widget' ? 'flex-col' : 'flex-col lg:flex-row';
