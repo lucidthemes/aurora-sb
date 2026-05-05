@@ -26,6 +26,10 @@ All notable changes to this project will be documented in this file.
 
 - move contact schema into features contact form folder
 
+##### Instagram
+
+- move instagram schema into features instagram feed folder
+
 #### Server
 
 ##### Account
@@ -43,11 +47,16 @@ All notable changes to this project will be documented in this file.
 - account sub folder
 - auth sub folder
 - contact sub folder
+- instagram sub folder
 
 #### Server
 
 - account sub folder
 - auth sub folder
+
+#### Types
+
+- instagram sub folder
 
 ## [0.5.0] - 2026-04-06
 

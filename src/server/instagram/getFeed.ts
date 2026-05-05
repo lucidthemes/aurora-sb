@@ -1,11 +1,12 @@
 import { z } from 'zod';
 
-import { FeedSettingsSchema, FeedMediaSchema } from '@schemas/instagram/feed.schema';
-import type { FeedSettings, FeedMedia } from '@typings/instagram/feed';
 import { supabase } from '@lib/supabase/client';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
-export async function getFeedSettings(feedId: string): Promise<FeedSettings | null> {
+import { InstagramFeedSettingsSchema, InstagramFeedMediaSchema } from '@features/instagramFeed/instagram.schema';
+import type { InstagramFeedSettings, InstagramFeedMedia } from '@features/instagramFeed/instagram.schema';
+
+export async function getFeedSettings(feedId: string): Promise<InstagramFeedSettings | null> {
   const { data, error } = await supabase.from('instagram_feeds').select('layout, button').eq('id', feedId).maybeSingle();
 
   if (error) {
@@ -20,7 +21,7 @@ export async function getFeedSettings(feedId: string): Promise<FeedSettings | nu
     return null;
   }
 
-  const parsed = FeedSettingsSchema.safeParse(data);
+  const parsed = InstagramFeedSettingsSchema.safeParse(data);
 
   if (!parsed.success) {
     await createLogEvent('error', 'FETCH_FEED_INVALID_DATA', 'Feed settings failed schema validation');
@@ -31,7 +32,7 @@ export async function getFeedSettings(feedId: string): Promise<FeedSettings | nu
   return parsed.data;
 }
 
-export async function getFeedMedia(feedId: string): Promise<FeedMedia[]> {
+export async function getFeedMedia(feedId: string): Promise<InstagramFeedMedia[]> {
   const { data, error } = await supabase
     .from('instagram_feed_media')
     .select('id, media(storage_path, alt_text)')
@@ -44,7 +45,7 @@ export async function getFeedMedia(feedId: string): Promise<FeedMedia[]> {
     return [];
   }
 
-  const parsed = z.array(FeedMediaSchema).safeParse(data);
+  const parsed = z.array(InstagramFeedMediaSchema).safeParse(data);
 
   if (!parsed.success) {
     await createLogEvent('error', 'FETCH_FEED_INVALID_DATA', 'Feed media failed schema validation');
