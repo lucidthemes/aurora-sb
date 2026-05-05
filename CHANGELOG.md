@@ -40,6 +40,10 @@ All notable changes to this project will be documented in this file.
 
 - move auth server into features auth folder
 
+##### Instagram
+
+- move instagram server into features instagram feed folder
+
 ### Removed
 
 #### Schemas
@@ -53,6 +57,7 @@ All notable changes to this project will be documented in this file.
 
 - account sub folder
 - auth sub folder
+- instagram sub folder
 
 #### Types
 

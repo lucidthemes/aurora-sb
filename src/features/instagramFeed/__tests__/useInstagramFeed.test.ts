@@ -1,13 +1,13 @@
 import { waitFor } from '@testing-library/react';
 
-vi.mock('@server/instagram/getFeed', () => ({
-  getFeedSettings: vi.fn(),
-  getFeedMedia: vi.fn(),
+vi.mock('../getInstagramFeed', () => ({
+  getInstagramFeedSettings: vi.fn(),
+  getInstagramFeedMedia: vi.fn(),
 }));
 
 import { renderHookWithQueryClient } from '@utils/tests/queryClient';
 
-import { getFeedSettings, getFeedMedia } from '@server/instagram/getFeed';
+import { getInstagramFeedSettings, getInstagramFeedMedia } from '../getInstagramFeed';
 import type { InstagramFeedSettings, InstagramFeedMedia } from '../instagram.schema';
 import useInstagramFeed from '../useInstagramFeed';
 
@@ -61,15 +61,15 @@ describe('useInstagramFeed hook', () => {
   });
 
   test('fetches Instagram feed settings and feed media', async () => {
-    vi.mocked(getFeedSettings).mockResolvedValue(mockFeedSettingsQuery);
-    vi.mocked(getFeedMedia).mockResolvedValue(mockFeedMediaQuery);
+    vi.mocked(getInstagramFeedSettings).mockResolvedValue(mockFeedSettingsQuery);
+    vi.mocked(getInstagramFeedMedia).mockResolvedValue(mockFeedMediaQuery);
 
     const { result } = renderHookWithQueryClient(() => useInstagramFeed(mockFeedId));
 
     await waitFor(() => {
-      expect(result.current.feedSettingsQuery.data).toEqual(mockFeedSettingsQuery);
-      expect(result.current.feedMediaQuery.data).toEqual(mockFeedMediaQuery);
-      expect(result.current.feedMediaQuery.data).toHaveLength(3);
+      expect(result.current.instagramFeedSettingsQuery.data).toEqual(mockFeedSettingsQuery);
+      expect(result.current.instagramFeedMediaQuery.data).toEqual(mockFeedMediaQuery);
+      expect(result.current.instagramFeedMediaQuery.data).toHaveLength(3);
     });
   });
 });
