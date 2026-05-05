@@ -2,8 +2,17 @@ import { supabase } from '@lib/supabase/client';
 import { createLogEvent } from '@lib/supabase/logEvent';
 
 import type { NewsletterForm } from './newsletter.schema';
+import { NewsletterFormSchema } from './newsletter.schema';
 
 export async function createNewsletterSubscriber(formData: NewsletterForm) {
+  const parsed = NewsletterFormSchema.safeParse(formData);
+
+  if (!parsed.success) {
+    await createLogEvent('error', 'CREATE_NEWSLETTER_INVALID_DATA', 'Newsletter subscriber failed schema validation. Email: ' + formData.email);
+
+    return { success: false };
+  }
+
   const { error } = await supabase.from('newsletter_subscribers').insert({ email: formData.email });
 
   if (error) {
