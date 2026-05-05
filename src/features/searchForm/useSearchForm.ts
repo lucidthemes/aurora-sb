@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { SearchFormSchema } from '@schemas/search/search.schema';
-import type { SearchForm } from '@schemas/search/search.schema';
+import { SearchFormSchema } from './search.schema';
+import type { SearchForm } from './search.schema';
 
 export default function useSearchForm(
   location: 'page' | 'widget' | 'header',
