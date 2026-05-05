@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - move contact schema into features contact form folder
 - move instagram schema into features instagram feed folder
 - move newsletter schema into features newsletter form folder
+- move search schema into features search form folder
 
 #### Server
 
@@ -36,6 +37,7 @@ All notable changes to this project will be documented in this file.
 - contact sub folder
 - instagram sub folder
 - newsletter sub folder
+- search sub folder
 
 #### Server
 
