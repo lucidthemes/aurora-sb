@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [0.6.0] - [Unreleased]
 
+### Added
+
+#### Supabase
+
+- add post categories table migration
+- add post categories rls policies migration
+
 ### Changed
 
 #### Features
