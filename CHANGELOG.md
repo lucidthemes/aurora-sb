@@ -18,6 +18,8 @@ All notable changes to this project will be documented in this file.
 - add posts tags rls policies migration
 - add post authors table migration
 - add post authors rls policies migration
+- add posts table migration
+- add posts rls policies migration
 
 ### Changed
 
