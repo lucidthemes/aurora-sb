@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 - add posts categories rls policies migration
 - add post tags table migration
 - add post tags rls policies migration
+- add posts tags table migration
+- add posts tags rls policies migration
 
 ### Changed
 
