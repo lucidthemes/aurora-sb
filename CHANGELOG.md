@@ -20,6 +20,8 @@ All notable changes to this project will be documented in this file.
 - add post authors rls policies migration
 - add posts table migration
 - add posts rls policies migration
+- add posts related posts table migration
+- add posts related posts rls policies migration
 
 ### Changed
 
