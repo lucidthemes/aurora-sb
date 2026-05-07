@@ -22,6 +22,8 @@ All notable changes to this project will be documented in this file.
 - add posts rls policies migration
 - add posts related posts table migration
 - add posts related posts rls policies migration
+- add posts comments table migration
+- add posts comments rls policies migration
 
 ### Changed
 
