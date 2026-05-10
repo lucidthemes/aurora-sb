@@ -8,9 +8,9 @@ import { getCommentsById } from '@server/posts/getComments';
 import type { Post } from '@typings/posts/post';
 import type { Comment } from '@typings/posts/comment';
 
-import Comments from '../../comments';
+import BlogPostComments from '../../components/comments';
 
-describe('Author component', () => {
+describe('BlogPostComments component', () => {
   const mockPost: Partial<Post> = {
     id: 1,
     title: 'Dune walk',
@@ -50,7 +50,7 @@ describe('Author component', () => {
   test('renders comments list when data is fetched', async () => {
     vi.mocked(getCommentsById).mockResolvedValue(mockComments);
 
-    render(<Comments post={mockPost as Post} />);
+    render(<BlogPostComments post={mockPost as Post} />);
 
     const commentsList = await screen.findByRole('list', { name: /comments/i });
     expect(commentsList).toBeInTheDocument();
@@ -60,7 +60,7 @@ describe('Author component', () => {
   });
 
   test('renders form input fields and submit button', async () => {
-    render(<Comments post={mockPost as Post} />);
+    render(<BlogPostComments post={mockPost as Post} />);
 
     await waitFor(() => {
       expect(screen.getByRole('form', { name: /add comment/i })).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('Author component', () => {
   test('adds new comment when form successfully submitted', async () => {
     vi.mocked(getCommentsById).mockResolvedValue(mockComments);
 
-    render(<Comments post={mockPost as Post} />);
+    render(<BlogPostComments post={mockPost as Post} />);
 
     const commentsList = await screen.findByRole('list', { name: /comments/i });
     expect(commentsList).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe('Author component', () => {
   });
 
   test('shows form error messages for missing fields', async () => {
-    render(<Comments post={mockPost as Post} />);
+    render(<BlogPostComments post={mockPost as Post} />);
 
     await waitFor(() => {
       expect(screen.getByRole('form', { name: /add comment/i })).toBeInTheDocument();

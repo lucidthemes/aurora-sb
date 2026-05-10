@@ -7,7 +7,7 @@ vi.mock('@server/posts/getPost', () => ({
 import { getPostArray } from '@server/posts/getPost';
 import type { Post } from '@typings/posts/post';
 
-import useRelated from '../../related/useRelated';
+import useRelated from '../../components/related/useRelated';
 
 describe('useRelated hook', () => {
   const mockPost: Partial<Post> = {
@@ -26,7 +26,7 @@ describe('useRelated hook', () => {
   });
 
   test('fetches related posts data and sets relatedPosts state', async () => {
-    vi.mocked(getPostArray).mockResolvedValue(mockRelated);
+    vi.mocked(getPostArray).mockResolvedValue(mockRelated as Post[]);
 
     const { result } = renderHook(() => useRelated(mockPost as Post));
 

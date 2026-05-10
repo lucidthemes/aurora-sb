@@ -1,6 +1,6 @@
 import Icon from './Icon';
 
-export default function Share() {
+export default function BlogPostShare() {
   const currentPostUrl = window.location.href;
 
   return (

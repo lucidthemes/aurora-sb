@@ -8,9 +8,9 @@ vi.mock('@server/posts/getPost', () => ({
 import { getPostArray } from '@server/posts/getPost';
 import type { Post } from '@typings/posts/post';
 
-import Related from '../../related/Related';
+import BlogPostRelated from '../../components/related';
 
-describe('Related component', () => {
+describe('BlogPostRelated component', () => {
   const mockPost: Partial<Post> = {
     id: 1,
     relatedPosts: [2, 4, 6],
@@ -27,11 +27,11 @@ describe('Related component', () => {
   });
 
   test('renders related posts when post data is fetched', async () => {
-    vi.mocked(getPostArray).mockResolvedValue(mockRelated);
+    vi.mocked(getPostArray).mockResolvedValue(mockRelated as Post[]);
 
     render(
       <MemoryRouter>
-        <Related post={mockPost as Post} />
+        <BlogPostRelated post={mockPost as Post} />
       </MemoryRouter>
     );
 
@@ -47,7 +47,7 @@ describe('Related component', () => {
 
     const { container } = render(
       <MemoryRouter>
-        <Related post={postWithoutRelated as Post} />
+        <BlogPostRelated post={postWithoutRelated as Post} />
       </MemoryRouter>
     );
 

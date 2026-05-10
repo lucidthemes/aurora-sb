@@ -4,11 +4,7 @@ import type { Post } from '@typings/posts/post';
 import useRelated from './useRelated';
 import Item from './Item';
 
-interface RelatedProps {
-  post: Post;
-}
-
-export default function Related({ post }: RelatedProps) {
+export default function BlogPostRelated({ post }: { post: Post }) {
   const relatedPosts = useRelated(post);
   if (!Array.isArray(relatedPosts) || relatedPosts.length === 0) return null;
 

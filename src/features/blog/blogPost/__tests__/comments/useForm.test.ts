@@ -2,7 +2,7 @@ import { renderHook, act } from '@testing-library/react';
 
 import { createInputChangeEvent, createFormSubmitEvent } from '@utils/tests/events';
 
-import useForm from '../../comments/hooks/useForm';
+import useForm from '../../components/comments/hooks/useForm';
 
 describe('useForm hook', () => {
   const mockPostId = 1;

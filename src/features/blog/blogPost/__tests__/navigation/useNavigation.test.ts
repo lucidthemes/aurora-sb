@@ -7,7 +7,7 @@ vi.mock('@server/posts/getPost', () => ({
 import { getPostById } from '@server/posts/getPost';
 import type { Post } from '@typings/posts/post';
 
-import useNavigation from '../../navigation/useNavigation';
+import useNavigation from '../../components/navigation/useNavigation';
 
 describe('useNavigation hook', () => {
   const mockPrevious: Partial<Post> = {
@@ -27,7 +27,7 @@ describe('useNavigation hook', () => {
   });
 
   test('fetches previous post data and sets previousPost state', async () => {
-    vi.mocked(getPostById).mockResolvedValue(mockPrevious);
+    vi.mocked(getPostById).mockResolvedValue(mockPrevious as Post);
 
     const { result } = renderHook(() => useNavigation(2));
 
@@ -41,7 +41,7 @@ describe('useNavigation hook', () => {
   });
 
   test('fetches next post data and sets nextPost state', async () => {
-    vi.mocked(getPostById).mockResolvedValue(mockNext);
+    vi.mocked(getPostById).mockResolvedValue(mockNext as Post);
 
     const { result } = renderHook(() => useNavigation(2));
 

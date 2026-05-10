@@ -4,11 +4,7 @@ import type { Post } from '@typings/posts/post';
 
 import useTags from './useTags';
 
-interface TagsProps {
-  post: Post;
-}
-
-export default function Tags({ post }: TagsProps) {
+export default function BlogPostTags({ post }: { post: Post }) {
   const tags = useTags(post);
   if (!Array.isArray(tags) || tags.length === 0) return null;
 

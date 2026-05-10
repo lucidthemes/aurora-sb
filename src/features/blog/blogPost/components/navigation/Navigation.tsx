@@ -4,11 +4,7 @@ import useNavigation from './useNavigation';
 import Previous from './components/Previous';
 import Next from './components/Next';
 
-interface NavigationProps {
-  post: Post;
-}
-
-export default function Navigation({ post }: NavigationProps) {
+export default function BlogPostNavigation({ post }: { post: Post }) {
   const { previousPost, nextPost } = useNavigation(post.id);
   if (!previousPost && !nextPost) return null;
 

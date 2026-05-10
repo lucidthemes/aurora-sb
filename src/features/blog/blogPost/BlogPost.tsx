@@ -2,30 +2,25 @@ import PageContent from '@components/UI/PageContent';
 import type { Post } from '@typings/posts/post';
 import type { Author as AuthorType } from '@typings/posts/author';
 
-import Newsletter from './newsletter';
-import Tags from './tags';
-import Share from './share';
-import Author from './author';
-import Navigation from './navigation';
-import Related from './related';
-import Comments from './comments';
+import BlogPostNewsletter from './components/newsletter';
+import BlogPostTags from './components/tags';
+import BlogPostShare from './components/share';
+import BlogPostAuthor from './components/author';
+import BlogPostNavigation from './components/navigation';
+import BlogPostRelated from './components/related';
+import BlogPostComments from './components/comments';
 
-interface BlogPostProps {
-  post: Post;
-  author: AuthorType | null;
-}
-
-export default function BlogPost({ post, author }: BlogPostProps) {
+export default function BlogPost({ post, author }: { post: Post; author: AuthorType | null }) {
   return (
     <>
       <PageContent content={post.content ?? []} />
-      <Newsletter />
-      <Tags post={post}></Tags>
-      <Share></Share>
-      <Author author={author}></Author>
-      <Navigation post={post}></Navigation>
-      <Related post={post}></Related>
-      <Comments post={post}></Comments>
+      <BlogPostNewsletter />
+      <BlogPostTags post={post} />
+      <BlogPostShare />
+      <BlogPostAuthor author={author} />
+      <BlogPostNavigation post={post} />
+      <BlogPostRelated post={post} />
+      <BlogPostComments post={post} />
     </>
   );
 }

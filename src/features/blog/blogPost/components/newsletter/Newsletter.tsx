@@ -1,6 +1,6 @@
 import NewsletterForm from '@features/newsletterForm';
 
-export default function Newsletter() {
+export default function BlogPostNewsletter() {
   return (
     <section className="rounded-md bg-white p-5 md:p-7.5">
       <div className="flex flex-col gap-y-6 lg:flex-row lg:items-center lg:justify-between">

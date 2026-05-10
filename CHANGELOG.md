@@ -12,9 +12,9 @@ All notable changes to this project will be documented in this file.
 
 #### Features
 
-#### Blog
+##### Blog
 
-##### Blog list
+###### Blog list
 
 - loading skeleton component
 - taxonomy header component
@@ -23,7 +23,7 @@ All notable changes to this project will be documented in this file.
 - server sub folder
 - get blog list taxonomy server
 
-##### Blog Post
+###### Blog Post
 
 - loading skeleton component
 
@@ -61,6 +61,12 @@ All notable changes to this project will be documented in this file.
 ##### Account
 
 - password update form to require current password
+
+##### Blog
+
+###### Blog Post
+
+- moved post sections into components folder
 
 #### Pages
 

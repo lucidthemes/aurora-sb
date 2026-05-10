@@ -8,13 +8,13 @@ import OutsideLayout from './components/OutsideLayout';
 import OverlayLayout from './components/OverlayLayout';
 import SplitLayout from './components/SplitLayout';
 
-interface HeaderProps {
+interface BlogPostHeaderProps {
   post: Post;
   categoryMap: Record<number, Category>;
   author: Author | null;
 }
 
-export default function Header({ post, categoryMap, author }: HeaderProps) {
+export default function BlogPostHeader({ post, categoryMap, author }: BlogPostHeaderProps) {
   const layout = post.postHeader?.layout || 'outside-above';
   const besideSidebar = post.postHeader?.besideSidebar || false;
 
