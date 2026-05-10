@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
-import { PageLayout, PageSidebarLayout } from '@components/Layout/PageLayout';
+import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
 import { Sidebar } from '@components/Layout/Sidebar';
 import BlogList from '@features/blog/blogList';
+import BlogListLoading from '@features/blog/blogList/components/Loading';
+import BlogListTaxonomyHeader from '@features/blog/blogList/components/taxonomy/Header';
+import BlogListTaxonomyHeaderLoading from '@features/blog/blogList/components/taxonomy/HeaderLoading';
+import BlogListTaxonomyError from '@features/blog/blogList/components/taxonomy/Error';
+import useBlogListTaxonomy from '@features/blog/blogList/hooks/useBlogListTaxonomy';
 import SearchForm from '@features/searchForm';
-import { getCategoryBySlug } from '@server/posts/getCategory';
 import { getTagBySlug } from '@server/posts/getTag';
 import { getAuthorBySlug } from '@server/posts/getAuthor';
-import type { Category } from '@typings/posts/category';
 import type { Tag } from '@typings/posts/tag';
 import type { Author } from '@typings/posts/author';
 
@@ -33,41 +36,39 @@ export function BlogHiddenSidebar() {
 
 export function BlogCategory() {
   const { slug } = useParams();
-  const [blogCategory, setBlogCategory] = useState<Category | null>(null);
 
-  useEffect(() => {
-    if (!slug) return;
-
-    const fetchCategory = async () => {
-      try {
-        const category = await getCategoryBySlug(slug);
-        if (category) setBlogCategory(category);
-      } catch (error) {
-        console.error('Failed to fetch category.', error);
-      }
-    };
-
-    fetchCategory();
-  }, [slug]);
+  const blogCategory = useBlogListTaxonomy({ taxonomy: 'category', slug: slug ?? '' });
 
   return (
-    <PageSidebarLayout
-      content={
-        blogCategory ? (
-          <>
-            <header className="mb-10 flex flex-col gap-y-5">
-              <h1>{blogCategory.name}</h1>
-              <p>{blogCategory.description}</p>
-            </header>
-            <BlogList category={blogCategory.id} style="wide-small-small" />
-          </>
-        ) : (
-          <p className="rounded-sm bg-white p-5 text-center">Category not found</p>
-        )
-      }
-      sidebar={<Sidebar></Sidebar>}
-      sidebarPosition="right"
-    />
+    <>
+      {blogCategory.isPending && (
+        <PageSidebarLayoutLoading
+          content={
+            <>
+              <BlogListTaxonomyHeaderLoading />
+              <BlogListLoading />
+            </>
+          }
+          sidebarPosition="right"
+        />
+      )}
+      {blogCategory.isSuccess && (
+        <PageSidebarLayout
+          content={
+            !blogCategory.isError && blogCategory.data ? (
+              <>
+                <BlogListTaxonomyHeader heading={blogCategory.data.name} description={blogCategory.data.description} />
+                <BlogList category={blogCategory.data.id} style="wide-small-small" />
+              </>
+            ) : (
+              <BlogListTaxonomyError taxonomy="Category" />
+            )
+          }
+          sidebar={<Sidebar></Sidebar>}
+          sidebarPosition="right"
+        />
+      )}
+    </>
   );
 }
 
