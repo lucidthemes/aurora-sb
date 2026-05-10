@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
@@ -10,8 +9,6 @@ import BlogListTaxonomyHeaderLoading from '@features/blog/blogList/components/ta
 import BlogListTaxonomyError from '@features/blog/blogList/components/taxonomy/Error';
 import useBlogListTaxonomy from '@features/blog/blogList/hooks/useBlogListTaxonomy';
 import SearchForm from '@features/searchForm';
-import { getAuthorBySlug } from '@server/posts/getAuthor';
-import type { Author } from '@typings/posts/author';
 
 export function Blog() {
   const [searchParams] = useSearchParams();
@@ -130,40 +127,38 @@ export function BlogSearch() {
 
 export function BlogAuthor() {
   const { slug } = useParams();
-  const [blogAuthor, setBlogAuthor] = useState<Author | null>(null);
 
-  useEffect(() => {
-    if (!slug) return;
-
-    const fetchAuthor = async () => {
-      try {
-        const author = await getAuthorBySlug(slug);
-        if (author) setBlogAuthor(author);
-      } catch (error) {
-        console.error('Failed to fetch author.', error);
-      }
-    };
-
-    fetchAuthor();
-  }, [slug]);
+  const blogAuthor = useBlogListTaxonomy({ taxonomy: 'author', slug: slug ?? '' });
 
   return (
-    <PageSidebarLayout
-      content={
-        blogAuthor ? (
-          <>
-            <header className="mb-10 flex flex-col gap-y-5">
-              <h1>{blogAuthor.name}</h1>
-              <p>{blogAuthor.description}</p>
-            </header>
-            <BlogList author={blogAuthor.id} style="wide-small-small" />
-          </>
-        ) : (
-          <p className="rounded-sm bg-white p-5 text-center">Author not found</p>
-        )
-      }
-      sidebar={<Sidebar></Sidebar>}
-      sidebarPosition="right"
-    />
+    <>
+      {blogAuthor.isPending && (
+        <PageSidebarLayoutLoading
+          content={
+            <>
+              <BlogListTaxonomyHeaderLoading />
+              <BlogListLoading />
+            </>
+          }
+          sidebarPosition="right"
+        />
+      )}
+      {blogAuthor.isSuccess && (
+        <PageSidebarLayout
+          content={
+            !blogAuthor.isError && blogAuthor.data ? (
+              <>
+                <BlogListTaxonomyHeader heading={blogAuthor.data.name} description={blogAuthor.data.description} />
+                <BlogList author={blogAuthor.data.id} style="wide-small-small" />
+              </>
+            ) : (
+              <BlogListTaxonomyError taxonomy="Author" />
+            )
+          }
+          sidebar={<Sidebar></Sidebar>}
+          sidebarPosition="right"
+        />
+      )}
+    </>
   );
 }
