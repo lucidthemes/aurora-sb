@@ -62,6 +62,7 @@ All notable changes to this project will be documented in this file.
 
 - blog category page to fetch from supabase
 - blog tag page to fetch from supabase
+- blog author page to fetch from supabase
 
 #### Schemas
 
