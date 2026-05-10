@@ -152,7 +152,7 @@ describe('BlogList component', () => {
   });
 
   test('renders list when post data is fetched', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
     vi.mocked(getCategoryMap).mockResolvedValue(mockCategoryMap);
     vi.mocked(getAuthorMap).mockResolvedValue(mockAuthorMap);
 
@@ -170,7 +170,7 @@ describe('BlogList component', () => {
   });
 
   test('renders post information', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
     vi.mocked(getCategoryMap).mockResolvedValue(mockCategoryMap);
     vi.mocked(getAuthorMap).mockResolvedValue(mockAuthorMap);
 
@@ -207,7 +207,7 @@ describe('BlogList component', () => {
   });
 
   test('renders pagination when post data is fetched', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
     vi.mocked(getCategoryMap).mockResolvedValue(mockCategoryMap);
     vi.mocked(getAuthorMap).mockResolvedValue(mockAuthorMap);
 
@@ -225,7 +225,7 @@ describe('BlogList component', () => {
   });
 
   test('updates list when pagination link is clicked', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
     vi.mocked(getCategoryMap).mockResolvedValue(mockCategoryMap);
     vi.mocked(getAuthorMap).mockResolvedValue(mockAuthorMap);
 
@@ -253,7 +253,7 @@ describe('BlogList component', () => {
   });
 
   test('hides pagination when showPagination is set to false', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
     vi.mocked(getCategoryMap).mockResolvedValue(mockCategoryMap);
     vi.mocked(getAuthorMap).mockResolvedValue(mockAuthorMap);
 

@@ -6,6 +6,29 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+#### Components
+
+- page sidebar layout loading skeleton
+
+#### Features
+
+#### Blog
+
+##### Blog list
+
+- loading skeleton component
+- taxonomy header component
+- taxonomy header loading skeleton component
+- use blog list taxonomy hook
+- server sub folder
+- get blog list taxonomy server
+
+#### Schemas
+
+##### Posts
+
+- post taxonomy
+
 #### Supabase
 
 - add post categories table migration

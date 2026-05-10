@@ -109,7 +109,7 @@ describe('useBlogList hook', () => {
   });
 
   test('fetches posts data and sets posts state', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
 
     const { result } = renderHook(() => useBlogList());
 
@@ -124,7 +124,7 @@ describe('useBlogList hook', () => {
   });
 
   test('fetches categoryMap and authorMap data after posts data has loaded', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
     vi.mocked(getCategoryMap).mockResolvedValue(mockCategoryMap);
     vi.mocked(getAuthorMap).mockResolvedValue(mockAuthorMap);
 
