@@ -11,7 +11,7 @@ export function Sidebar() {
         centered={true}
         padding={true}
       />
-      <PostsWidget title="Latest posts" limit={2} style="wide" />
+      <PostsWidget title="Latest posts" limit={2} style="wide" location="sidebar" />
       <InstagramWidget feedId="6a0b506f-1717-434c-8333-f7f4e8f5bb1b" title="Instagram" />
       <SocialWidget title="Follow me" />
       <NewsletterWidget title="Newsletter" />
@@ -45,7 +45,7 @@ export function Sidebar2() {
 export function Sidebar3() {
   return (
     <aside className="flex flex-col gap-y-10 rounded-md bg-white p-5" aria-label="Sidebar 3 widgets">
-      <PostsWidget title="Latest posts" limit={3} style="wide" />
+      <PostsWidget title="Latest posts" limit={3} style="wide" location="sidebar" />
       <SearchWidget title="Search" />
       <TagsWidget title="Tags" />
     </aside>

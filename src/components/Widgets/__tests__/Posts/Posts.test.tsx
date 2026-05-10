@@ -1,9 +1,11 @@
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('@server/posts/getPosts', () => ({
   getPosts: vi.fn(),
 }));
+
+import { renderWithQueryClient } from '@utils/tests/queryClient';
 
 import { getPosts } from '@server/posts/getPosts';
 import type { Post } from '@typings/posts/post';
@@ -42,9 +44,9 @@ describe('PostsWidget component', () => {
   });
 
   test('renders posts widget when posts data is fetched', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <PostsWidget title="Latest posts" limit={mockLimit} />
       </MemoryRouter>
@@ -58,9 +60,9 @@ describe('PostsWidget component', () => {
   });
 
   test('renders post information', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <PostsWidget title="Latest posts" limit={mockLimit} />
       </MemoryRouter>
@@ -82,7 +84,7 @@ describe('PostsWidget component', () => {
   test('renders error message if no posts found', async () => {
     vi.mocked(getPosts).mockResolvedValue([]);
 
-    render(
+    renderWithQueryClient(
       <MemoryRouter>
         <PostsWidget title="Latest posts" limit={mockLimit} />
       </MemoryRouter>

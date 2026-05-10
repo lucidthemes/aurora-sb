@@ -8,7 +8,13 @@ All notable changes to this project will be documented in this file.
 
 #### Components
 
+##### Layout
+
 - page sidebar layout loading skeleton
+
+##### Widgets
+
+- posts widget loading skeleton
 
 #### Features
 
