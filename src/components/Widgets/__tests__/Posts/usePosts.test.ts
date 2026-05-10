@@ -1,8 +1,10 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
 vi.mock('@server/posts/getPosts', () => ({
   getPosts: vi.fn(),
 }));
+
+import { renderHookWithQueryClient } from '@utils/tests/queryClient';
 
 import { getPosts } from '@server/posts/getPosts';
 import type { Post } from '@typings/posts/post';
@@ -41,15 +43,13 @@ describe('usePosts hook', () => {
   });
 
   test('fetches posts data and sets posts state', async () => {
-    vi.mocked(getPosts).mockResolvedValue(mockPosts);
+    vi.mocked(getPosts).mockResolvedValue(mockPosts as Post[]);
 
-    const { result } = renderHook(() => usePosts(mockLimit, undefined));
-
-    expect(result.current).toEqual([]);
+    const { result } = renderHookWithQueryClient(() => usePosts(mockLimit, undefined));
 
     await waitFor(() => {
-      expect(result.current).toEqual(mockPosts);
-      expect(result.current).toHaveLength(3);
+      expect(result.current.data).toEqual(mockPosts);
+      expect(result.current.data).toHaveLength(3);
     });
 
     expect(getPosts).toHaveBeenCalledWith(mockLimit, undefined);

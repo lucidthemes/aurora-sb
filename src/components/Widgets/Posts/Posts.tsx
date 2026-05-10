@@ -1,45 +1,33 @@
-import { Link } from 'react-router-dom';
-
 import WidgetTitle from '@components/Widgets/Title';
-import MetaList from '@features/blog/MetaList';
 
 import usePosts from './usePosts';
+import PostsWidgetItem from './components/Item';
+import PostsWidgetLoading from './components/Loading';
+import PostsWidgetError from './components/Error';
 
 interface PostsWidgetProps {
   title?: string;
   limit: number;
   category?: number;
   style?: 'small' | 'wide';
+  location?: 'sidebar' | 'footer';
 }
 
-export default function PostsWidget({ title = '', limit = 3, category, style = 'wide' }: PostsWidgetProps) {
+export default function PostsWidget({ title = '', limit = 3, category, style = 'wide', location }: PostsWidgetProps) {
   const posts = usePosts(limit, category);
 
   return (
     <section>
       <WidgetTitle>{title}</WidgetTitle>
-      {Array.isArray(posts) && posts.length > 0 ? (
+      {posts.isPending && <PostsWidgetLoading style={style} location={location} />}
+      {!posts.isError && posts.data ? (
         <ul className="flex flex-col gap-y-8" role="list" aria-label="Widget posts">
-          {posts.map((post) => (
-            <li key={post.id} className={`${style === 'wide' ? 'flex flex-col gap-y-5' : 'flex flex-row gap-x-5'}`} role="listitem">
-              <div className={`${style === 'small' ? 'basis-[40%]' : ''}`}>
-                <Link to={`/blog/${post.slug}`}>
-                  <img src={post.image} alt={post.title} className="rounded-md" />
-                </Link>
-              </div>
-              <header className={`flex flex-col gap-y-4 ${style === 'small' ? 'basis-[60%]' : ''}`}>
-                <h4>
-                  <Link to={`/blog/${post.slug}`} className="transition-colors duration-300 ease-in-out hover:text-boulder focus:text-boulder">
-                    {post.title}
-                  </Link>
-                </h4>
-                <MetaList date={post.date} />
-              </header>
-            </li>
+          {posts.data.map((post) => (
+            <PostsWidgetItem key={post.id} post={post} style={style} />
           ))}
         </ul>
       ) : (
-        <p className="rounded-md bg-pampas p-5 text-center">No posts found</p>
+        <PostsWidgetError location={location} />
       )}
     </section>
   );
