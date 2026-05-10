@@ -23,6 +23,10 @@ All notable changes to this project will be documented in this file.
 - server sub folder
 - get blog list taxonomy server
 
+##### Blog Post
+
+- loading skeleton component
+
 #### Schemas
 
 ##### Posts
