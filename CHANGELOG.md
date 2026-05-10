@@ -58,6 +58,11 @@ All notable changes to this project will be documented in this file.
 
 - password update form to require current password
 
+#### Pages
+
+- blog category page to fetch from supabase
+- blog tag page to fetch from supabase
+
 #### Schemas
 
 - move account schemas into features account folder
@@ -91,6 +96,10 @@ All notable changes to this project will be documented in this file.
 - auth sub folder
 - instagram sub folder
 - newsletter sub folder
+
+##### Posts
+
+- get tag
 
 #### Types
 

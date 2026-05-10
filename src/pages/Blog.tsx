@@ -10,9 +10,7 @@ import BlogListTaxonomyHeaderLoading from '@features/blog/blogList/components/ta
 import BlogListTaxonomyError from '@features/blog/blogList/components/taxonomy/Error';
 import useBlogListTaxonomy from '@features/blog/blogList/hooks/useBlogListTaxonomy';
 import SearchForm from '@features/searchForm';
-import { getTagBySlug } from '@server/posts/getTag';
 import { getAuthorBySlug } from '@server/posts/getAuthor';
-import type { Tag } from '@typings/posts/tag';
 import type { Author } from '@typings/posts/author';
 
 export function Blog() {
@@ -74,41 +72,39 @@ export function BlogCategory() {
 
 export function BlogTag() {
   const { slug } = useParams();
-  const [blogTag, setBlogTag] = useState<Tag | null>(null);
 
-  useEffect(() => {
-    if (!slug) return;
-
-    const fetchTag = async () => {
-      try {
-        const tag = await getTagBySlug(slug);
-        if (tag) setBlogTag(tag);
-      } catch (error) {
-        console.error('Failed to fetch tag.', error);
-      }
-    };
-
-    fetchTag();
-  }, [slug]);
+  const blogTag = useBlogListTaxonomy({ taxonomy: 'tag', slug: slug ?? '' });
 
   return (
-    <PageSidebarLayout
-      content={
-        blogTag ? (
-          <>
-            <header className="mb-10 flex flex-col gap-y-5">
-              <h1>{blogTag.name}</h1>
-              <p>{blogTag.description}</p>
-            </header>
-            <BlogList tag={blogTag.id} style="wide-small-small" />
-          </>
-        ) : (
-          <p className="rounded-sm bg-white p-5 text-center">Tag not found</p>
-        )
-      }
-      sidebar={<Sidebar></Sidebar>}
-      sidebarPosition="right"
-    />
+    <>
+      {blogTag.isPending && (
+        <PageSidebarLayoutLoading
+          content={
+            <>
+              <BlogListTaxonomyHeaderLoading />
+              <BlogListLoading />
+            </>
+          }
+          sidebarPosition="right"
+        />
+      )}
+      {blogTag.isSuccess && (
+        <PageSidebarLayout
+          content={
+            !blogTag.isError && blogTag.data ? (
+              <>
+                <BlogListTaxonomyHeader heading={blogTag.data.name} description={blogTag.data.description} />
+                <BlogList tag={blogTag.data.id} style="wide-small-small" />
+              </>
+            ) : (
+              <BlogListTaxonomyError taxonomy="Tag" />
+            )
+          }
+          sidebar={<Sidebar></Sidebar>}
+          sidebarPosition="right"
+        />
+      )}
+    </>
   );
 }
 
