@@ -8,7 +8,7 @@ import { getTagsArray } from '@server/posts/getTags';
 import type { Post } from '@typings/posts/post';
 import type { Tag } from '@typings/posts/tag';
 
-import useTags from '../../tags/useTags';
+import useTags from '../../components/tags/useTags';
 
 describe('useTags hook', () => {
   const mockPost: Partial<Post> = {

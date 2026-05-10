@@ -3,10 +3,10 @@ import { MemoryRouter } from 'react-router-dom';
 
 import type { Post } from '@typings/posts/post';
 
-import Previous from '../../navigation/components/Previous';
-import Next from '../../navigation/components/Next';
+import Previous from '../../components/navigation/components/Previous';
+import Next from '../../components/navigation/components/Next';
 
-describe('Navigation component', () => {
+describe('BlogPostNavigation component', () => {
   const mockPrevious: Partial<Post> = {
     id: 2,
     title: 'Old Town Centre',

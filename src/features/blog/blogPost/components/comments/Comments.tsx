@@ -5,11 +5,7 @@ import useComments from './hooks/useComments';
 import Items from './components/items';
 import Form from './components/Form';
 
-interface CommentsProps {
-  post: Post;
-}
-
-export default function Comments({ post }: CommentsProps) {
+export default function BlogPostComments({ post }: { post: Post }) {
   const postId = post.id;
   const { comments, commentReplyId, setCommentReplyId, handleNewComment } = useComments(postId);
 

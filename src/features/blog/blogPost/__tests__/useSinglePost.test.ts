@@ -64,7 +64,7 @@ describe('useSinglePost hook', () => {
   });
 
   test('fetches post data and sets singlePost state', async () => {
-    vi.mocked(getPostBySlug).mockResolvedValue(mockPost);
+    vi.mocked(getPostBySlug).mockResolvedValue(mockPost as Post);
 
     const { result } = renderHook(() => useSinglePost(slug));
 
@@ -78,7 +78,7 @@ describe('useSinglePost hook', () => {
   });
 
   test('fetches categoryMap and author data after post data has loaded', async () => {
-    vi.mocked(getPostBySlug).mockResolvedValue(mockPost);
+    vi.mocked(getPostBySlug).mockResolvedValue(mockPost as Post);
     vi.mocked(getCategoryMap).mockResolvedValue(mockCategoryMap);
     vi.mocked(getAuthorById).mockResolvedValue(mockAuthor);
 

@@ -4,7 +4,7 @@ import Container from '@components/Layout/Container';
 import { PageLayout, PageSidebarLayout } from '@components/Layout/PageLayout';
 import { Sidebar } from '@components/Layout/Sidebar';
 import useSinglePost from '@features/blog/blogPost/useSinglePost';
-import Header from '@features/blog/blogPost/header';
+import BlogPostHeader from '@features/blog/blogPost/components/header';
 import BlogPost from '@features/blog/blogPost';
 
 export default function SinglePost() {
@@ -31,7 +31,7 @@ export default function SinglePost() {
     <article id={`post-${post.id}`} className="flex flex-col gap-y-10">
       {postSidebar === 'hidden' && (
         <>
-          <Header post={post} categoryMap={categoryMap} author={author} />
+          <BlogPostHeader post={post} categoryMap={categoryMap} author={author} />
           <PageLayout>
             <div className="flex flex-col gap-y-10">
               <BlogPost post={post} author={author} />
@@ -41,11 +41,11 @@ export default function SinglePost() {
       )}
       {(postSidebar === 'right' || postSidebar === 'left') && (
         <>
-          {!postHeaderBesideSidebar && <Header post={post} categoryMap={categoryMap} author={author} />}
+          {!postHeaderBesideSidebar && <BlogPostHeader post={post} categoryMap={categoryMap} author={author} />}
           <PageSidebarLayout
             content={
               <div className="flex flex-col gap-y-10">
-                {postHeaderBesideSidebar && <Header post={post} categoryMap={categoryMap} author={author} />}
+                {postHeaderBesideSidebar && <BlogPostHeader post={post} categoryMap={categoryMap} author={author} />}
                 <BlogPost post={post} author={author} />
               </div>
             }

@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import Author from '../../author';
+import BlogPostAuthor from '../../components/author';
 
-describe('Author component', () => {
+describe('BlogPostAuthor component', () => {
   const mockAuthor = {
     id: 1,
     name: 'Lucid Themes',
@@ -16,7 +16,7 @@ describe('Author component', () => {
   test('renders image', () => {
     render(
       <MemoryRouter>
-        <Author author={mockAuthor} />
+        <BlogPostAuthor author={mockAuthor} />
       </MemoryRouter>
     );
 
@@ -26,7 +26,7 @@ describe('Author component', () => {
   test('renders name', () => {
     render(
       <MemoryRouter>
-        <Author author={mockAuthor} />
+        <BlogPostAuthor author={mockAuthor} />
       </MemoryRouter>
     );
 
@@ -37,7 +37,7 @@ describe('Author component', () => {
   test('renders bio', () => {
     render(
       <MemoryRouter>
-        <Author author={mockAuthor} />
+        <BlogPostAuthor author={mockAuthor} />
       </MemoryRouter>
     );
 

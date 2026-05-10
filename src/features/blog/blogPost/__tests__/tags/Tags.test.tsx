@@ -9,9 +9,9 @@ import { getTagsArray } from '@server/posts/getTags';
 import type { Post } from '@typings/posts/post';
 import type { Tag } from '@typings/posts/tag';
 
-import Tags from '../../tags';
+import BlogPostTags from '../../components/tags';
 
-describe('Tags component', () => {
+describe('BlogPostTags component', () => {
   const mockPost: Partial<Post> = {
     id: 1,
     tags: [1, 2, 3, 4],
@@ -57,7 +57,7 @@ describe('Tags component', () => {
 
     render(
       <MemoryRouter>
-        <Tags post={mockPost as Post} />
+        <BlogPostTags post={mockPost as Post} />
       </MemoryRouter>
     );
 
@@ -75,7 +75,7 @@ describe('Tags component', () => {
 
     const { container } = render(
       <MemoryRouter>
-        <Tags post={postWithoutTags as Post} />
+        <BlogPostTags post={postWithoutTags as Post} />
       </MemoryRouter>
     );
 

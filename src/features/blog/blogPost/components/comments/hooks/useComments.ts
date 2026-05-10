@@ -3,13 +3,11 @@ import { useState, useEffect } from 'react';
 import { getCommentsById } from '@server/posts/getComments';
 import type { Comment as CommentType } from '@typings/posts/comment';
 
-interface CommentsState {
-  list: CommentType[];
-  count: number;
-}
-
 export default function useComments(postId: number) {
-  const [comments, setComments] = useState<CommentsState>({
+  const [comments, setComments] = useState<{
+    list: CommentType[];
+    count: number;
+  }>({
     list: [],
     count: 0,
   });

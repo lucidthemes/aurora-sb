@@ -8,7 +8,7 @@ import { getCommentsById } from '@server/posts/getComments';
 import type { Post } from '@typings/posts/post';
 import type { Comment as CommentType } from '@typings/posts/comment';
 
-import useComments from '../../comments/hooks/useComments';
+import useComments from '../../components/comments/hooks/useComments';
 
 describe('useComments hook', () => {
   const mockPost: Partial<Post> = {

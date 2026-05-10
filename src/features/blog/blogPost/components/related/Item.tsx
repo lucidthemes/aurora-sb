@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 import MetaList from '@features/blog/MetaList';
 import type { Post } from '@typings/posts/post';
 
-interface ItemProps {
-  related: Post;
-}
-
-export default function Item({ related }: ItemProps) {
+export default function Item({ related }: { related: Post }) {
   return (
     <li className="nth-3:hidden lg:nth-3:block">
       <article className="h-full overflow-hidden rounded-md bg-pampas">

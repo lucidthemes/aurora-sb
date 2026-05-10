@@ -5,9 +5,9 @@ import type { Post } from '@typings/posts/post';
 import type { Category } from '@typings/posts/category';
 import type { Author } from '@typings/posts/author';
 
-import Header from '../../header/Header';
+import BlogPostHeader from '../../components/header';
 
-describe('Header component', () => {
+describe('BlogPostHeader component', () => {
   const mockPost: Partial<Post> = {
     id: 1,
     title: 'Dune walk',
@@ -46,7 +46,7 @@ describe('Header component', () => {
   test('renders title', () => {
     render(
       <MemoryRouter>
-        <Header post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
       </MemoryRouter>
     );
 
@@ -56,7 +56,7 @@ describe('Header component', () => {
   test('renders categories', () => {
     render(
       <MemoryRouter>
-        <Header post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
       </MemoryRouter>
     );
 
@@ -73,7 +73,7 @@ describe('Header component', () => {
   test('renders author', () => {
     render(
       <MemoryRouter>
-        <Header post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
       </MemoryRouter>
     );
 
@@ -84,7 +84,7 @@ describe('Header component', () => {
   test('renders date', () => {
     render(
       <MemoryRouter>
-        <Header post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
       </MemoryRouter>
     );
 
@@ -94,7 +94,7 @@ describe('Header component', () => {
   test('renders image', () => {
     render(
       <MemoryRouter>
-        <Header post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
       </MemoryRouter>
     );
 
