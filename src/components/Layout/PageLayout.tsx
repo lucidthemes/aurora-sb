@@ -28,3 +28,18 @@ export function PageSidebarLayout({ content, sidebar, sidebarPosition = 'right' 
     </Container>
   );
 }
+
+export function PageSidebarLayoutLoading({ content, sidebarPosition = 'right' }: PageSidebarLayoutProps) {
+  const isLeft = sidebarPosition === 'left';
+
+  return (
+    <Container>
+      <div className={`flex flex-col gap-10 ${isLeft ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
+        <div className="basis-3/4">{content}</div>
+        <div className="basis-1/4">
+          <div className="h-screen w-full animate-pulse rounded-md bg-white"></div>
+        </div>
+      </div>
+    </Container>
+  );
+}
