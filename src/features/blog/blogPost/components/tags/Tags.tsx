@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import type { Post } from '@typings/posts/post';
+import type { PostTag } from '../../schemas/tag.schema';
 
-import useTags from './useTags';
-
-export default function BlogPostTags({ post }: { post: Post }) {
-  const tags = useTags(post);
-  if (!Array.isArray(tags) || tags.length === 0) return null;
+export default function BlogPostTags({ tags }: { tags: PostTag[] }) {
+  if (!tags || tags.length === 0) return null;
 
   return (
     <ul className="flex flex-wrap justify-center gap-4" aria-label="Post tags">

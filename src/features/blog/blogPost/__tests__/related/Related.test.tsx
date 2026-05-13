@@ -1,25 +1,19 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-vi.mock('@server/posts/getPost', () => ({
-  getPostArray: vi.fn(),
-}));
-
-import { getPostArray } from '@server/posts/getPost';
-import type { Post } from '@typings/posts/post';
-
 import BlogPostRelated from '../../components/related';
+import type { PostRelated } from '../../schemas/related.schema';
 
 describe('BlogPostRelated component', () => {
-  const mockPost: Partial<Post> = {
-    id: 1,
-    relatedPosts: [2, 4, 6],
-  };
-
-  const mockRelated: Partial<Post>[] = [
-    { id: 2, title: 'Old Town Centre' },
-    { id: 4, title: 'Sweet Coffee' },
-    { id: 6, title: 'Beautiful Bouquet' },
+  const mockRelated: PostRelated[] = [
+    { id: 'd5d045dc-6542-4dcd-8bd7-5b5ebb490c4f', title: 'Dune walk', slug: 'dune-walk', media: null, created_at: '2026-05-11 11:48:39.870294+00' },
+    {
+      id: 'bfb70be6-1225-4ac5-b738-f4e72192132c',
+      title: 'Old Town Centre',
+      slug: 'old-town-centre',
+      media: null,
+      created_at: '2026-05-11 11:48:39.870294+00',
+    },
   ];
 
   beforeEach(() => {
@@ -27,11 +21,9 @@ describe('BlogPostRelated component', () => {
   });
 
   test('renders related posts when post data is fetched', async () => {
-    vi.mocked(getPostArray).mockResolvedValue(mockRelated as Post[]);
-
     render(
       <MemoryRouter>
-        <BlogPostRelated post={mockPost as Post} />
+        <BlogPostRelated related={mockRelated} />
       </MemoryRouter>
     );
 
@@ -39,15 +31,13 @@ describe('BlogPostRelated component', () => {
     expect(heading).toBeInTheDocument();
 
     const items = await screen.findAllByRole('listitem');
-    expect(items).toHaveLength(3);
+    expect(items).toHaveLength(2);
   });
 
   test('renders nothing if post does not have related posts', () => {
-    const postWithoutRelated = { id: 1 };
-
     const { container } = render(
       <MemoryRouter>
-        <BlogPostRelated post={postWithoutRelated as Post} />
+        <BlogPostRelated related={[]} />
       </MemoryRouter>
     );
 

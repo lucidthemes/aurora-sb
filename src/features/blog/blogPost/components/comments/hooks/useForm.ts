@@ -1,102 +1,77 @@
 import { useState } from 'react';
-import type { Dispatch, SetStateAction, ChangeEventHandler, FormEventHandler } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import type { Comment as CommentType } from '@typings/posts/comment';
+import type { FormNotification } from '@typings/forms/notification';
 
-interface CommentFormData {
-  comment: string;
-  name: string;
+import { CommentFormSchema } from '../schemas/form.schema';
+import type { CommentForm } from '../schemas/form.schema';
+import createComment from '../server/createComment';
+
+interface UseCommentFormProps {
+  postId: string;
+  commentReplyId: string | null;
+  setCommentReplyId: Dispatch<SetStateAction<string | null>>;
 }
 
-type CommentFormValidation = {
-  [K in keyof CommentFormData]: boolean;
-};
-
-type CommentFormErrors = {
-  [K in keyof CommentFormData]: string;
-};
-
-export default function useForm(
-  postId: number,
-  commentsCount: number,
-  replyTo: number | null,
-  setCommentReplyId: Dispatch<SetStateAction<number | null>>,
-  handleNewComment: (newComment: CommentType) => void
-) {
-  const [commentFormData, setCommentFormData] = useState<CommentFormData>({
-    comment: '',
-    name: '',
+export default function useCommentForm({ postId, commentReplyId, setCommentReplyId }: UseCommentFormProps) {
+  const [commentFormNotification, setCommentFormNotification] = useState<FormNotification>({
+    type: '',
+    message: '',
   });
 
-  const commentFormValidation: CommentFormValidation = {
-    comment: true,
-    name: true,
-  };
-
-  const [commentFormErrors, setCommentFormErrors] = useState<CommentFormErrors>({
-    comment: '',
-    name: '',
-  });
-
-  const handleFormChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-    const { name, value } = e.target;
-    setCommentFormData({
-      ...commentFormData,
-      [name]: value,
+  const resetCommentFormNotification = () => {
+    setCommentFormNotification({
+      type: '',
+      message: '',
     });
+
+    setCommentReplyId(null);
   };
 
-  const validateFormData = () => {
-    let formErrors = { ...commentFormErrors };
-    let formIsValid = true;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    reset,
+  } = useForm({
+    resolver: zodResolver(CommentFormSchema),
+  });
 
-    for (const field in commentFormData) {
-      const key = field as keyof CommentFormData;
+  const commentFormAddCommentMutation = useMutation({
+    mutationFn: createComment,
+    onSuccess: (result) => {
+      if (result.success) {
+        setCommentFormNotification({
+          type: 'success',
+          message: 'Your comment has successfully been submitted and is awaiting moderation',
+        });
 
-      const value = commentFormData[key];
-      const required = commentFormValidation[key];
-
-      if (!value && required) {
-        formErrors[key] = `Please enter a ${key}`;
-        formIsValid = false;
+        reset();
       } else {
-        formErrors[key] = '';
+        setCommentFormNotification({
+          type: 'error',
+          message: 'Error submitting comment',
+        });
       }
-    }
+    },
+  });
 
-    setCommentFormErrors(formErrors);
-
-    return formIsValid;
+  const onSubmit = async (data: CommentForm) => {
+    commentFormAddCommentMutation.mutate({ postId, formData: data, replyId: commentReplyId });
   };
 
-  const handleFormSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
-    const isFormValid = validateFormData();
-
-    if (isFormValid) {
-      const newComment = {
-        id: commentsCount + 1,
-        postId,
-        replyTo,
-        author: commentFormData.name,
-        avatar: '/images/author.jpg',
-        datetime: new Date().toISOString(),
-        comment: commentFormData.comment,
-        status: 'approved',
-        replies: [],
-      };
-
-      handleNewComment(newComment);
-
-      setCommentFormData({
-        comment: '',
-        name: '',
-      });
-
-      setCommentReplyId(null);
-    }
+  return {
+    register,
+    handleSubmit,
+    onSubmit,
+    errors,
+    setValue,
+    isPending: commentFormAddCommentMutation.isPending,
+    commentFormNotification,
+    resetCommentFormNotification,
   };
-
-  return { commentFormData, commentFormErrors, handleFormChange, handleFormSubmit };
 }

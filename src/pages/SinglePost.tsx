@@ -1,59 +1,57 @@
 import { useParams, Navigate } from 'react-router-dom';
 
-import Container from '@components/Layout/Container';
-import { PageLayout, PageSidebarLayout } from '@components/Layout/PageLayout';
+import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
 import { Sidebar } from '@components/Layout/Sidebar';
 import useSinglePost from '@features/blog/blogPost/useSinglePost';
 import BlogPostHeader from '@features/blog/blogPost/components/header';
 import BlogPost from '@features/blog/blogPost';
+import BlogPostLoading from '@features/blog/blogPost/components/Loading';
 
 export default function SinglePost() {
   const { slug } = useParams();
-  const { singlePost, categoryMap, author } = useSinglePost(slug);
 
-  if (singlePost.status === 'not-found') return <Navigate to="/404" replace />;
+  const blogPostQuery = useSinglePost(slug ?? '');
 
-  if (singlePost.status === 'loading')
-    return (
-      <Container>
-        <p className="rounded-sm bg-white p-5 text-center">Post loading</p>
-      </Container>
-    );
+  if (blogPostQuery.isPending) return <PageSidebarLayoutLoading content={<BlogPostLoading />} sidebarPosition="right" />;
 
-  if (singlePost.status !== 'loaded') return null;
+  const post = blogPostQuery.data;
 
-  const { post } = singlePost;
+  if ((blogPostQuery.isSuccess && (!post || post.status !== 'published')) || blogPostQuery.isError) return <Navigate to="/404" replace />;
 
-  const postSidebar = post.postSidebar || 'right';
-  const postHeaderBesideSidebar = post.postHeader?.besideSidebar || false;
+  const postSidebar = post?.options.sidebar || 'right';
+  const postHeaderBesideSidebar = post?.options.header?.besideSidebar || false;
 
   return (
-    <article id={`post-${post.id}`} className="flex flex-col gap-y-10">
-      {postSidebar === 'hidden' && (
-        <>
-          <BlogPostHeader post={post} categoryMap={categoryMap} author={author} />
-          <PageLayout>
-            <div className="flex flex-col gap-y-10">
-              <BlogPost post={post} author={author} />
-            </div>
-          </PageLayout>
-        </>
+    <>
+      {blogPostQuery.isSuccess && post && (
+        <article id={`post-${post?.id}`} className="flex flex-col gap-y-10">
+          {postSidebar === 'hidden' && (
+            <>
+              <BlogPostHeader post={post} />
+              <PageLayout>
+                <div className="flex flex-col gap-y-10">
+                  <BlogPost post={post} />
+                </div>
+              </PageLayout>
+            </>
+          )}
+          {(postSidebar === 'right' || postSidebar === 'left') && (
+            <>
+              {!postHeaderBesideSidebar && <BlogPostHeader post={post} />}
+              <PageSidebarLayout
+                content={
+                  <div className="flex flex-col gap-y-10">
+                    {postHeaderBesideSidebar && <BlogPostHeader post={post} />}
+                    <BlogPost post={post} />
+                  </div>
+                }
+                sidebar={<Sidebar />}
+                sidebarPosition={postSidebar}
+              />
+            </>
+          )}
+        </article>
       )}
-      {(postSidebar === 'right' || postSidebar === 'left') && (
-        <>
-          {!postHeaderBesideSidebar && <BlogPostHeader post={post} categoryMap={categoryMap} author={author} />}
-          <PageSidebarLayout
-            content={
-              <div className="flex flex-col gap-y-10">
-                {postHeaderBesideSidebar && <BlogPostHeader post={post} categoryMap={categoryMap} author={author} />}
-                <BlogPost post={post} author={author} />
-              </div>
-            }
-            sidebar={<Sidebar />}
-            sidebarPosition={postSidebar}
-          />
-        </>
-      )}
-    </article>
+    </>
   );
 }

@@ -1,23 +1,26 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
-vi.mock('@server/posts/getPost', () => ({
-  getPostById: vi.fn(),
+vi.mock('../../components/navigation/getNavigation', () => ({
+  getNavigation: vi.fn(),
 }));
 
-import { getPostById } from '@server/posts/getPost';
-import type { Post } from '@typings/posts/post';
+import { renderHookWithQueryClient } from '@utils/tests/queryClient';
 
+import { getNavigation } from '../../components/navigation/getNavigation';
 import useNavigation from '../../components/navigation/useNavigation';
+import type { Navigation } from '../../components/navigation/navigation.schema';
 
 describe('useNavigation hook', () => {
-  const mockPrevious: Partial<Post> = {
-    id: 3,
-    title: 'Beach Adventure',
-    slug: 'beach-adventure',
+  const mockPostId = 'd5d045dc-6542-4dcd-8bd7-5b5ebb490c4f';
+
+  const mockCreatedDate = '2026-05-11 11:48:39.870294+00';
+
+  const mockPreviousPost: Navigation = {
+    title: 'Old Town Centre',
+    slug: 'old-town-centre',
   };
 
-  const mockNext: Partial<Post> = {
-    id: 1,
+  const mockNextPost: Navigation = {
     title: 'Dune walk',
     slug: 'dune-walk',
   };
@@ -26,31 +29,27 @@ describe('useNavigation hook', () => {
     vi.clearAllMocks();
   });
 
-  test('fetches previous post data and sets previousPost state', async () => {
-    vi.mocked(getPostById).mockResolvedValue(mockPrevious as Post);
+  test('fetches previous post data', async () => {
+    vi.mocked(getNavigation).mockResolvedValue({ previousPost: mockPreviousPost });
 
-    const { result } = renderHook(() => useNavigation(2));
+    const { result } = renderHookWithQueryClient(() => useNavigation({ postId: mockPostId, createdDate: mockCreatedDate }));
 
-    expect(result.current.previousPost).toBeNull();
+    expect(getNavigation).toHaveBeenCalledWith(mockCreatedDate);
 
     await waitFor(() => {
-      expect(result.current.previousPost).toEqual(mockPrevious);
+      expect(result.current.data?.previousPost).toEqual(mockPreviousPost);
     });
-
-    expect(getPostById).toHaveBeenCalledWith(3);
   });
 
-  test('fetches next post data and sets nextPost state', async () => {
-    vi.mocked(getPostById).mockResolvedValue(mockNext as Post);
+  test('fetches next post data', async () => {
+    vi.mocked(getNavigation).mockResolvedValue({ nextPost: mockNextPost });
 
-    const { result } = renderHook(() => useNavigation(2));
+    const { result } = renderHookWithQueryClient(() => useNavigation({ postId: mockPostId, createdDate: mockCreatedDate }));
 
-    expect(result.current.nextPost).toBeNull();
+    expect(getNavigation).toHaveBeenCalledWith(mockCreatedDate);
 
     await waitFor(() => {
-      expect(result.current.nextPost).toEqual(mockNext);
+      expect(result.current.data?.nextPost).toEqual(mockNextPost);
     });
-
-    expect(getPostById).toHaveBeenCalledWith(1);
   });
 });

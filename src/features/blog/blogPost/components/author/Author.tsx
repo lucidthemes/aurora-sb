@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Author as AuthorType } from '@typings/posts/author';
 
-export default function BlogPostAuthor({ author }: { author: AuthorType | null }) {
+import type { PostAuthor } from '../../schemas/author.schema';
+
+export default function BlogPostAuthor({ author }: { author: PostAuthor }) {
   if (!author) return null;
 
   return (

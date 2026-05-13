@@ -1,69 +1,27 @@
-import { renderHook, act } from '@testing-library/react';
+import { act } from '@testing-library/react';
 
-import { createInputChangeEvent, createFormSubmitEvent } from '@utils/tests/events';
+import { renderHookWithQueryClient } from '@utils/tests/queryClient';
 
-import useForm from '../../components/comments/hooks/useForm';
+import useCommentForm from '../../components/comments/hooks/useForm';
 
 describe('useForm hook', () => {
-  const mockPostId = 1;
-  const mockCommentsCount = 5;
-  const mockReplyTo = null;
+  const mockPostId = 'c1eea15a-eb0d-4651-a03d-5c5e452a1017';
+  const mockCommentReplyId = null;
   const setCommentReplyIdMock = vi.fn();
-  const handleNewCommentMock = vi.fn();
 
-  test('updates form data on handleFormChange', () => {
-    const { result } = renderHook(() => useForm(mockPostId, mockCommentsCount, mockReplyTo, setCommentReplyIdMock, handleNewCommentMock));
+  test('updates form errors for missing fields', async () => {
+    const { result } = renderHookWithQueryClient(() =>
+      useCommentForm({ postId: mockPostId, commentReplyId: mockCommentReplyId, setCommentReplyId: setCommentReplyIdMock })
+    );
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('comment', 'New comment!'));
+    await act(async () => {
+      result.current.setValue('comment', '');
+      result.current.setValue('name', '');
+
+      await result.current.handleSubmit(() => {})();
     });
 
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('name', 'Lucid Themes'));
-    });
-
-    expect(result.current.commentFormData.comment).toBe('New comment!');
-    expect(result.current.commentFormData.name).toBe('Lucid Themes');
-  });
-
-  test('updates form errors for missing fields', () => {
-    const { result } = renderHook(() => useForm(mockPostId, mockCommentsCount, mockReplyTo, setCommentReplyIdMock, handleNewCommentMock));
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('comment', ''));
-    });
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('name', ''));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(result.current.commentFormErrors.comment).toBe('Please enter a comment');
-    expect(result.current.commentFormErrors.name).toBe('Please enter a name');
-  });
-
-  test('adds new comment and resets form data on valid form submission', () => {
-    const { result } = renderHook(() => useForm(mockPostId, mockCommentsCount, mockReplyTo, setCommentReplyIdMock, handleNewCommentMock));
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('comment', 'New comment!'));
-    });
-
-    act(() => {
-      result.current.handleFormChange(createInputChangeEvent('name', 'Lucid Themes'));
-    });
-
-    act(() => {
-      result.current.handleFormSubmit(createFormSubmitEvent());
-    });
-
-    expect(handleNewCommentMock).toHaveBeenCalled();
-
-    expect(result.current.commentFormData.comment).toBe('');
-    expect(result.current.commentFormData.name).toBe('');
-
-    expect(setCommentReplyIdMock).toHaveBeenCalledWith(null);
+    expect(result.current.errors.comment?.message).toBe('Please enter a comment');
+    expect(result.current.errors.name?.message).toBe('Please enter a name');
   });
 });
