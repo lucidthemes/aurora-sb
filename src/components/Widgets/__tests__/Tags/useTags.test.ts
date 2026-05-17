@@ -1,38 +1,38 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
-vi.mock('@server/posts/getTags', () => ({
-  getTags: vi.fn(),
+vi.mock('../../Tags/getTags', () => ({
+  getTagsWidgetTags: vi.fn(),
 }));
 
-import { getTags } from '@server/posts/getTags';
-import type { Tag } from '@typings/posts/tag';
+import { renderHookWithQueryClient } from '@utils/tests/queryClient';
 
-import useTags from '../../Tags/useTags';
+import { getTagsWidgetTags } from '../../Tags/getTags';
+import type { TagsWidgetTag } from '../../Tags/tags.schema';
+import useTagsWidget from '@components/Widgets/Tags/useTags';
 
-describe('usePosts hook', () => {
-  const mockLimit = 3;
+describe('useTagsWidget hook', () => {
+  const mockLimit = 4;
 
-  const mockTags: Tag[] = [
+  const mockTags: TagsWidgetTag[] = [
     {
-      id: 1,
-      name: 'Beach',
-      slug: 'beach',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
+      id: '1f2ed260-7616-49ee-8d0a-bccc5aa7b254',
+      name: 'Travel',
+      slug: 'travel',
     },
     {
-      id: 2,
-      name: 'Dunes',
-      slug: 'dunes',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
+      id: '6aa1dcbf-5058-4157-b8ec-381dce575e8f',
+      name: 'Photography',
+      slug: 'photography',
     },
     {
-      id: 3,
+      id: 'aba8136e-12ab-42c9-b88b-ea65ff2ad89c',
+      name: 'Lifestyle',
+      slug: 'lifestyle',
+    },
+    {
+      id: 'fd46239c-7ef4-4c47-a400-57446fedf3da',
       name: 'Outdoors',
       slug: 'outdoors',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
     },
   ];
 
@@ -40,18 +40,16 @@ describe('usePosts hook', () => {
     vi.clearAllMocks();
   });
 
-  test('fetches posts data and sets posts state', async () => {
-    vi.mocked(getTags).mockResolvedValue(mockTags);
+  test('fetches tags widget data', async () => {
+    vi.mocked(getTagsWidgetTags).mockResolvedValue(mockTags);
 
-    const { result } = renderHook(() => useTags(mockLimit));
-
-    expect(result.current).toEqual([]);
+    const { result } = renderHookWithQueryClient(() => useTagsWidget(mockLimit));
 
     await waitFor(() => {
-      expect(result.current).toEqual(mockTags);
-      expect(result.current).toHaveLength(3);
+      expect(result.current.data).toEqual(mockTags);
+      expect(result.current.data).toHaveLength(4);
     });
 
-    expect(getTags).toHaveBeenCalledWith(mockLimit);
+    expect(getTagsWidgetTags).toHaveBeenCalledWith(mockLimit);
   });
 });

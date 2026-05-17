@@ -1,23 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
-import { getTags } from '@server/posts/getTags';
-import type { Tag } from '@typings/posts/tag';
+import { getTagsWidgetTags } from './getTags';
+import type { TagsWidgetTag } from './tags.schema';
 
-export default function useTags(limit?: number) {
-  const [tags, setTags] = useState<Tag[]>([]);
+export default function useTagsWidget(limit?: number) {
+  const tagsWidgetQuery = useQuery<TagsWidgetTag[] | null>({
+    queryKey: ['tagsWidget', limit],
+    queryFn: () => getTagsWidgetTags(limit),
+  });
 
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const tagsList = await getTags(limit);
-        if (tagsList) setTags(tagsList);
-      } catch (error) {
-        console.error('Failed to fetch tags.', error);
-      }
-    };
-
-    fetchTags();
-  }, [limit]);
-
-  return tags;
+  return tagsWidgetQuery;
 }
