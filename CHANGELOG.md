@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ##### Widgets
 
 - posts widget loading skeleton
+- tags widget loading skeleton
 
 #### Features
 
@@ -65,6 +66,12 @@ All notable changes to this project will be documented in this file.
 - add pages rls policies migration
 
 ### Changed
+
+#### Components
+
+##### Widgets
+
+- tags widget fetch tags from supabase
 
 #### Features
 
