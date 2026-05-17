@@ -18,8 +18,8 @@ export default function SinglePost() {
 
   if ((blogPostQuery.isSuccess && (!post || post.status !== 'published')) || blogPostQuery.isError) return <Navigate to="/404" replace />;
 
-  const postSidebar = post?.options.sidebar || 'right';
-  const postHeaderBesideSidebar = post?.options.header?.besideSidebar || false;
+  const postSidebar = post?.options?.sidebar ?? 'right';
+  const postHeaderBesideSidebar = post?.options?.header?.besideSidebar ?? true;
 
   return (
     <>

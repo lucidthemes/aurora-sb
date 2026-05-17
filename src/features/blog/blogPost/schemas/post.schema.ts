@@ -28,7 +28,7 @@ export const PostSchema = z.object({
   status: z.enum(['draft', 'published']),
   created_at: z.string(),
   updated_at: z.string(),
-  options: PostOptionsSchema,
+  options: PostOptionsSchema.optional().nullable(),
 });
 
 export type Post = z.infer<typeof PostSchema>;
