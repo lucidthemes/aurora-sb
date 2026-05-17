@@ -1,24 +1,16 @@
 import CategoryList from '@features/blog/CategoryList';
 import MetaList from '@features/blog/MetaList';
-import type { Post } from '@typings/posts/post';
-import type { Category } from '@typings/posts/category';
-import type { Author } from '@typings/posts/author';
 
-interface ContentProps {
-  post: Post;
-  categoryMap: Record<number, Category>;
-  author: Author | null;
-  align: string;
-}
+import type { Post } from '../../../schemas/post.schema';
 
-export default function Content({ post, categoryMap, author, align = 'center' }: ContentProps) {
+export default function BlogPostHeaderContent({ post, align = 'center' }: { post: Post; align: string }) {
   const alignClass = align === 'left' ? 'start' : align === 'right' ? 'end' : 'center';
 
   return (
     <div className={`flex flex-col items-${alignClass} gap-y-4 text-${align}`}>
-      {post.categories && post.categories.length > 0 && <CategoryList categories={post.categories} categoryMap={categoryMap} />}
+      {post.categories && post.categories.length > 0 && <CategoryList categories={post.categories} />}
       {post.title && <h1>{post.title}</h1>}
-      <MetaList author={author} date={post.date} />
+      <MetaList author={post.author} date={post.created_at} />
     </div>
   );
 }

@@ -1,50 +1,30 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-vi.mock('@server/posts/getTags', () => ({
-  getTagsArray: vi.fn(),
-}));
-
-import { getTagsArray } from '@server/posts/getTags';
-import type { Post } from '@typings/posts/post';
-import type { Tag } from '@typings/posts/tag';
-
 import BlogPostTags from '../../components/tags';
+import type { PostTag } from '../../schemas/tag.schema';
 
 describe('BlogPostTags component', () => {
-  const mockPost: Partial<Post> = {
-    id: 1,
-    tags: [1, 2, 3, 4],
-  };
-
-  const mockTags: Tag[] = [
+  const mockTags: PostTag[] = [
     {
-      id: 1,
+      id: '1f2ed260-7616-49ee-8d0a-bccc5aa7b254',
       name: 'Beach',
       slug: 'beach',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
     },
     {
-      id: 2,
+      id: 'aba8136e-12ab-42c9-b88b-ea65ff2ad89c',
       name: 'Dunes',
       slug: 'dunes',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
     },
     {
-      id: 3,
+      id: 'fd46239c-7ef4-4c47-a400-57446fedf3da',
       name: 'Outdoors',
       slug: 'outdoors',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
     },
     {
-      id: 4,
+      id: '6aa1dcbf-5058-4157-b8ec-381dce575e8f',
       name: 'Walk',
       slug: 'walk',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
     },
   ];
 
@@ -53,11 +33,9 @@ describe('BlogPostTags component', () => {
   });
 
   test('renders tags when tag data is fetched', async () => {
-    vi.mocked(getTagsArray).mockResolvedValue(mockTags);
-
     render(
       <MemoryRouter>
-        <BlogPostTags post={mockPost as Post} />
+        <BlogPostTags tags={mockTags} />
       </MemoryRouter>
     );
 
@@ -71,11 +49,9 @@ describe('BlogPostTags component', () => {
   });
 
   test('renders nothing if post does not have tags', () => {
-    const postWithoutTags = { id: 1 };
-
     const { container } = render(
       <MemoryRouter>
-        <BlogPostTags post={postWithoutTags as Post} />
+        <BlogPostTags tags={[]} />
       </MemoryRouter>
     );
 

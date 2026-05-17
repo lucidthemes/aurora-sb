@@ -33,6 +33,10 @@ All notable changes to this project will be documented in this file.
 
 - loading skeleton component
 
+#### Pages
+
+- not found page return to home page button
+
 #### Schemas
 
 ##### Posts
@@ -73,12 +77,17 @@ All notable changes to this project will be documented in this file.
 ###### Blog Post
 
 - moved post sections into components folder
+- comment form component to use react hook form
+- comment form hook to use react hook form
+- comment form to create new comment in supabase
+- navigation to fetch previous/next posts from supabase
 
 #### Pages
 
 - blog category page to fetch from supabase
 - blog tag page to fetch from supabase
 - blog author page to fetch from supabase
+- single post page to fetch from supabase
 
 #### Schemas
 
@@ -107,12 +116,21 @@ All notable changes to this project will be documented in this file.
 - newsletter sub folder
 - search sub folder
 
+#### Posts
+
+- post
+
 #### Server
 
 - account sub folder
 - auth sub folder
 - instagram sub folder
 - newsletter sub folder
+
+##### Posts
+
+- get comments
+- get post
 
 ##### Posts
 

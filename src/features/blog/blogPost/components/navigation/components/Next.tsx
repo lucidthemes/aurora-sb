@@ -1,12 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import type { Post } from '@typings/posts/post';
+import type { Navigation } from '../navigation.schema';
 
-interface NextProps {
-  nextPost: Post;
-}
-
-export default function Next({ nextPost }: NextProps) {
+export default function BlogPostNavigationNext({ nextPost }: { nextPost: Navigation }) {
   return (
     <div className="flex basis-full flex-col items-end gap-y-1 text-right">
       <Link

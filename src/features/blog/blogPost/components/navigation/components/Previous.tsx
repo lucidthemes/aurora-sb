@@ -1,12 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import type { Post } from '@typings/posts/post';
+import type { Navigation } from '../navigation.schema';
 
-interface PreviousProps {
-  previousPost: Post;
-}
-
-export default function Previous({ previousPost }: PreviousProps) {
+export default function BlogPostNavigationPrevious({ previousPost }: { previousPost: Navigation }) {
   return (
     <div className="flex basis-full flex-col items-start gap-y-1 text-left">
       <Link

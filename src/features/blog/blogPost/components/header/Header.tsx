@@ -1,22 +1,17 @@
 import Container from '@components/Layout/Container';
-import type { Post } from '@typings/posts/post';
-import type { Category } from '@typings/posts/category';
-import type { Author } from '@typings/posts/author';
 
-import Content from './components/Content';
-import OutsideLayout from './components/OutsideLayout';
-import OverlayLayout from './components/OverlayLayout';
-import SplitLayout from './components/SplitLayout';
+import type { Post } from '../../schemas/post.schema';
 
-interface BlogPostHeaderProps {
-  post: Post;
-  categoryMap: Record<number, Category>;
-  author: Author | null;
-}
+import BlogPostHeaderContent from './components/Content';
+import BlogPostHeaderOutsideLayout from './components/OutsideLayout';
+import BlogPostHeaderOverlayLayout from './components/OverlayLayout';
+import BlogPostHeaderSplitLayout from './components/SplitLayout';
 
-export default function BlogPostHeader({ post, categoryMap, author }: BlogPostHeaderProps) {
-  const layout = post.postHeader?.layout || 'outside-above';
-  const besideSidebar = post.postHeader?.besideSidebar || false;
+export default function BlogPostHeader({ post }: { post: Post }) {
+  if (!post) return null;
+
+  const layout = post.options.header.layout || 'outside-above';
+  const besideSidebar = post.options.header.besideSidebar || false;
 
   let headerLayout = '';
   let headerLayoutWidth = '';
@@ -41,22 +36,22 @@ export default function BlogPostHeader({ post, categoryMap, author }: BlogPostHe
     headerCustomPadding = 'p-0';
   }
 
-  const headerContent = <Content post={post} categoryMap={categoryMap} author={author} align={headerLayoutAlign} />;
+  const headerContent = <BlogPostHeaderContent post={post} align={headerLayoutAlign} />;
 
-  const LayoutComponent = {
-    outside: OutsideLayout,
-    overlay: OverlayLayout,
-    split: SplitLayout,
+  const HeaderLayoutComponent = {
+    outside: BlogPostHeaderOutsideLayout,
+    overlay: BlogPostHeaderOverlayLayout,
+    split: BlogPostHeaderSplitLayout,
   }[headerLayout];
 
-  if (!LayoutComponent) {
+  if (!HeaderLayoutComponent) {
     return null;
   }
 
-  const headerInner = <LayoutComponent post={post} content={headerContent} layout={layout} />;
+  const headerInner = <HeaderLayoutComponent post={post} content={headerContent} layout={layout} />;
 
   return (
-    <header className={`post-header-${headerLayout}`}>
+    <header>
       {!besideSidebar ? (
         <Container width={headerLayoutWidth} customPadding={headerCustomPadding}>
           {headerInner}

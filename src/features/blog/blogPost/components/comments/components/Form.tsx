@@ -1,35 +1,31 @@
 import type { Dispatch, SetStateAction } from 'react';
 
+import Notification from '@components/Notification';
 import Textarea from '@components/Form/Textarea';
 import Input from '@components/Form/Input';
 import Button from '@components/UI/Button';
-import type { Comment as CommentType } from '@typings/posts/comment';
 
-import useForm from '../hooks/useForm';
+import useCommentForm from '../hooks/useForm';
 
-interface FormProps {
-  postId: number;
-  commentsCount: number;
-  replyTo?: number | null;
-  setCommentReplyId: Dispatch<SetStateAction<number | null>>;
-  handleNewComment: (newComment: CommentType) => void;
+interface BlogPostCommentsFormProps {
+  postId: string;
+  commentReplyId: string | null;
+  setCommentReplyId: Dispatch<SetStateAction<string | null>>;
 }
 
-export default function Form({ postId, commentsCount, replyTo = null, setCommentReplyId, handleNewComment }: FormProps) {
-  const { commentFormData, commentFormErrors, handleFormChange, handleFormSubmit } = useForm(
+export default function BlogPostCommentsForm({ postId, commentReplyId, setCommentReplyId }: BlogPostCommentsFormProps) {
+  const { register, handleSubmit, onSubmit, errors, isPending, commentFormNotification, resetCommentFormNotification } = useCommentForm({
     postId,
-    commentsCount,
-    replyTo,
+    commentReplyId,
     setCommentReplyId,
-    handleNewComment
-  );
+  });
 
   return (
-    <div id="comment-respond" className="post-comments-form flex flex-col gap-y-6">
+    <div className="flex flex-col gap-y-6">
       <div className="flex items-center justify-between">
         <h3 className="text-sm tracking-xwide text-shark uppercase after:mt-2.5 after:block after:h-0.25 after:w-10 after:bg-shark">Leave a comment</h3>
         <button
-          className={`${replyTo === null ? 'hidden' : 'cursor-pointer'} fill-shark transition-colors duration-300 ease-in-out hover:fill-boulder`}
+          className={`${commentReplyId === null ? 'hidden' : 'cursor-pointer'} fill-shark transition-colors duration-300 ease-in-out hover:fill-boulder`}
           onClick={() => setCommentReplyId(null)}
           aria-label="Cancel reply"
         >
@@ -38,30 +34,23 @@ export default function Form({ postId, commentsCount, replyTo = null, setComment
           </svg>
         </button>
       </div>
-      <form onSubmit={handleFormSubmit} className="flex flex-col gap-y-6" aria-label="Add comment" noValidate>
-        <Textarea
-          name="comment"
-          value={commentFormData.comment}
-          onChange={handleFormChange}
-          placeholder="Comment"
-          required={true}
-          label="Comment"
-          error={commentFormErrors.comment}
-        />
-        <Input
-          type="text"
-          name="name"
-          value={commentFormData.name}
-          onChange={handleFormChange}
-          placeholder="Name"
-          required={true}
-          label="Name"
-          error={commentFormErrors.name}
-        />
-        <Button type="submit" className="max-w-fit">
-          Post comment
-        </Button>
-      </form>
+      <div className="flex flex-col gap-y-10">
+        {commentFormNotification.type !== '' && (
+          <Notification
+            type={commentFormNotification.type}
+            message={commentFormNotification.message}
+            duration={5000}
+            onClose={() => resetCommentFormNotification()}
+          />
+        )}
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-6" aria-label="Add comment" noValidate>
+          <Textarea type="text" {...register('comment')} placeholder="Comment" label="Comment" error={errors.comment?.message} />
+          <Input type="text" {...register('name')} placeholder="Name" label="Name" error={errors.name?.message} />
+          <Button type="submit" className="max-w-fit" disabled={isPending}>
+            Post comment
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

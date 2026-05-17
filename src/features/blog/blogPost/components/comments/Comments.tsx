@@ -1,33 +1,32 @@
 import SectionHeading from '@components/UI/SectionHeading';
-import type { Post } from '@typings/posts/post';
+
+import type { PostComment } from '../../schemas/comment.schema';
 
 import useComments from './hooks/useComments';
-import Items from './components/items';
-import Form from './components/Form';
+import BlogPostCommentsList from './components/list/List';
+import BlogPostCommentsForm from './components/Form';
 
-export default function BlogPostComments({ post }: { post: Post }) {
-  const postId = post.id;
-  const { comments, commentReplyId, setCommentReplyId, handleNewComment } = useComments(postId);
+export default function BlogPostComments({ postId, comments }: { postId: string; comments: PostComment[] }) {
+  const { commentsList, commentsCount, commentReplyId, setCommentReplyId } = useComments({ comments });
+
+  if (!commentsList || commentsList.length === 0) return null;
 
   return (
     <section className="rounded-md bg-white p-5 md:p-7.5 lg:p-10">
-      <SectionHeading heading={`Comments (${comments.count})`} headingLevel="3" />
+      <SectionHeading heading={`Comments (${commentsCount})`} headingLevel="3" />
       <div className="flex flex-col gap-y-10">
-        {comments.count > 0 ? (
-          <Items
+        {commentsCount > 0 ? (
+          <BlogPostCommentsList
             postId={postId}
-            comments={comments.list}
-            commentsCount={comments.count}
+            comments={commentsList}
+            commentsCount={commentsCount}
             commentReplyId={commentReplyId}
             setCommentReplyId={setCommentReplyId}
-            handleNewComment={handleNewComment}
           />
         ) : (
           <p className="rounded-sm bg-pampas p-5 text-center">No comments found</p>
         )}
-        {commentReplyId === null && (
-          <Form postId={postId} commentsCount={comments.count} setCommentReplyId={setCommentReplyId} handleNewComment={handleNewComment} />
-        )}
+        {commentReplyId === null && <BlogPostCommentsForm postId={postId} commentReplyId={commentReplyId} setCommentReplyId={setCommentReplyId} />}
       </div>
     </section>
   );

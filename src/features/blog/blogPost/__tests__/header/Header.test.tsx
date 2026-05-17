@@ -1,52 +1,55 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 
-import type { Post } from '@typings/posts/post';
-import type { Category } from '@typings/posts/category';
-import type { Author } from '@typings/posts/author';
+import type { Post } from '../../schemas/post.schema';
 
 import BlogPostHeader from '../../components/header';
 
 describe('BlogPostHeader component', () => {
   const mockPost: Partial<Post> = {
-    id: 1,
+    id: 'd5d045dc-6542-4dcd-8bd7-5b5ebb490c4f',
     title: 'Dune walk',
-    date: '2025-09-11',
-    authorId: 1,
-    categories: [1, 2],
-    image: '/images/posts/post-1.jpg',
-  };
-
-  const mockCategoryMap: Record<number, Category> = {
-    1: {
-      id: 1,
-      name: 'Fashion',
-      slug: 'fashion',
+    slug: 'dune-walk',
+    author: {
+      id: '2ad9506e-0d94-4170-ac6b-399675b3fc7e',
+      name: 'Lucid Themes',
+      slug: 'lucid-themes',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
+        'Sed rhoncus, velit sit amet mollis cursus, velit urna congue orci, in dignissim elit magna eget ante. Mauris sem justo, volutpat in quam quis, vulputate luctus neque. Sed ultricies eget augue quis hendrerit. Nullam quis nisi sit amet velit pharetra lobortis ac eget magna. Proin luctus sit amet odio sit amet imperdiet. Integer sodales arcu congue nisl rhoncus feugiat eget vel ex.',
     },
-    2: {
-      id: 2,
-      name: 'Travel',
-      slug: 'travel',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
+    media: {
+      storage_path: 'images/dune-walk.jpg',
+      alt_text: 'Dune walk',
     },
-  };
-
-  const mockAuthor: Author = {
-    id: 1,
-    name: 'Lucid Themes',
-    slug: 'lucid-themes',
-    avatar: '/images/author.jpg',
-    description:
-      'Sed rhoncus, velit sit amet mollis cursus, velit urna congue orci, in dignissim elit magna eget ante. Mauris sem justo, volutpat in quam quis, vulputate luctus neque. Sed ultricies eget augue quis hendrerit. Nullam quis nisi sit amet velit pharetra lobortis ac eget magna. Proin luctus sit amet odio sit amet imperdiet. Integer sodales arcu congue nisl rhoncus feugiat eget vel ex.',
+    categories: [
+      {
+        id: '134368fa-d7f4-4010-9618-d0e8625cf013',
+        name: 'Travel',
+        slug: 'travel',
+      },
+      {
+        id: '87154118-0f2c-4ecb-8aac-d30db2f84531',
+        name: 'Fashion',
+        slug: 'fashion',
+      },
+    ],
+    content: null,
+    status: 'published',
+    created_at: '2026-05-11T11:48:39.870Z',
+    updated_at: '2026-05-11T11:48:39.870Z',
+    options: {
+      header: {
+        layout: 'outside-above',
+        besideSidebar: true,
+      },
+      sidebar: 'right',
+    },
   };
 
   test('renders title', () => {
     render(
       <MemoryRouter>
-        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} />
       </MemoryRouter>
     );
 
@@ -56,7 +59,7 @@ describe('BlogPostHeader component', () => {
   test('renders categories', () => {
     render(
       <MemoryRouter>
-        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} />
       </MemoryRouter>
     );
 
@@ -73,7 +76,7 @@ describe('BlogPostHeader component', () => {
   test('renders author', () => {
     render(
       <MemoryRouter>
-        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} />
       </MemoryRouter>
     );
 
@@ -84,17 +87,17 @@ describe('BlogPostHeader component', () => {
   test('renders date', () => {
     render(
       <MemoryRouter>
-        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} />
       </MemoryRouter>
     );
 
-    expect(screen.getByText(/11 september 2025/i)).toBeInTheDocument();
+    expect(screen.getByText(/11 may 2026/i)).toBeInTheDocument();
   });
 
   test('renders image', () => {
     render(
       <MemoryRouter>
-        <BlogPostHeader post={mockPost as Post} categoryMap={mockCategoryMap} author={mockAuthor} />
+        <BlogPostHeader post={mockPost as Post} />
       </MemoryRouter>
     );
 

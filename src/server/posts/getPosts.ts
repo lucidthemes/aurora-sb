@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-import { PostSchema } from '@schemas/posts/post.schema';
-import type { Post } from '@typings/posts/post';
+import { PostsSchema } from '@schemas/posts/posts.schema';
+import type { Posts } from '@schemas/posts/posts.schema';
 
-export async function getPosts(limit?: number, category?: number, tag?: number, author?: number, search?: string): Promise<Post[]> {
+export async function getPosts(limit?: number, category?: number, tag?: number, author?: number, search?: string): Promise<Posts[]> {
   try {
     const res = await fetch('/data/posts.json');
 
@@ -13,7 +13,7 @@ export async function getPosts(limit?: number, category?: number, tag?: number, 
 
     const unparsed = await res.json();
 
-    const parsed = z.array(PostSchema).safeParse(unparsed);
+    const parsed = z.array(PostsSchema).safeParse(unparsed);
 
     if (!parsed.success) {
       throw new Error(`Invalid data: ${parsed.error}`);

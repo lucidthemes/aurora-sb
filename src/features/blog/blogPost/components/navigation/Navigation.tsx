@@ -1,17 +1,22 @@
-import type { Post } from '@typings/posts/post';
-
 import useNavigation from './useNavigation';
-import Previous from './components/Previous';
-import Next from './components/Next';
+import BlogPostNavigationLoading from './components/Loading';
+import BlogPostNavigationPrevious from './components/Previous';
+import BlogPostNavigationNext from './components/Next';
 
-export default function BlogPostNavigation({ post }: { post: Post }) {
-  const { previousPost, nextPost } = useNavigation(post.id);
-  if (!previousPost && !nextPost) return null;
+export default function BlogPostNavigation({ postId, createdDate }: { postId: string; createdDate: string }) {
+  const blogPostNavigationQuery = useNavigation({ postId, createdDate });
+
+  if (blogPostNavigationQuery.isPending) return <BlogPostNavigationLoading />;
+
+  if ((blogPostNavigationQuery.isSuccess && !blogPostNavigationQuery.data) || blogPostNavigationQuery.isError) return null;
+
+  const previousPost = blogPostNavigationQuery.data?.previousPost;
+  const nextPost = blogPostNavigationQuery.data?.nextPost;
 
   return (
     <div className="flex justify-between" role="region" aria-label="Post navigation">
-      {previousPost && <Previous previousPost={previousPost} />}
-      {nextPost && <Next nextPost={nextPost} />}
+      {previousPost && <BlogPostNavigationPrevious previousPost={previousPost} />}
+      {nextPost && <BlogPostNavigationNext nextPost={nextPost} />}
     </div>
   );
 }

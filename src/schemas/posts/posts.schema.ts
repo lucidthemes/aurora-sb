@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { ContentBlockSchema } from '@schemas/contentBlock.schema';
 
-export const PostSchema = z.object({
+export const PostsSchema = z.object({
   id: z.number().int().positive(),
   title: z.string(),
   slug: z.string(),
@@ -20,3 +20,5 @@ export const PostSchema = z.object({
   }),
   postSidebar: z.enum(['left', 'right', 'hidden']),
 });
+
+export type Posts = z.infer<typeof PostsSchema>;

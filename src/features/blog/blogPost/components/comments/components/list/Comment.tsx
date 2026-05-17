@@ -1,22 +1,23 @@
 import { Dispatch, SetStateAction } from 'react';
 
-import type { Comment as CommentType } from '@typings/posts/comment';
 import { dateTimeFormat } from '@utils/formatters';
 
-interface CommentProps {
-  comment: CommentType;
-  setCommentReplyId: Dispatch<SetStateAction<number | null>>;
+import type { PostComment } from '../../../../schemas/comment.schema';
+
+interface BlogPostCommentsListCommentProps {
+  comment: PostComment;
+  setCommentReplyId: Dispatch<SetStateAction<string | null>>;
 }
 
-export default function Comment({ comment, setCommentReplyId }: CommentProps) {
-  const formattedDateTime = dateTimeFormat(comment.datetime);
+export default function BlogPostCommentsListComment({ comment, setCommentReplyId }: BlogPostCommentsListCommentProps) {
+  const formattedDateTime = dateTimeFormat(comment.created_at);
 
   return (
-    <div className="relative flex gap-x-5">
-      <img src={comment.avatar} alt={comment.author} className="avatar max-h-19 max-w-19 rounded-full" />
+    <div id={`comment-${comment.id}`} className="relative flex gap-x-5">
+      <img src="/images/author.jpg" alt={comment.name} className="avatar max-h-19 max-w-19 rounded-full" />
       <div className="flex flex-col gap-y-6">
         <div className="flex flex-col gap-y-4">
-          <p className="text-2xl text-shark">{comment.author}</p>
+          <p className="text-2xl text-shark">{comment.name}</p>
           {formattedDateTime && <time className="text-sm/5 tracking-xwide text-boulder uppercase">{formattedDateTime}</time>}
         </div>
         <p>{comment.comment}</p>

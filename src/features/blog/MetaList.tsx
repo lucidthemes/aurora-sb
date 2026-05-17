@@ -1,19 +1,13 @@
 import { Link } from 'react-router-dom';
 
-import type { Author } from '@typings/posts/author';
 import { dateFormat } from '@utils/formatters';
 
-interface MetaListProps {
-  author?: Author | null;
-  date?: string;
-}
+import type { PostAuthor } from './blogPost/schemas/author.schema';
 
-export default function MetaList({ author, date }: MetaListProps) {
+export default function MetaList({ author, date }: { author?: PostAuthor | null; date?: string }) {
   let formattedDate;
 
-  if (date) {
-    formattedDate = dateFormat(date);
-  }
+  if (date) formattedDate = dateFormat(date);
 
   return (
     <div className="flex flex-wrap gap-y-2.5 text-sm/5 tracking-xwide text-boulder uppercase">

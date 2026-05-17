@@ -1,125 +1,96 @@
-import { renderHook, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 
-import type { Post } from '@typings/posts/post';
-import type { Category } from '@typings/posts/category';
-import type { Author } from '@typings/posts/author';
+vi.mock('../server/getPost', () => ({
+  getPost: vi.fn(),
+}));
 
+import { renderHookWithQueryClient } from '@utils/tests/queryClient';
+
+import { getPost } from '../server/getPost';
 import useSinglePost from '../useSinglePost';
-
-vi.mock('@server/posts/getPost', () => ({
-  getPostBySlug: vi.fn(),
-}));
-
-vi.mock('@server/posts/getCategory', () => ({
-  getCategoryMap: vi.fn(),
-}));
-
-vi.mock('@server/posts/getAuthor', () => ({
-  getAuthorById: vi.fn(),
-}));
-
-import { getPostBySlug } from '@server/posts/getPost';
-import { getCategoryMap } from '@server/posts/getCategory';
-import { getAuthorById } from '@server/posts/getAuthor';
+import type { Post } from '../schemas/post.schema';
 
 describe('useSinglePost hook', () => {
-  const slug = 'dune-walk';
+  const mockPostslug = 'dune-walk';
 
-  const mockPost: Partial<Post> = {
-    id: 1,
+  const mockPost: Post = {
+    id: 'd5d045dc-6542-4dcd-8bd7-5b5ebb490c4f',
     title: 'Dune walk',
     slug: 'dune-walk',
-    authorId: 1,
-    categories: [1, 2],
-  };
-
-  const mockCategoryMap: Record<number, Category> = {
-    1: {
-      id: 1,
-      name: 'Fashion',
-      slug: 'fashion',
+    author: {
+      id: '2ad9506e-0d94-4170-ac6b-399675b3fc7e',
+      name: 'Lucid Themes',
+      slug: 'lucid-themes',
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
+        'Sed rhoncus, velit sit amet mollis cursus, velit urna congue orci, in dignissim elit magna eget ante. Mauris sem justo, volutpat in quam quis, vulputate luctus neque. Sed ultricies eget augue quis hendrerit. Nullam quis nisi sit amet velit pharetra lobortis ac eget magna. Proin luctus sit amet odio sit amet imperdiet. Integer sodales arcu congue nisl rhoncus feugiat eget vel ex.',
     },
-    2: {
-      id: 2,
-      name: 'Travel',
-      slug: 'travel',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.',
+    media: {
+      storage_path: 'images/instagram-1.jpg',
+      alt_text: 'Instagram 1',
     },
-  };
-
-  const mockAuthor: Author = {
-    id: 1,
-    name: 'Lucid Themes',
-    slug: 'lucid-themes',
-    avatar: '/images/author.jpg',
-    description:
-      'Sed rhoncus, velit sit amet mollis cursus, velit urna congue orci, in dignissim elit magna eget ante. Mauris sem justo, volutpat in quam quis, vulputate luctus neque. Sed ultricies eget augue quis hendrerit. Nullam quis nisi sit amet velit pharetra lobortis ac eget magna. Proin luctus sit amet odio sit amet imperdiet. Integer sodales arcu congue nisl rhoncus feugiat eget vel ex.',
+    categories: [
+      {
+        id: '134368fa-d7f4-4010-9618-d0e8625cf013',
+        name: 'Travel',
+        slug: 'travel',
+      },
+    ],
+    tags: [
+      {
+        id: '1f2ed260-7616-49ee-8d0a-bccc5aa7b254',
+        name: 'Beach',
+        slug: 'beach',
+      },
+    ],
+    related: [
+      {
+        id: 'bfb70be6-1225-4ac5-b738-f4e72192132c',
+        title: 'Old Town Centre',
+        slug: 'old-town-centre',
+        media: {
+          storage_path: 'images/instagram-2.jpg',
+          alt_text: 'Instagram 2',
+        },
+        created_at: '2026-05-11T09:42:39.000Z',
+      },
+    ],
+    comments: [
+      {
+        id: 'c1eea15a-eb0d-4651-a03d-5c5e452a1017',
+        reply_to: null,
+        name: 'Lucid Themes',
+        comment:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus tortor et facilisis lobortis. Donec auctor aliquam libero nec ullamcorper. In hac habitasse platea dictumst. Nullam nec eros scelerisque, auctor mauris at, vehicula mauris. Sed ac mollis magna, in tempus eros. Duis et nibh in sapien finibus posuere at ut libero.',
+        status: 'approved',
+        created_at: '2026-05-12T10:39:52.005Z',
+      },
+    ],
+    content: null,
+    status: 'published',
+    created_at: '2026-05-11T11:48:39.870Z',
+    updated_at: '2026-05-11T11:48:39.870Z',
+    options: {
+      header: {
+        layout: 'outside-above',
+        besideSidebar: true,
+      },
+      sidebar: 'right',
+    },
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  test('fetches post data and sets singlePost state', async () => {
-    vi.mocked(getPostBySlug).mockResolvedValue(mockPost as Post);
+  test('fetches single post data', async () => {
+    vi.mocked(getPost).mockResolvedValue(mockPost);
 
-    const { result } = renderHook(() => useSinglePost(slug));
+    const { result } = renderHookWithQueryClient(() => useSinglePost(mockPostslug));
 
-    expect(result.current.singlePost).toStrictEqual({ status: 'loading' });
-
-    await waitFor(() => {
-      expect(result.current.singlePost).toStrictEqual({ status: 'loaded', post: mockPost });
-    });
-
-    expect(getPostBySlug).toHaveBeenCalledWith(slug);
-  });
-
-  test('fetches categoryMap and author data after post data has loaded', async () => {
-    vi.mocked(getPostBySlug).mockResolvedValue(mockPost as Post);
-    vi.mocked(getCategoryMap).mockResolvedValue(mockCategoryMap);
-    vi.mocked(getAuthorById).mockResolvedValue(mockAuthor);
-
-    const { result } = renderHook(() => useSinglePost(slug));
-
-    expect(result.current.categoryMap).toEqual({});
-    expect(result.current.author).toBeNull();
+    expect(getPost).toHaveBeenCalledWith(mockPostslug);
 
     await waitFor(() => {
-      expect(result.current.singlePost).toStrictEqual({ status: 'loaded', post: mockPost });
+      expect(result.current.data).toEqual(mockPost);
     });
-
-    await waitFor(() => {
-      expect(result.current.categoryMap).toEqual(mockCategoryMap);
-      expect(result.current.author).toEqual(mockAuthor);
-    });
-
-    expect(getCategoryMap).toHaveBeenCalledWith(mockPost.categories);
-    expect(getAuthorById).toHaveBeenCalledWith(mockPost.authorId);
-  });
-
-  test('sets singlePost state status to not-found if post not found', async () => {
-    vi.mocked(getPostBySlug).mockResolvedValue(undefined);
-
-    const { result } = renderHook(() => useSinglePost(slug));
-
-    await waitFor(() => {
-      expect(result.current.singlePost).toStrictEqual({ status: 'not-found' });
-    });
-
-    expect(getCategoryMap).not.toHaveBeenCalled();
-    expect(getAuthorById).not.toHaveBeenCalled();
-  });
-
-  test('sets singlePost state status to not-found if slug is missing', () => {
-    const { result } = renderHook(() => useSinglePost(undefined));
-
-    expect(result.current.singlePost).toStrictEqual({ status: 'not-found' });
-    expect(result.current.categoryMap).toEqual({});
-    expect(result.current.author).toBeNull();
-
-    expect(getPostBySlug).not.toHaveBeenCalled();
   });
 });

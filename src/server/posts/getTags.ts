@@ -31,30 +31,3 @@ export async function getTags(limit?: number): Promise<Tag[]> {
     throw error;
   }
 }
-
-export async function getTagsArray(tagIds: number[]): Promise<Tag[]> {
-  try {
-    const res = await fetch('/data/post-tags.json');
-
-    if (!res.ok) {
-      throw new Error(`Failed to fetch post-tags.json: ${res.status}`);
-    }
-
-    const unparsed = await res.json();
-
-    const parsed = z.array(TagSchema).safeParse(unparsed);
-
-    if (!parsed.success) {
-      throw new Error(`Invalid data: ${parsed.error}`);
-    }
-
-    const tags = parsed.data;
-    const idSet = new Set(tagIds);
-    const tagArray = tags.filter((tag) => idSet.has(tag.id));
-
-    return tagArray;
-  } catch (error) {
-    console.error('getTagsArray', error);
-    throw error;
-  }
-}
