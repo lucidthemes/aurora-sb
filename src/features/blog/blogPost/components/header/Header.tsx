@@ -10,8 +10,8 @@ import BlogPostHeaderSplitLayout from './components/SplitLayout';
 export default function BlogPostHeader({ post }: { post: Post }) {
   if (!post) return null;
 
-  const layout = post.options.header.layout || 'outside-above';
-  const besideSidebar = post.options.header.besideSidebar || false;
+  const layout = post.options?.header.layout ?? 'outside-below';
+  const besideSidebar = post.options?.header.besideSidebar ?? true;
 
   let headerLayout = '';
   let headerLayoutWidth = '';

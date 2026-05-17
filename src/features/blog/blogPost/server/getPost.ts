@@ -59,7 +59,8 @@ export async function getPost(slug: string): Promise<Post | null> {
         content,
         status,
         created_at,
-        updated_at
+        updated_at,
+        options
     `
     )
     .eq('slug', slug)
@@ -77,13 +78,6 @@ export async function getPost(slug: string): Promise<Post | null> {
     categories: data?.categories.map((c) => c.category),
     tags: data?.tags.map((t) => t.tag),
     related: data?.related.map((r) => r.post),
-    options: {
-      header: {
-        layout: 'outside-above',
-        besideSidebar: true,
-      },
-      sidebar: 'right',
-    },
   };
 
   const parsed = PostSchema.safeParse(normalized);
