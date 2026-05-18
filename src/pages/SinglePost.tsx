@@ -14,9 +14,9 @@ export default function SinglePost() {
 
   if (blogPostQuery.isPending) return <PageSidebarLayoutLoading content={<BlogPostLoading />} sidebarPosition="right" />;
 
-  const post = blogPostQuery.data;
+  if ((blogPostQuery.isSuccess && !blogPostQuery.data) || blogPostQuery.isError) return <Navigate to="/404" replace />;
 
-  if ((blogPostQuery.isSuccess && (!post || post.status !== 'published')) || blogPostQuery.isError) return <Navigate to="/404" replace />;
+  const post = blogPostQuery.data;
 
   const postSidebar = post?.options?.sidebar ?? 'right';
   const postHeaderBesideSidebar = post?.options?.header?.besideSidebar ?? true;
