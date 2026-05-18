@@ -25,8 +25,8 @@ describe('useSinglePost hook', () => {
         'Sed rhoncus, velit sit amet mollis cursus, velit urna congue orci, in dignissim elit magna eget ante. Mauris sem justo, volutpat in quam quis, vulputate luctus neque. Sed ultricies eget augue quis hendrerit. Nullam quis nisi sit amet velit pharetra lobortis ac eget magna. Proin luctus sit amet odio sit amet imperdiet. Integer sodales arcu congue nisl rhoncus feugiat eget vel ex.',
     },
     media: {
-      storage_path: 'images/instagram-1.jpg',
-      alt_text: 'Instagram 1',
+      storage_path: 'images/dune-walk.jpg',
+      alt_text: 'Dune walk',
     },
     categories: [
       {
@@ -48,8 +48,8 @@ describe('useSinglePost hook', () => {
         title: 'Old Town Centre',
         slug: 'old-town-centre',
         media: {
-          storage_path: 'images/instagram-2.jpg',
-          alt_text: 'Instagram 2',
+          storage_path: 'images/old-town-centre.jpg',
+          alt_text: 'Old Town Centre',
         },
         created_at: '2026-05-11T09:42:39.000Z',
       },
