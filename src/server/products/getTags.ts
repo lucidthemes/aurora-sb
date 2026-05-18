@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { TagSchema } from '@schemas/posts/tag.schema';
+import { TagSchema } from '@schemas/products/tag.schema';
 import type { Tag } from '@typings/products/tag';
 
 export async function getTagsArray(tagIds: number[]): Promise<Tag[]> {
