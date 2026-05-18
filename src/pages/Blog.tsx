@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams, Navigate } from 'react-router-dom';
 
 import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
 import { Sidebar } from '@components/Layout/Sidebar';
@@ -6,7 +6,6 @@ import BlogList from '@features/blog/blogList';
 import BlogListLoading from '@features/blog/blogList/components/Loading';
 import BlogListTaxonomyHeader from '@features/blog/blogList/components/taxonomy/Header';
 import BlogListTaxonomyHeaderLoading from '@features/blog/blogList/components/taxonomy/HeaderLoading';
-import BlogListTaxonomyError from '@features/blog/blogList/components/taxonomy/Error';
 import useBlogListTaxonomy from '@features/blog/blogList/hooks/useBlogListTaxonomy';
 import SearchForm from '@features/searchForm';
 
@@ -34,6 +33,8 @@ export function BlogCategory() {
 
   const blogCategoryQuery = useBlogListTaxonomy({ taxonomy: 'category', slug: slug ?? '' });
 
+  if ((blogCategoryQuery.isSuccess && !blogCategoryQuery.data) || blogCategoryQuery.isError) return <Navigate to="/404" replace />;
+
   return (
     <>
       {blogCategoryQuery.isPending && (
@@ -47,17 +48,13 @@ export function BlogCategory() {
           sidebarPosition="right"
         />
       )}
-      {blogCategoryQuery.isSuccess && (
+      {blogCategoryQuery.isSuccess && blogCategoryQuery.data && (
         <PageSidebarLayout
           content={
-            !blogCategoryQuery.isError && blogCategoryQuery.data ? (
-              <>
-                <BlogListTaxonomyHeader heading={blogCategoryQuery.data.name} description={blogCategoryQuery.data.description} />
-                <BlogList category={blogCategoryQuery.data.id} style="wide-small-small" />
-              </>
-            ) : (
-              <BlogListTaxonomyError taxonomy="Category" />
-            )
+            <>
+              <BlogListTaxonomyHeader heading={blogCategoryQuery.data.name} description={blogCategoryQuery.data.description} />
+              <BlogList category={blogCategoryQuery.data.id} style="wide-small-small" />
+            </>
           }
           sidebar={<Sidebar></Sidebar>}
           sidebarPosition="right"
@@ -72,6 +69,8 @@ export function BlogTag() {
 
   const blogTagQuery = useBlogListTaxonomy({ taxonomy: 'tag', slug: slug ?? '' });
 
+  if ((blogTagQuery.isSuccess && !blogTagQuery.data) || blogTagQuery.isError) return <Navigate to="/404" replace />;
+
   return (
     <>
       {blogTagQuery.isPending && (
@@ -85,17 +84,13 @@ export function BlogTag() {
           sidebarPosition="right"
         />
       )}
-      {blogTagQuery.isSuccess && (
+      {blogTagQuery.isSuccess && blogTagQuery.data && (
         <PageSidebarLayout
           content={
-            !blogTagQuery.isError && blogTagQuery.data ? (
-              <>
-                <BlogListTaxonomyHeader heading={blogTagQuery.data.name} description={blogTagQuery.data.description} />
-                <BlogList tag={blogTagQuery.data.id} style="wide-small-small" />
-              </>
-            ) : (
-              <BlogListTaxonomyError taxonomy="Tag" />
-            )
+            <>
+              <BlogListTaxonomyHeader heading={blogTagQuery.data.name} description={blogTagQuery.data.description} />
+              <BlogList tag={blogTagQuery.data.id} style="wide-small-small" />
+            </>
           }
           sidebar={<Sidebar></Sidebar>}
           sidebarPosition="right"
@@ -130,6 +125,8 @@ export function BlogAuthor() {
 
   const blogAuthorQuery = useBlogListTaxonomy({ taxonomy: 'author', slug: slug ?? '' });
 
+  if ((blogAuthorQuery.isSuccess && !blogAuthorQuery.data) || blogAuthorQuery.isError) return <Navigate to="/404" replace />;
+
   return (
     <>
       {blogAuthorQuery.isPending && (
@@ -143,17 +140,13 @@ export function BlogAuthor() {
           sidebarPosition="right"
         />
       )}
-      {blogAuthorQuery.isSuccess && (
+      {blogAuthorQuery.isSuccess && blogAuthorQuery.data && (
         <PageSidebarLayout
           content={
-            !blogAuthorQuery.isError && blogAuthorQuery.data ? (
-              <>
-                <BlogListTaxonomyHeader heading={blogAuthorQuery.data.name} description={blogAuthorQuery.data.description} />
-                <BlogList author={blogAuthorQuery.data.id} style="wide-small-small" />
-              </>
-            ) : (
-              <BlogListTaxonomyError taxonomy="Author" />
-            )
+            <>
+              <BlogListTaxonomyHeader heading={blogAuthorQuery.data.name} description={blogAuthorQuery.data.description} />
+              <BlogList author={blogAuthorQuery.data.id} style="wide-small-small" />
+            </>
           }
           sidebar={<Sidebar></Sidebar>}
           sidebarPosition="right"
