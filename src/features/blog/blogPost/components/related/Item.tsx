@@ -16,7 +16,7 @@ export default function BlogPostRelatedItem({ related }: { related: PostRelated 
         {related.media && mediaUrl && (
           <div>
             <Link to={`/blog/${related.slug}`}>
-              <img src={mediaUrl} alt={related.media.alt_text ?? ''} />
+              <img src={mediaUrl} alt={related.media.alt_text ?? related.title} />
             </Link>
           </div>
         )}
