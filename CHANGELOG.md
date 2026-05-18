@@ -38,12 +38,6 @@ All notable changes to this project will be documented in this file.
 
 - not found page return to home page button
 
-#### Schemas
-
-##### Posts
-
-- post taxonomy
-
 #### Supabase
 
 - add post categories table migration

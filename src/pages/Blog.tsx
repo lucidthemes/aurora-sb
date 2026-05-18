@@ -32,11 +32,11 @@ export function BlogHiddenSidebar() {
 export function BlogCategory() {
   const { slug } = useParams();
 
-  const blogCategory = useBlogListTaxonomy({ taxonomy: 'category', slug: slug ?? '' });
+  const blogCategoryQuery = useBlogListTaxonomy({ taxonomy: 'category', slug: slug ?? '' });
 
   return (
     <>
-      {blogCategory.isPending && (
+      {blogCategoryQuery.isPending && (
         <PageSidebarLayoutLoading
           content={
             <>
@@ -47,13 +47,13 @@ export function BlogCategory() {
           sidebarPosition="right"
         />
       )}
-      {blogCategory.isSuccess && (
+      {blogCategoryQuery.isSuccess && (
         <PageSidebarLayout
           content={
-            !blogCategory.isError && blogCategory.data ? (
+            !blogCategoryQuery.isError && blogCategoryQuery.data ? (
               <>
-                <BlogListTaxonomyHeader heading={blogCategory.data.name} description={blogCategory.data.description} />
-                <BlogList category={blogCategory.data.id} style="wide-small-small" />
+                <BlogListTaxonomyHeader heading={blogCategoryQuery.data.name} description={blogCategoryQuery.data.description} />
+                <BlogList category={blogCategoryQuery.data.id} style="wide-small-small" />
               </>
             ) : (
               <BlogListTaxonomyError taxonomy="Category" />
@@ -70,11 +70,11 @@ export function BlogCategory() {
 export function BlogTag() {
   const { slug } = useParams();
 
-  const blogTag = useBlogListTaxonomy({ taxonomy: 'tag', slug: slug ?? '' });
+  const blogTagQuery = useBlogListTaxonomy({ taxonomy: 'tag', slug: slug ?? '' });
 
   return (
     <>
-      {blogTag.isPending && (
+      {blogTagQuery.isPending && (
         <PageSidebarLayoutLoading
           content={
             <>
@@ -85,13 +85,13 @@ export function BlogTag() {
           sidebarPosition="right"
         />
       )}
-      {blogTag.isSuccess && (
+      {blogTagQuery.isSuccess && (
         <PageSidebarLayout
           content={
-            !blogTag.isError && blogTag.data ? (
+            !blogTagQuery.isError && blogTagQuery.data ? (
               <>
-                <BlogListTaxonomyHeader heading={blogTag.data.name} description={blogTag.data.description} />
-                <BlogList tag={blogTag.data.id} style="wide-small-small" />
+                <BlogListTaxonomyHeader heading={blogTagQuery.data.name} description={blogTagQuery.data.description} />
+                <BlogList tag={blogTagQuery.data.id} style="wide-small-small" />
               </>
             ) : (
               <BlogListTaxonomyError taxonomy="Tag" />
@@ -128,11 +128,11 @@ export function BlogSearch() {
 export function BlogAuthor() {
   const { slug } = useParams();
 
-  const blogAuthor = useBlogListTaxonomy({ taxonomy: 'author', slug: slug ?? '' });
+  const blogAuthorQuery = useBlogListTaxonomy({ taxonomy: 'author', slug: slug ?? '' });
 
   return (
     <>
-      {blogAuthor.isPending && (
+      {blogAuthorQuery.isPending && (
         <PageSidebarLayoutLoading
           content={
             <>
@@ -143,13 +143,13 @@ export function BlogAuthor() {
           sidebarPosition="right"
         />
       )}
-      {blogAuthor.isSuccess && (
+      {blogAuthorQuery.isSuccess && (
         <PageSidebarLayout
           content={
-            !blogAuthor.isError && blogAuthor.data ? (
+            !blogAuthorQuery.isError && blogAuthorQuery.data ? (
               <>
-                <BlogListTaxonomyHeader heading={blogAuthor.data.name} description={blogAuthor.data.description} />
-                <BlogList author={blogAuthor.data.id} style="wide-small-small" />
+                <BlogListTaxonomyHeader heading={blogAuthorQuery.data.name} description={blogAuthorQuery.data.description} />
+                <BlogList author={blogAuthorQuery.data.id} style="wide-small-small" />
               </>
             ) : (
               <BlogListTaxonomyError taxonomy="Author" />
