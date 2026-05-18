@@ -1,28 +1,27 @@
 import WidgetTitle from '@components/Widgets/Title';
 
-import usePosts from './usePosts';
+import usePostsWidget from './usePosts';
 import PostsWidgetItem from './components/Item';
 import PostsWidgetLoading from './components/Loading';
 import PostsWidgetError from './components/Error';
 
 interface PostsWidgetProps {
   title?: string;
-  limit: number;
-  category?: number;
+  limit?: number;
   style?: 'small' | 'wide';
   location?: 'sidebar' | 'footer';
 }
 
-export default function PostsWidget({ title = '', limit = 3, category, style = 'wide', location }: PostsWidgetProps) {
-  const posts = usePosts(limit, category);
+export default function PostsWidget({ title = '', limit = 3, style = 'wide', location }: PostsWidgetProps) {
+  const postsWidgetQuery = usePostsWidget(limit);
 
   return (
     <section>
       <WidgetTitle>{title}</WidgetTitle>
-      {posts.isPending && <PostsWidgetLoading style={style} location={location} />}
-      {!posts.isError && posts.data ? (
+      {postsWidgetQuery.isPending && <PostsWidgetLoading style={style} location={location} />}
+      {postsWidgetQuery.isSuccess && postsWidgetQuery.data ? (
         <ul className="flex flex-col gap-y-8" role="list" aria-label="Widget posts">
-          {posts.data.map((post) => (
+          {postsWidgetQuery.data.map((post) => (
             <PostsWidgetItem key={post.id} post={post} style={style} />
           ))}
         </ul>

@@ -72,6 +72,7 @@ All notable changes to this project will be documented in this file.
 ##### Widgets
 
 - tags widget fetch tags from supabase
+- posts widget fetch posts from supabase
 
 #### Features
 
@@ -123,9 +124,10 @@ All notable changes to this project will be documented in this file.
 - newsletter sub folder
 - search sub folder
 
-#### Posts
+##### Posts
 
 - post
+- tag
 
 #### Server
 
@@ -138,14 +140,16 @@ All notable changes to this project will be documented in this file.
 
 - get comments
 - get post
-
-##### Posts
-
 - get tag
+- get tags
 
 #### Types
 
 - instagram sub folder
+
+##### Posts
+
+- tag
 
 ## [0.5.0] - 2026-04-06
 
