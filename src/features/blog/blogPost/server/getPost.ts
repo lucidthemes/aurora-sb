@@ -64,6 +64,7 @@ export async function getPost(slug: string): Promise<Post | null> {
     `
     )
     .eq('slug', slug)
+    .eq('status', 'published')
     .eq('comments.status', 'approved')
     .maybeSingle();
 
