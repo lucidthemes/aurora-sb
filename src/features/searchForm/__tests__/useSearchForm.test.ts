@@ -29,13 +29,13 @@ describe('useSearchForm hook', () => {
     const { result } = renderHook(() => useSearchForm('page'));
 
     await act(async () => {
-      result.current.setValue('term', 'test');
+      result.current.setValue('term', 'fashion');
 
       await result.current.handleSubmit(result.current.onSubmit)();
     });
 
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('/search/test');
+      expect(mockNavigate).toHaveBeenCalledWith('/search?term=fashion');
     });
   });
 });

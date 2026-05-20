@@ -101,7 +101,8 @@ export function BlogTag() {
 }
 
 export function BlogSearch() {
-  const { term } = useParams();
+  const [searchParams] = useSearchParams();
+  const term = searchParams.get('term') ?? 'fashion';
 
   return (
     <PageSidebarLayout

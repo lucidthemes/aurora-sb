@@ -45,7 +45,6 @@ export default function AppRoutes() {
     { path: '/category/:slug', element: <BlogCategory /> },
     { path: '/tag/:slug', element: <BlogTag /> },
     { path: '/search', element: <BlogSearch /> },
-    { path: '/search/:term', element: <BlogSearch /> },
     { path: '/author/:slug', element: <BlogAuthor /> },
     { path: '/shop', element: <Shop /> },
     { path: '/product-category/:slug', element: <ShopCategory /> },

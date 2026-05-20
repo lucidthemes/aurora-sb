@@ -25,7 +25,7 @@ export default function useSearchForm(
   });
 
   const onSubmit = async (data: SearchForm) => {
-    navigate(`/search/${data.term}`);
+    navigate(`/search?term=${data.term}`);
 
     if (location === 'header' && headerSearchActive) {
       handleHeaderSearchActive();
