@@ -36,7 +36,7 @@ All notable changes to this project will be documented in this file.
 
 #### Pages
 
-- not found page return to home page button
+- not found page return to page button based on url parameter
 
 #### Supabase
 
