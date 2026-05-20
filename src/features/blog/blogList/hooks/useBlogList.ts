@@ -1,59 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
+import { useQuery, keepPreviousData } from '@tanstack/react-query';
 
-import { getPosts } from '@server/posts/getPosts';
-import { getCategoryMap } from '@server/posts/getCategory';
-import { getAuthorMap } from '@server/posts/getAuthor';
-import type { Post } from '@typings/posts/post';
-import type { Category } from '@typings/posts/category';
-import type { Author } from '@typings/posts/author';
+import { getPosts } from '../server/getPosts';
 
-export default function useBlogList(limit?: number, category?: number, tag?: number, author?: number, search?: string) {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [categoryMap, setCategoryMap] = useState<Record<number, Category>>({});
-  const [authorMap, setAuthorMap] = useState<Record<number, Author>>({});
+interface UseBlogListParams {
+  limit?: number;
+  category?: string;
+  tag?: string;
+  author?: string;
+  search?: string;
+  showPagination?: boolean;
+  postsPerPage?: number;
+}
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const posts = await getPosts(limit, category, tag, author, search);
-        setPosts(posts);
-      } catch (error) {
-        console.error('Failed to fetch posts.', error);
-      }
-    };
+export default function useBlogList({ limit, category, tag, author, search, showPagination, postsPerPage }: UseBlogListParams) {
+  const blogListRef = useRef<HTMLUListElement | null>(null);
 
-    fetchPosts();
-  }, [limit, category, tag, author, search]);
+  const [blogListPage, setBlogListPage] = useState(1);
 
-  useEffect(() => {
-    if (posts.length === 0) return;
+  const handleBlogListPageChange = (pageNumber: number) => {
+    setBlogListPage(pageNumber);
+    blogListRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
-    const fetchCategoryMap = async () => {
-      try {
-        const categoryIds = posts.flatMap((post) => post.categories ?? []);
+  const blogListQuery = useQuery({
+    queryKey: ['blogList', limit, category, tag, author, search, showPagination, postsPerPage, blogListPage],
+    queryFn: () => getPosts({ limit, category, tag, author, search, showPagination, postsPerPage, blogListPage }),
+    placeholderData: keepPreviousData,
+  });
 
-        const map = await getCategoryMap(categoryIds);
-        setCategoryMap(map);
-      } catch (error) {
-        console.error('Failed to fetch category map.', error);
-      }
-    };
-
-    fetchCategoryMap();
-
-    const fetchAuthorMap = async () => {
-      try {
-        const authorIds = posts.flatMap((post) => post.authorId ?? []);
-
-        const map = await getAuthorMap(authorIds);
-        setAuthorMap(map);
-      } catch (error) {
-        console.error('Failed to fetch author map.', error);
-      }
-    };
-
-    fetchAuthorMap();
-  }, [posts]);
-
-  return { posts, categoryMap, authorMap };
+  return { blogListQuery, blogListRef, blogListPage, handleBlogListPageChange };
 }

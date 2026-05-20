@@ -27,12 +27,26 @@ All notable changes to this project will be documented in this file.
 - taxonomy header component
 - taxonomy header loading skeleton component
 - use blog list taxonomy hook
+- schemas sub folder
+- posts schema
+- taxonomy schema
 - server sub folder
-- get blog list taxonomy server
+- get taxonomy
+- get posts
 
 ###### Blog Post
 
 - loading skeleton component
+- schemas sub folder
+- post author schema
+- post category schema
+- post comment schema
+- post options schema
+- post schema
+- post related schema
+- post tag schema
+- server sub folder
+- get post
 
 #### Pages
 
@@ -76,6 +90,10 @@ All notable changes to this project will be documented in this file.
 
 ##### Blog
 
+###### Blog List
+
+- blog list to fetch posts from supabase
+
 ###### Blog Post
 
 - moved post sections into components folder
@@ -83,6 +101,10 @@ All notable changes to this project will be documented in this file.
 - comment form hook to use react hook form
 - comment form to create new comment in supabase
 - navigation to fetch previous/next posts from supabase
+
+##### Search form
+
+- search form to set url parameter for term instead of route
 
 #### Pages
 
@@ -109,6 +131,10 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+#### Routes
+
+- search term route
+
 #### Schemas
 
 - account sub folder
@@ -122,6 +148,10 @@ All notable changes to this project will be documented in this file.
 
 - post
 - tag
+- author
+- category
+- posts
+- posts sub folder
 
 #### Server
 
@@ -136,6 +166,10 @@ All notable changes to this project will be documented in this file.
 - get post
 - get tag
 - get tags
+- get author map
+- get category map
+- get posts
+- posts sub folder
 
 #### Types
 
@@ -144,6 +178,10 @@ All notable changes to this project will be documented in this file.
 ##### Posts
 
 - tag
+- author
+- category
+- post
+- posts sub folder
 
 ## [0.5.0] - 2026-04-06
 

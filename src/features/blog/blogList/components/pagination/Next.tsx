@@ -1,13 +1,13 @@
-interface NextProps {
-  currentPage: number;
-  handlePageChange: (pageNumber: number) => void;
+interface BlogListPaginationNextProps {
+  blogListPage: number;
+  handleBlogListPageChange: (pageNumber: number) => void;
 }
 
-export default function Next({ currentPage, handlePageChange }: NextProps) {
+export default function BlogListPaginationNext({ blogListPage, handleBlogListPageChange }: BlogListPaginationNextProps) {
   return (
     <li className="h-11 w-11">
       <button
-        onClick={() => handlePageChange(currentPage + 1)}
+        onClick={() => handleBlogListPageChange(blogListPage + 1)}
         className="h-full w-full cursor-pointer content-center justify-items-center rounded-full bg-transparent fill-shark transition-colors duration-300 ease-in-out hover:bg-black hover:fill-white focus:bg-black focus:fill-white"
         aria-label="Next page"
       >

@@ -1,33 +1,35 @@
 import { Link } from 'react-router-dom';
 
-import type { Post } from '@typings/posts/post';
-import type { Category } from '@typings/posts/category';
-import type { Author } from '@typings/posts/author';
+import { getPublicMediaUrl } from '@lib/supabase/storage';
+
+import type { Posts } from '../../schemas/posts.schema';
 
 import Content from './Content';
 
-interface SmallLayoutProps {
-  post: Post;
-  categoryMap: Record<number, Category>;
-  authorMap: Record<number, Author>;
+interface BlogListItemSmallProps {
+  post: Posts;
   excerptLength: number;
   mediaClasses: string;
   contentClasses: string;
 }
 
-export default function SmallLayout({ post, categoryMap, authorMap, excerptLength, mediaClasses, contentClasses }: SmallLayoutProps) {
+export default function BlogListItemSmall({ post, excerptLength, mediaClasses, contentClasses }: BlogListItemSmallProps) {
+  let mediaUrl = '';
+
+  if (post.media) mediaUrl = getPublicMediaUrl(post.media.storage_path);
+
   return (
     <article className="flex flex-col overflow-hidden rounded-md lg:flex-row">
-      {post.image && (
+      {post.media && mediaUrl && (
         <div className={mediaClasses}>
-          <div className="h-full bg-none lg:bg-cover lg:bg-center" style={{ backgroundImage: `url(${post.image})` }}>
+          <div className="h-full bg-none lg:bg-cover lg:bg-center" style={{ backgroundImage: `url(${mediaUrl})` }}>
             <Link to={`/blog/${post.slug}`} className="block h-full">
-              <img src={post.image} alt={post.title} className="w-full lg:hidden" />
+              <img src={mediaUrl} alt={post.media.alt_text ?? post.title} className="w-full lg:hidden" />
             </Link>
           </div>
         </div>
       )}
-      <Content post={post} categoryMap={categoryMap} authorMap={authorMap} excerptLength={excerptLength} contentClasses={contentClasses} />
+      <Content post={post} excerptLength={excerptLength} contentClasses={contentClasses} />
     </article>
   );
 }

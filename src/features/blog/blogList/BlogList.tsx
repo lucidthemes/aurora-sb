@@ -1,14 +1,15 @@
 import useBlogList from './hooks/useBlogList';
-import usePagination from './hooks/usePagination';
-import WideLayout from './components/Item/WideLayout';
-import SmallLayout from './components/Item/SmallLayout';
-import Pagination from './components/pagination/Pagination';
+import BlogListLoading from './components/Loading';
+import BlogListError from './components/Error';
+import BlogListItemWide from './components/Item/WideLayout';
+import BlogListItemSmall from './components/Item/SmallLayout';
+import BlogListPagination from './components/pagination/Pagination';
 
 interface BlogListProps {
   limit?: number;
-  category?: number;
-  tag?: number;
-  author?: number;
+  category?: string;
+  tag?: string;
+  author?: string;
   search?: string;
   style?: string;
   showPagination?: boolean;
@@ -16,9 +17,23 @@ interface BlogListProps {
 }
 
 export default function BlogList({ limit, category, tag, author, search = '', style = 'wide', showPagination = true, postsPerPage = 6 }: BlogListProps) {
-  const { posts, categoryMap, authorMap } = useBlogList(limit, category, tag, author, search);
+  const { blogListQuery, blogListRef, blogListPage, handleBlogListPageChange } = useBlogList({
+    limit,
+    category,
+    tag,
+    author,
+    search,
+    showPagination,
+    postsPerPage,
+  });
 
-  const { paginatedPosts, currentPage, totalPages, postListRef, handlePageChange } = usePagination(posts, showPagination, postsPerPage);
+  if (blogListQuery.isPending) return <BlogListLoading style={style} />;
+
+  if (blogListQuery.isSuccess && (!blogListQuery.data || blogListQuery.data?.posts.length === 0)) return <BlogListError />;
+
+  const posts = blogListQuery.data?.posts;
+
+  const postsCount = blogListQuery.data?.postsCount;
 
   const wide = style === 'wide';
   const wideSmall = style === 'wide-small-small' || style === 'wide-small-half' || style === 'wide-small-large';
@@ -63,11 +78,11 @@ export default function BlogList({ limit, category, tag, author, search = '', st
 
   return (
     <>
-      {Array.isArray(paginatedPosts) && paginatedPosts.length > 0 ? (
+      {Array.isArray(posts) && posts.length > 0 && (
         <>
-          <ul className={listClasses} aria-label="Blog posts" ref={postListRef}>
-            {paginatedPosts.map((post, index) => {
-              const isFirstPost = index === 0 && currentPage === 1;
+          <ul className={listClasses} aria-label="Blog posts" ref={blogListRef}>
+            {posts.map((post, index) => {
+              const isFirstPost = index === 0 && blogListPage === 1;
               const itemWide = wide || grid || wideGrid || (wideSmall && isFirstPost);
               const itemWideGridClasses = wideGrid && isFirstPost ? 'col-span-full' : '';
               const itemWideExcerptLength =
@@ -76,33 +91,23 @@ export default function BlogList({ limit, category, tag, author, search = '', st
               return (
                 <li key={post.id} className={itemWideGridClasses}>
                   {itemWide ? (
-                    <WideLayout
-                      post={post}
-                      categoryMap={categoryMap}
-                      authorMap={authorMap}
-                      excerptLength={itemWideExcerptLength}
-                      mediaClasses={mediaClasses}
-                      contentClasses={contentClasses}
-                    />
+                    <BlogListItemWide post={post} excerptLength={itemWideExcerptLength} mediaClasses={mediaClasses} contentClasses={contentClasses} />
                   ) : (
-                    <SmallLayout
-                      post={post}
-                      categoryMap={categoryMap}
-                      authorMap={authorMap}
-                      excerptLength={smallExcerpt}
-                      mediaClasses={mediaClasses}
-                      contentClasses={contentClasses}
-                    />
+                    <BlogListItemSmall post={post} excerptLength={smallExcerpt} mediaClasses={mediaClasses} contentClasses={contentClasses} />
                   )}
                 </li>
               );
             })}
           </ul>
-
-          {showPagination && totalPages > 1 && <Pagination totalPages={totalPages} currentPage={currentPage} handlePageChange={handlePageChange} />}
+          {showPagination && (
+            <BlogListPagination
+              postsCount={postsCount}
+              postsPerPage={postsPerPage}
+              blogListPage={blogListPage}
+              handleBlogListPageChange={handleBlogListPageChange}
+            />
+          )}
         </>
-      ) : (
-        <p className="rounded-sm bg-white p-5 text-center">No posts found</p>
       )}
     </>
   );
