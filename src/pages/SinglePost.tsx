@@ -14,7 +14,7 @@ export default function SinglePost() {
 
   if (blogPostQuery.isPending) return <PageSidebarLayoutLoading content={<BlogPostLoading />} sidebarPosition="right" />;
 
-  if ((blogPostQuery.isSuccess && !blogPostQuery.data) || blogPostQuery.isError) return <Navigate to="/404" replace />;
+  if ((blogPostQuery.isSuccess && !blogPostQuery.data) || blogPostQuery.isError) return <Navigate to="/404?returnto=blog" replace />;
 
   const post = blogPostQuery.data;
 
