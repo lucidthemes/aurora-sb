@@ -53,7 +53,7 @@ export function BlogCategory() {
           content={
             <>
               <BlogListTaxonomyHeader heading={blogCategoryQuery.data.name} description={blogCategoryQuery.data.description} />
-              <BlogList category={blogCategoryQuery.data.id} style="wide-small-small" />
+              <BlogList category={blogCategoryQuery.data.slug} style="wide-small-small" />
             </>
           }
           sidebar={<Sidebar></Sidebar>}
@@ -89,7 +89,7 @@ export function BlogTag() {
           content={
             <>
               <BlogListTaxonomyHeader heading={blogTagQuery.data.name} description={blogTagQuery.data.description} />
-              <BlogList tag={blogTagQuery.data.id} style="wide-small-small" />
+              <BlogList tag={blogTagQuery.data.slug} style="wide-small-small" />
             </>
           }
           sidebar={<Sidebar></Sidebar>}
