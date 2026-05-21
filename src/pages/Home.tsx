@@ -227,7 +227,7 @@ export function HomeMagazine() {
           content={
             <>
               <SectionHeading heading="Travel" link="/category/travel" />
-              <BlogList limit={3} style="wide-grid-2" showPagination={false} />
+              <BlogList limit={3} category="travel" style="wide-grid-2" showPagination={false} />
             </>
           }
           sidebar={<Sidebar3 />}
@@ -251,7 +251,7 @@ export function HomeMagazine() {
       <section aria-label="Latest photography posts">
         <Container>
           <SectionHeading heading="Photography" link="/category/photography" linkButton="View more" />
-          <BlogList limit={3} style="grid-3" showPagination={false} />
+          <BlogList limit={3} category="photography" style="grid-3" showPagination={false} />
         </Container>
       </section>
     </>
