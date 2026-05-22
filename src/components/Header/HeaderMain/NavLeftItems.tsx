@@ -99,7 +99,7 @@ export default function NavLeftItems() {
 
           <SubMenuItem url="/category/photography" text="Categories" />
           <SubMenuItem url="/tag/beach" text="Tags" />
-          <SubMenuItem url="/search/fashion" text="Search" />
+          <SubMenuItem url="/search?term=fashion" text="Search" />
           <SubMenuItem url="/author/lucid-themes" text="Author" />
         </SubMenu>
       </MenuItem>

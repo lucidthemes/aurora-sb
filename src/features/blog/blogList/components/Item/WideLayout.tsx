@@ -1,33 +1,35 @@
 import { Link } from 'react-router-dom';
 
-import type { Post } from '@typings/posts/post';
-import type { Category } from '@typings/posts/category';
-import type { Author } from '@typings/posts/author';
+import { getPublicMediaUrl } from '@lib/supabase/storage';
+
+import type { Posts } from '../../schemas/posts.schema';
 
 import Content from './Content';
 
-interface WideLayoutProps {
-  post: Post;
-  categoryMap: Record<number, Category>;
-  authorMap: Record<number, Author>;
+interface BlogListItemWideProps {
+  post: Posts;
   excerptLength: number;
   mediaClasses: string;
   contentClasses: string;
 }
 
-export default function WideLayout({ post, categoryMap, authorMap, excerptLength, mediaClasses, contentClasses }: WideLayoutProps) {
+export default function BlogListItemWide({ post, excerptLength, mediaClasses, contentClasses }: BlogListItemWideProps) {
+  let mediaUrl = '';
+
+  if (post.media) mediaUrl = getPublicMediaUrl(post.media.storage_path);
+
   return (
     <article className="flex flex-col overflow-hidden rounded-md">
-      {post.image && (
+      {post.media && mediaUrl && (
         <div className={mediaClasses}>
           <div>
             <Link to={`/blog/${post.slug}`}>
-              <img src={post.image} alt={post.title} />
+              <img src={mediaUrl} alt={post.media.alt_text ?? post.title} />
             </Link>
           </div>
         </div>
       )}
-      <Content post={post} categoryMap={categoryMap} authorMap={authorMap} excerptLength={excerptLength} contentClasses={contentClasses} />
+      <Content post={post} excerptLength={excerptLength} contentClasses={contentClasses} />
     </article>
   );
 }

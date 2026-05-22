@@ -4,7 +4,7 @@ import { createLogEvent } from '@lib/supabase/logEvent';
 import { PostTaxonomySchema } from '../schemas/taxonomy.schema';
 import type { PostTaxonomy } from '../schemas/taxonomy.schema';
 
-export async function getBlogListTaxonomy({ taxonomy, slug }: { taxonomy: 'category' | 'tag' | 'author'; slug: string }): Promise<PostTaxonomy | null> {
+export async function getTaxonomy({ taxonomy, slug }: { taxonomy: 'category' | 'tag' | 'author'; slug: string }): Promise<PostTaxonomy | null> {
   if (!taxonomy || !slug) return null;
 
   let table;
@@ -21,7 +21,7 @@ export async function getBlogListTaxonomy({ taxonomy, slug }: { taxonomy: 'categ
       break;
   }
 
-  const { data, error } = await supabase.from(table).select('id, name, description').eq('slug', slug).maybeSingle();
+  const { data, error } = await supabase.from(table).select('id, name, slug, description').eq('slug', slug).maybeSingle();
 
   if (error) {
     await createLogEvent('error', 'FETCH_BLOG_LIST_TAXONOMY_FAILED', error.message);
