@@ -12,7 +12,7 @@ export default function TagsWidget({ title = '', limit }: { title?: string; limi
     <div className="tag-widget">
       <WidgetTitle>{title}</WidgetTitle>
       {tagsWidgetQuery.isPending && <TagsWidgetLoading />}
-      {tagsWidgetQuery.isSuccess && tagsWidgetQuery.data ? (
+      {tagsWidgetQuery.isSuccess && tagsWidgetQuery.data && tagsWidgetQuery.data.length > 0 ? (
         <ul className="flex flex-wrap gap-4" aria-label="Widget tags">
           {tagsWidgetQuery.data.map((tag) => (
             <TagsWidgetItem key={tag.id} tag={tag} />
