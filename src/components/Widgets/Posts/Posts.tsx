@@ -19,7 +19,7 @@ export default function PostsWidget({ title = '', limit = 3, style = 'wide', loc
     <section>
       <WidgetTitle>{title}</WidgetTitle>
       {postsWidgetQuery.isPending && <PostsWidgetLoading style={style} location={location} />}
-      {postsWidgetQuery.isSuccess && postsWidgetQuery.data ? (
+      {postsWidgetQuery.isSuccess && postsWidgetQuery.data && postsWidgetQuery.data.length > 0 ? (
         <ul className="flex flex-col gap-y-8" role="list" aria-label="Widget posts">
           {postsWidgetQuery.data.map((post) => (
             <PostsWidgetItem key={post.id} post={post} style={style} />
