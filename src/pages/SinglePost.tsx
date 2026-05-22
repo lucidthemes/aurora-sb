@@ -18,14 +18,16 @@ export default function SinglePost() {
 
   const post = blogPostQuery.data;
 
-  const postSidebar = post?.options?.sidebar ?? 'right';
-  const postHeaderBesideSidebar = post?.options?.header?.besideSidebar ?? true;
+  const postOptions = post?.options;
+  const postHeaderBesideSidebar = postOptions?.header?.besideSidebar ?? true;
+  const postSidebarShow = postOptions?.sidebar.show ?? true;
+  const postSidebarPosition = postOptions?.sidebar.position ?? 'right';
 
   return (
     <>
       {blogPostQuery.isSuccess && post && (
-        <article id={`post-${post?.id}`} className="flex flex-col gap-y-10">
-          {postSidebar === 'hidden' && (
+        <article className="flex flex-col gap-y-10">
+          {!postSidebarShow && (
             <>
               <BlogPostHeader post={post} />
               <PageLayout>
@@ -35,7 +37,7 @@ export default function SinglePost() {
               </PageLayout>
             </>
           )}
-          {(postSidebar === 'right' || postSidebar === 'left') && (
+          {postSidebarShow && (
             <>
               {!postHeaderBesideSidebar && <BlogPostHeader post={post} />}
               <PageSidebarLayout
@@ -46,7 +48,7 @@ export default function SinglePost() {
                   </div>
                 }
                 sidebar={<Sidebar />}
-                sidebarPosition={postSidebar}
+                sidebarPosition={postSidebarPosition}
               />
             </>
           )}

@@ -39,10 +39,15 @@ describe('BlogPostHeader component', () => {
     updated_at: '2026-05-11T11:48:39.870Z',
     options: {
       header: {
+        show: true,
         layout: 'outside-above',
         besideSidebar: true,
       },
-      sidebar: 'right',
+      sidebar: {
+        show: true,
+        option: 'sidebar-1',
+        position: 'right',
+      },
     },
   };
 
