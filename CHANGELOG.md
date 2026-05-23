@@ -102,6 +102,10 @@ All notable changes to this project will be documented in this file.
 - comment form to create new comment in supabase
 - navigation to fetch previous/next posts from supabase
 
+##### Home
+
+- banner to fetch post from supabase
+
 ##### Search form
 
 - search form to set url parameter for term instead of route

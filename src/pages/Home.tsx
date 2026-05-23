@@ -238,13 +238,7 @@ export function HomeMagazine() {
       <section className="bg-spring-wood py-10" aria-label="Featured post">
         <Container width="wide">
           <SectionHeading heading="Featured" align="center" />
-          <Banner
-            image="/images/posts/post-5.jpg"
-            heading="Boho fashion"
-            subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut."
-            link="/blog/boho-fashion"
-            layout="overlay"
-          />
+          <Banner slug="boho-fashion" layout="overlay" />
         </Container>
       </section>
 
