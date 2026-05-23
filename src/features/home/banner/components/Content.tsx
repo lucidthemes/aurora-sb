@@ -2,26 +2,22 @@ import { Link } from 'react-router-dom';
 
 import Button from '@components/UI/Button';
 
-interface ContentProps {
-  heading?: string;
-  subHeading?: string;
-  link?: string;
-  align?: 'left' | 'center' | 'right';
-}
+import type { Banner } from '../banner.schema';
 
-export default function Content({ heading, subHeading, link, align = 'center' }: ContentProps) {
+export default function BannerContent({ banner, align = 'center' }: { banner: Banner; align?: 'left' | 'center' | 'right' }) {
   const alignClass = align === 'left' ? 'start' : align === 'right' ? 'end' : 'center';
 
   return (
     <div className={`flex flex-col items-${alignClass} gap-y-4 text-${align}`}>
-      {heading && link && (
+      {banner.title && (
         <h2>
-          <Link to={link}>{heading}</Link>
+          <Link to={`/blog/${banner.slug}`} className="transition-colors duration-300 ease-in-out hover:text-boulder focus:text-boulder">
+            {banner.title}
+          </Link>
         </h2>
       )}
-      {heading && !link && <h2>{heading}</h2>}
-      {subHeading && <p>{subHeading}</p>}
-      {link && <Button to={link}>Read more</Button>}
+      {banner.excerpt && <p>{banner.excerpt}</p>}
+      <Button to={`/blog/${banner.slug}`}>Read more</Button>
     </div>
   );
 }

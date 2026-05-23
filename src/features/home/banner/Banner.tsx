@@ -1,26 +1,22 @@
-import Content from './components/Content';
-import OverlayLayout from './components/OverlayLayout';
-import SplitLayout from './components/SplitLayout';
+import useBanner from './useBanner';
+import BannerLoading from './components/Loading';
+import BannerError from './components/Error';
+import BannerOverlay from './components/Overlay';
+import BannerSplit from './components/Split';
 
-interface BannerProps {
-  image: string;
-  heading?: string;
-  subHeading?: string;
-  link?: string;
-  layout?: 'overlay' | 'split';
-}
+export default function Banner({ slug, layout = 'overlay' }: { slug: string; layout?: 'overlay' | 'split' }) {
+  const bannerQuery = useBanner(slug);
 
-export default function Banner({ image, heading, subHeading, link, layout = 'overlay' }: BannerProps) {
-  if (layout !== 'overlay' && layout !== 'split') return null;
+  if (bannerQuery.isPending) return <BannerLoading />;
 
-  const contentAlign = layout === 'overlay' ? 'center' : 'left';
+  if (bannerQuery.isSuccess && !bannerQuery.data) return <BannerError />;
 
-  const content = <Content heading={heading} subHeading={subHeading} link={link} align={contentAlign} />;
+  const banner = bannerQuery.data;
 
   return (
     <>
-      {layout === 'overlay' && <OverlayLayout image={image} content={content} />}
-      {layout === 'split' && <SplitLayout image={image} content={content} />}
+      {banner && layout === 'overlay' && <BannerOverlay banner={banner} />}
+      {banner && layout === 'split' && <BannerSplit banner={banner} />}
     </>
   );
 }
