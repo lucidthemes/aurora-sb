@@ -1,19 +1,18 @@
-import Content from './Content';
-import OverlayLayout from './OverlayLayout';
-import SplitLayout from './SplitLayout';
+import type { Slideshow } from '../../slideshow.schema';
+import SlideshowSlideOverlay from './Overlay';
+import SlideshowSlideSplit from './Split';
 
-interface SlideProps {
-  image: string;
-  heading?: string;
-  subHeading?: string;
-  link?: string;
+interface SlideshowSlideProps {
+  slide: Slideshow;
   button?: boolean;
   layout?: 'overlay-top' | 'overlay-center' | 'overlay-bottom' | 'split';
+  align?: 'left' | 'center' | 'right';
+  excerptLength?: number;
   multiSlide?: 2 | 3 | 4;
-  heightClasses?: string;
+  heightClass?: string;
 }
 
-export function Slide({ image, heading, subHeading, link, button = true, layout = 'overlay-center', multiSlide, heightClasses }: SlideProps) {
+export default function SlideshowSlide({ slide, button, layout, align, excerptLength, multiSlide, heightClass }: SlideshowSlideProps) {
   let slideWidthClasses = 'flex-[0_0_100%]';
 
   switch (multiSlide) {
@@ -28,19 +27,15 @@ export function Slide({ image, heading, subHeading, link, button = true, layout 
       break;
   }
 
-  const overlayLayouts = layout === 'overlay-top' || layout === 'overlay-center' || layout === 'overlay-bottom';
-  const splitLayouts = layout === 'split';
-
-  if (!overlayLayouts && !splitLayouts) return null;
-
-  const contentAlign = overlayLayouts ? 'center' : 'left';
-
-  const content = <Content heading={heading} subHeading={subHeading} link={link} button={button} align={contentAlign} />;
+  const slideOverlay = layout?.includes('overlay');
+  const slideSplit = layout?.includes('split');
 
   return (
     <div className={`embla__slide mr-10 min-w-px ${slideWidthClasses}`}>
-      {overlayLayouts && <OverlayLayout image={image} content={content} layout={layout} heightClasses={heightClasses} />}
-      {splitLayouts && <SplitLayout image={image} content={content} heightClasses={heightClasses} />}
+      {slideOverlay && (
+        <SlideshowSlideOverlay slide={slide} button={button} layout={layout} align={align} excerptLength={excerptLength} heightClass={heightClass} />
+      )}
+      {slideSplit && <SlideshowSlideSplit slide={slide} button={button} align={align} excerptLength={excerptLength} heightClass={heightClass} />}
     </div>
   );
 }

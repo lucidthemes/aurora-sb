@@ -2,60 +2,18 @@ import Container from '@components/Layout/Container';
 import { PageSidebarLayout } from '@components/Layout/PageLayout';
 import { Sidebar, Sidebar2, Sidebar3 } from '@components/Layout/Sidebar';
 import SectionHeading from '@components/UI/SectionHeading';
-import BlogList from '@features/blog/blogList';
-import { Slideshow } from '@features/home/slideshow/Slideshow';
-import { Slide } from '@features/home/slideshow/components/slide/Slide';
+import Slideshow from '@features/home/slideshow';
 import Banner from '@features/home/banner';
 import PromoBox from '@features/home/promoBox';
 import Newsletter from '@features/home/newsletter';
+import BlogList from '@features/blog/blogList';
 
 export function Home() {
   return (
     <>
       <section aria-label="Featured slideshow">
         <Container width="wide">
-          <Slideshow height={500} loop={true} autoplay={false} navPosition="outside">
-            <Slide
-              image="/images/posts/post-1.jpg"
-              heading="Dune walk"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/dune-walk"
-              button={true}
-              layout="split"
-            />
-            <Slide
-              image="/images/posts/post-2.jpg"
-              heading="Old town centre"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/old-town-centre"
-              button={true}
-              layout="split"
-            />
-            <Slide
-              image="/images/posts/post-3.jpg"
-              heading="Beach Adventure"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/beach-adventure"
-              button={true}
-              layout="split"
-            />
-            <Slide
-              image="/images/posts/post-4.jpg"
-              heading="Sweet Coffee"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/sweet-coffee"
-              button={true}
-              layout="split"
-            />
-            <Slide
-              image="/images/posts/post-5.jpg"
-              heading="Boho fashion"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/boho-fashion"
-              button={true}
-              layout="split"
-            />
-          </Slideshow>
+          <Slideshow limit={5} height="standard" layout="split" align="left" loop={true} autoplay={false} navPosition="outside" />
         </Container>
       </section>
 
@@ -99,48 +57,7 @@ export function HomeClassic() {
     <>
       <section aria-label="Featured slideshow">
         <Container width="full" customPadding="p-0">
-          <Slideshow height={600} loop={true} autoplay={false} navPosition="inside">
-            <Slide
-              image="/images/posts/post-1.jpg"
-              heading="Dune walk"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/dune-walk"
-              button={false}
-              layout="overlay-center"
-            />
-            <Slide
-              image="/images/posts/post-2.jpg"
-              heading="Old town centre"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/old-town-centre"
-              button={false}
-              layout="overlay-center"
-            />
-            <Slide
-              image="/images/posts/post-3.jpg"
-              heading="Beach Adventure"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/beach-adventure"
-              button={false}
-              layout="overlay-center"
-            />
-            <Slide
-              image="/images/posts/post-4.jpg"
-              heading="Sweet Coffee"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/sweet-coffee"
-              button={false}
-              layout="overlay-center"
-            />
-            <Slide
-              image="/images/posts/post-5.jpg"
-              heading="Boho fashion"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum…"
-              link="/blog/boho-fashion"
-              button={false}
-              layout="overlay-center"
-            />
-          </Slideshow>
+          <Slideshow limit={5} height="tall" button={false} loop={true} autoplay={false} navPosition="inside" />
         </Container>
       </section>
 
@@ -177,48 +94,17 @@ export function HomeMagazine() {
       <section className="bg-spring-wood py-10" aria-label="Lifestyle post slideshow">
         <Container width="wide">
           <SectionHeading heading="Lifestyle" align="center" link="/category/lifestyle" />
-          <Slideshow height={600} loop={true} autoplay={true} navPosition="outside" multiSlide={3}>
-            <Slide
-              image="/images/posts/post-4.jpg"
-              heading="Sweet Coffee"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque…"
-              link="/blog/sweet-coffee"
-              button={false}
-              layout="overlay-bottom"
-            />
-            <Slide
-              image="/images/posts/post-8.jpg"
-              heading="Rustic decor"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque…"
-              link="/blog/rustic-decor"
-              button={false}
-              layout="overlay-bottom"
-            />
-            <Slide
-              image="/images/posts/post-9.jpg"
-              heading="Love of Books"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque…"
-              link="/blog/love-of-books"
-              button={false}
-              layout="overlay-bottom"
-            />
-            <Slide
-              image="/images/posts/post-10.jpg"
-              heading="Boho globe"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque…"
-              link="/blog/boho-globe"
-              button={false}
-              layout="overlay-bottom"
-            />
-            <Slide
-              image="/images/posts/post-11.jpg"
-              heading="Lazy Days"
-              subHeading="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque…"
-              link="/blog/lazy-days"
-              button={false}
-              layout="overlay-bottom"
-            />
-          </Slideshow>
+          <Slideshow
+            limit={5}
+            height="tall"
+            layout="overlay-bottom"
+            button={false}
+            excerptLength={10}
+            loop={true}
+            autoplay={true}
+            navPosition="outside"
+            multiSlide={3}
+          />
         </Container>
       </section>
 

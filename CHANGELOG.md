@@ -105,6 +105,7 @@ All notable changes to this project will be documented in this file.
 ##### Home
 
 - banner to fetch post from supabase
+- slideshow to fetch posts from supabase
 
 ##### Search form
 

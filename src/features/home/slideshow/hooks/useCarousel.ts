@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
-export default function useSlideshow(loop?: boolean, autoplay?: boolean) {
+export default function useCarousel(loop?: boolean, autoplay?: boolean) {
   const autoplayOptions =
     autoplay === true
       ? Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false, rootNode: (emblaRoot: HTMLElement) => emblaRoot.parentElement })
