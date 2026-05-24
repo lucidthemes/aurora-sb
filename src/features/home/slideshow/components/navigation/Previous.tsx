@@ -3,7 +3,7 @@ interface PreviousProps {
   navPosition?: 'inside' | 'outside';
 }
 
-export default function Previous({ scrollPrev, navPosition }: PreviousProps) {
+export default function SlideshowNavigationPrevious({ scrollPrev, navPosition }: PreviousProps) {
   const navPositionClasses = navPosition === 'outside' ? 'md:-left-16' : 'md:left-10';
   return (
     <button

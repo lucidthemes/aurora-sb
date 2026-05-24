@@ -3,7 +3,7 @@ interface NextProps {
   navPosition?: 'inside' | 'outside';
 }
 
-export default function Next({ scrollNext, navPosition }: NextProps) {
+export default function SlideshowNavigationNext({ scrollNext, navPosition }: NextProps) {
   const navPositionClasses = navPosition === 'outside' ? 'md:-right-16' : 'md:right-10';
   return (
     <button
