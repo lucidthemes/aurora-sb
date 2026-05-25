@@ -136,6 +136,14 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+#### Public
+
+- post authors json
+- post categories json
+- post comments json
+- post tags json
+- posts json
+
 #### Routes
 
 - search term route
