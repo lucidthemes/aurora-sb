@@ -1,8 +1,8 @@
 import useBlogList from './hooks/useBlogList';
 import BlogListLoading from './components/Loading';
 import BlogListError from './components/Error';
-import BlogListItemWide from './components/Item/WideLayout';
-import BlogListItemSmall from './components/Item/SmallLayout';
+import BlogListItemWide from './components/Item/Wide';
+import BlogListItemSmall from './components/Item/Small';
 import BlogListPagination from './components/pagination/Pagination';
 
 interface BlogListProps {
@@ -46,33 +46,18 @@ export default function BlogList({ limit, category, tag, author, search = '', st
   const gridExcerpt = 25;
 
   let listClasses = 'grid gap-10';
-  let mediaClasses = '';
-  let contentClasses = 'p-5 md:p-7.5';
 
   if (!wideGrid && !grid) {
     listClasses += ' grid-cols-1';
-    contentClasses += ' lg:p-10';
-    if (style.includes('small-small')) {
-      mediaClasses += ' lg:basis-[40%]';
-      contentClasses += ' lg:basis-[60%]';
-    } else if (style.includes('small-half')) {
-      mediaClasses += ' lg:basis-1/2';
-      contentClasses += ' lg:basis-1/2';
-    } else if (style.includes('small-large')) {
-      mediaClasses += ' lg:basis-[60%]';
-      contentClasses += ' lg:basis-[40%]';
-    }
   } else {
     if (style.includes('grid-2')) {
       listClasses += ' grid-cols-1 lg:grid-cols-2';
-      contentClasses += ' lg:p-10';
     }
     if (style.includes('grid-3')) {
       listClasses += ' grid-cols-1 lg:grid-cols-3';
     }
     if (style.includes('grid-4')) {
       listClasses += ' grid-cols-1 lg:grid-cols-4';
-      contentClasses += ' lg:p-5';
     }
   }
 
@@ -91,9 +76,9 @@ export default function BlogList({ limit, category, tag, author, search = '', st
               return (
                 <li key={post.id} className={itemWideGridClasses}>
                   {itemWide ? (
-                    <BlogListItemWide post={post} excerptLength={itemWideExcerptLength} mediaClasses={mediaClasses} contentClasses={contentClasses} />
+                    <BlogListItemWide post={post} isFirstPost={isFirstPost} style={style} excerptLength={itemWideExcerptLength} />
                   ) : (
-                    <BlogListItemSmall post={post} excerptLength={smallExcerpt} mediaClasses={mediaClasses} contentClasses={contentClasses} />
+                    <BlogListItemSmall post={post} style={style} excerptLength={smallExcerpt} />
                   )}
                 </li>
               );

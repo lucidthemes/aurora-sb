@@ -16,7 +16,7 @@ interface ContentProps {
 
 export default function Content({ post, excerptLength, contentClasses }: ContentProps) {
   return (
-    <div className={`flex flex-col ${contentClasses} gap-y-8 bg-white`}>
+    <div className={`flex flex-col gap-y-8 bg-white ${contentClasses}`}>
       <header className="flex flex-col gap-y-5">
         {post.categories && <CategoryList categories={post.categories} />}
         <h2>
