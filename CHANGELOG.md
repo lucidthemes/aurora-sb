@@ -72,6 +72,8 @@ All notable changes to this project will be documented in this file.
 - add posts comments rls policies migration
 - add pages table migration
 - add pages rls policies migration
+- add sidebars table migration
+- add sidebars rls policies migration
 
 ### Changed
 
