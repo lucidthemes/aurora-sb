@@ -1,10 +1,17 @@
 import { Link } from 'react-router-dom';
 
 import Button from '@components/UI/Button';
+import { textTruncateByWords } from '@utils/formatters';
 
 import type { Banner } from '../banner.schema';
 
-export default function BannerContent({ banner, align = 'center' }: { banner: Banner; align?: 'left' | 'center' | 'right' }) {
+interface BannerContentProps {
+  banner: Banner;
+  align?: 'left' | 'center' | 'right';
+  excerptLength?: number;
+}
+
+export default function BannerContent({ banner, align = 'center', excerptLength }: BannerContentProps) {
   const alignClass = align === 'left' ? 'start' : align === 'right' ? 'end' : 'center';
 
   return (
@@ -16,7 +23,7 @@ export default function BannerContent({ banner, align = 'center' }: { banner: Ba
           </Link>
         </h2>
       )}
-      {banner.excerpt && <p>{banner.excerpt}</p>}
+      {banner.excerpt && <p>{textTruncateByWords(banner.excerpt, excerptLength ?? 30)}</p>}
       <Button to={`/blog/${banner.slug}`}>Read more</Button>
     </div>
   );
