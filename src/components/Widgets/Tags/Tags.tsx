@@ -9,7 +9,7 @@ export default function TagsWidget({ title = '', limit }: { title?: string; limi
   const tagsWidgetQuery = useTags(limit);
 
   return (
-    <div className="tag-widget">
+    <section>
       <WidgetTitle>{title}</WidgetTitle>
       {tagsWidgetQuery.isPending && <TagsWidgetLoading />}
       {tagsWidgetQuery.isSuccess && tagsWidgetQuery.data && tagsWidgetQuery.data.length > 0 ? (
@@ -21,6 +21,6 @@ export default function TagsWidget({ title = '', limit }: { title?: string; limi
       ) : (
         <TagsWidgetError />
       )}
-    </div>
+    </section>
   );
 }
