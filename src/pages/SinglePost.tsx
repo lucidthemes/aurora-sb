@@ -14,47 +14,45 @@ export default function SinglePost() {
 
   if (blogPostQuery.isPending) return <PageSidebarLayoutLoading content={<BlogPostLoading />} sidebarPosition="right" />;
 
-  if ((blogPostQuery.isSuccess && !blogPostQuery.data) || blogPostQuery.isError) return <Navigate to="/404?returnto=blog" replace />;
+  if (blogPostQuery.isSuccess && !blogPostQuery.data) return <Navigate to="/404?returnto=blog" replace />;
 
-  const post = blogPostQuery.data;
+  if (blogPostQuery.isSuccess && blogPostQuery.data) {
+    const post = blogPostQuery.data;
 
-  const postOptions = post?.options;
-  const postHeaderBesideSidebar = postOptions?.header?.besideSidebar ?? true;
-  const postSidebarShow = postOptions?.sidebar.show ?? true;
-  const postSidebarOption = postOptions?.sidebar.option ?? 'sidebar-1';
-  const postSidebarPosition = postOptions?.sidebar.position ?? 'right';
+    const postOptions = post?.options;
+    const postHeaderBesideSidebar = postOptions?.header?.besideSidebar ?? true;
+    const postSidebarShow = postOptions?.sidebar.show ?? true;
+    const postSidebarOption = postOptions?.sidebar.option ?? 'sidebar-1';
+    const postSidebarPosition = postOptions?.sidebar.position ?? 'right';
 
-  return (
-    <>
-      {blogPostQuery.isSuccess && post && (
-        <article className="flex flex-col gap-y-10">
-          {!postSidebarShow && (
-            <>
-              <BlogPostHeader post={post} />
-              <PageLayout>
+    return (
+      <article className="flex flex-col gap-y-10">
+        {!postSidebarShow && (
+          <>
+            <BlogPostHeader post={post} />
+            <PageLayout>
+              <div className="flex flex-col gap-y-10">
+                <BlogPost post={post} />
+              </div>
+            </PageLayout>
+          </>
+        )}
+        {postSidebarShow && (
+          <>
+            {!postHeaderBesideSidebar && <BlogPostHeader post={post} />}
+            <PageSidebarLayout
+              content={
                 <div className="flex flex-col gap-y-10">
+                  {postHeaderBesideSidebar && <BlogPostHeader post={post} />}
                   <BlogPost post={post} />
                 </div>
-              </PageLayout>
-            </>
-          )}
-          {postSidebarShow && (
-            <>
-              {!postHeaderBesideSidebar && <BlogPostHeader post={post} />}
-              <PageSidebarLayout
-                content={
-                  <div className="flex flex-col gap-y-10">
-                    {postHeaderBesideSidebar && <BlogPostHeader post={post} />}
-                    <BlogPost post={post} />
-                  </div>
-                }
-                sidebar={<Sidebar name={postSidebarOption} />}
-                sidebarPosition={postSidebarPosition}
-              />
-            </>
-          )}
-        </article>
-      )}
-    </>
-  );
+              }
+              sidebar={<Sidebar name={postSidebarOption} />}
+              sidebarPosition={postSidebarPosition}
+            />
+          </>
+        )}
+      </article>
+    );
+  }
 }
