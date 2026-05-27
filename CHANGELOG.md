@@ -48,6 +48,12 @@ All notable changes to this project will be documented in this file.
 - server sub folder
 - get post
 
+##### Sidebar
+
+- sidebar sub folder
+- get sidebar fetch sidebar from supabase
+- sidebar schema
+
 #### Pages
 
 - not found page return to page button based on url parameter
@@ -78,6 +84,10 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 #### Components
+
+##### Footer
+
+- footer main to use footer sidebars
 
 ##### Widgets
 
@@ -119,6 +129,7 @@ All notable changes to this project will be documented in this file.
 - blog tag page to fetch from supabase
 - blog author page to fetch from supabase
 - single post page to fetch from supabase
+- about, blog, contact, home, and single post to use sidebar fetched from supabase
 
 #### Schemas
 
@@ -145,6 +156,12 @@ All notable changes to this project will be documented in this file.
 - post comments json
 - post tags json
 - posts json
+
+#### Components
+
+##### Layout
+
+- sidebar
 
 #### Routes
 

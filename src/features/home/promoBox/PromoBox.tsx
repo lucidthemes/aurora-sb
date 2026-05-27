@@ -26,7 +26,7 @@ export default function PromoBox({ image, heading, headingLevel = '3', subHeadin
 
   const content = (
     <div className="relative overflow-hidden rounded-md">
-      <img src={image} alt={heading} className="rounded-md" />
+      {image && <img src={image} alt={heading} className="rounded-md" />}
       <div className={`${defaultClasses} ${layoutClasses}`}>
         {heading && <HeadingTag>{heading}</HeadingTag>}
         {subHeading && <p>{subHeading}</p>}

@@ -1,7 +1,7 @@
 import { PageLayout, PageSidebarLayout } from '@components/Layout/PageLayout';
-import { Sidebar } from '@components/Layout/Sidebar';
 import PageTitle from '@components/UI/PageTitle';
 import PageContent from '@components/UI/PageContent';
+import Sidebar from '@features/sidebar';
 import type { ContentBlock } from '@typings/contentBlock';
 
 const aboutTitle = 'About';
@@ -63,7 +63,7 @@ export function AboutRightSidebar() {
           <PageContent content={aboutContent} />
         </>
       }
-      sidebar={<Sidebar></Sidebar>}
+      sidebar={<Sidebar name="sidebar-1" />}
       sidebarPosition="right"
     />
   );
@@ -78,7 +78,7 @@ export function AboutLeftSidebar() {
           <PageContent content={aboutContent} />
         </>
       }
-      sidebar={<Sidebar></Sidebar>}
+      sidebar={<Sidebar name="sidebar-1" />}
       sidebarPosition="left"
     />
   );

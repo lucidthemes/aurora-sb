@@ -1,12 +1,12 @@
 import Container from '@components/Layout/Container';
 import { PageSidebarLayout } from '@components/Layout/PageLayout';
-import { Sidebar, Sidebar2, Sidebar3 } from '@components/Layout/Sidebar';
 import SectionHeading from '@components/UI/SectionHeading';
 import Slideshow from '@features/home/slideshow';
 import Banner from '@features/home/banner';
 import PromoBox from '@features/home/promoBox';
 import Newsletter from '@features/home/newsletter';
 import BlogList from '@features/blog/blogList';
+import Sidebar from '@features/sidebar';
 
 export function Home() {
   return (
@@ -46,7 +46,7 @@ export function Home() {
       </section>
 
       <section aria-label="Latest blog posts">
-        <PageSidebarLayout content={<BlogList style="wide-small-small" />} sidebar={<Sidebar />} sidebarPosition="right" />
+        <PageSidebarLayout content={<BlogList style="wide-small-small" />} sidebar={<Sidebar name="sidebar-1" />} sidebarPosition="right" />
       </section>
     </>
   );
@@ -78,7 +78,7 @@ export function HomeClassic() {
       </section>
 
       <section aria-label="Latest blog posts">
-        <PageSidebarLayout content={<BlogList style="wide-small-half" />} sidebar={<Sidebar />} sidebarPosition="right" />
+        <PageSidebarLayout content={<BlogList style="wide-small-half" />} sidebar={<Sidebar name="sidebar-1" />} sidebarPosition="right" />
       </section>
     </>
   );
@@ -88,7 +88,7 @@ export function HomeMagazine() {
   return (
     <>
       <section aria-label="Latest blog posts">
-        <PageSidebarLayout content={<BlogList style="wide-small-small" postsPerPage={3} />} sidebar={<Sidebar2 />} sidebarPosition="right" />
+        <PageSidebarLayout content={<BlogList style="wide-small-small" postsPerPage={3} />} sidebar={<Sidebar name="sidebar-2" />} sidebarPosition="right" />
       </section>
 
       <section className="bg-spring-wood py-10" aria-label="Lifestyle post slideshow">
@@ -116,7 +116,7 @@ export function HomeMagazine() {
               <BlogList limit={3} category="travel" style="wide-grid-2" showPagination={false} />
             </>
           }
-          sidebar={<Sidebar3 />}
+          sidebar={<Sidebar name="sidebar-3" />}
           sidebarPosition="right"
         />
       </section>

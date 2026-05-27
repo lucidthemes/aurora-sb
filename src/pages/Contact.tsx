@@ -1,8 +1,8 @@
 import { PageLayout, PageSidebarLayout } from '@components/Layout/PageLayout';
-import { Sidebar } from '@components/Layout/Sidebar';
 import PageTitle from '@components/UI/PageTitle';
 import PageContent from '@components/UI/PageContent';
 import ContactForm from '@features/contactForm';
+import Sidebar from '@features/sidebar';
 import type { ContentBlock } from '@typings/contentBlock';
 
 const contactTitle = 'Contact';
@@ -35,7 +35,7 @@ export function ContactRightSidebar() {
           <ContactForm />
         </>
       }
-      sidebar={<Sidebar></Sidebar>}
+      sidebar={<Sidebar name="sidebar-1" />}
       sidebarPosition="right"
     />
   );
@@ -51,7 +51,7 @@ export function ContactLeftSidebar() {
           <ContactForm />
         </>
       }
-      sidebar={<Sidebar></Sidebar>}
+      sidebar={<Sidebar name="sidebar-1" />}
       sidebarPosition="left"
     />
   );

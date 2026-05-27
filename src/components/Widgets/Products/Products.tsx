@@ -7,9 +7,10 @@ import useProducts from './useProducts';
 
 interface ProductsWidgetProps {
   title?: string;
-  limit: number;
+  limit?: number;
   category?: number;
   style?: 'small' | 'wide';
+  location?: 'sidebar' | 'footer';
 }
 
 export default function ProductsWidget({ title = '', limit = 3, category, style = 'wide' }: ProductsWidgetProps) {
