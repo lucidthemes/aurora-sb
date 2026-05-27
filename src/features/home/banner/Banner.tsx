@@ -17,12 +17,14 @@ export default function Banner({ slug, layout = 'overlay', excerptLength = 40 }:
 
   if (bannerQuery.isSuccess && !bannerQuery.data) return <BannerError />;
 
-  const banner = bannerQuery.data;
+  if (bannerQuery.isSuccess && bannerQuery.data) {
+    const banner = bannerQuery.data;
 
-  return (
-    <>
-      {banner && layout === 'overlay' && <BannerOverlay banner={banner} excerptLength={excerptLength} />}
-      {banner && layout === 'split' && <BannerSplit banner={banner} excerptLength={excerptLength} />}
-    </>
-  );
+    return (
+      <>
+        {layout === 'overlay' && <BannerOverlay banner={banner} excerptLength={excerptLength} />}
+        {layout === 'split' && <BannerSplit banner={banner} excerptLength={excerptLength} />}
+      </>
+    );
+  }
 }
