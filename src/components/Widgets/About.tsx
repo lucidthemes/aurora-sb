@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom';
 
 import WidgetTitle from '@components/Widgets/Title';
 import SocialIcons from '@components/UI/SocialIcons';
+import { getPublicMediaUrl } from '@lib/supabase/storage';
 
 interface AboutWidgetProps {
   title?: string;
-  bgImage?: string;
+  backgroundImage?: string;
   authorImage?: string;
   heading?: string;
   content?: string;
+  link?: string;
   social?: boolean;
   centered?: boolean;
   padding?: boolean;
@@ -16,30 +18,37 @@ interface AboutWidgetProps {
 
 export default function AboutWidget({
   title = '',
-  bgImage = '',
+  backgroundImage = '',
   authorImage = '',
   heading = '',
   content = '',
+  link = '',
   social = true,
-  centered = false,
-  padding = false,
+  centered = true,
+  padding = true,
 }: AboutWidgetProps) {
+  let backgroundMediaUrl = '';
+  let authorMediaUrl = '';
+
+  if (backgroundImage) backgroundMediaUrl = getPublicMediaUrl(backgroundImage);
+  if (authorImage) authorMediaUrl = getPublicMediaUrl(authorImage);
+
   return (
     <section className={`about-widget ${centered ? 'text-center' : ''} ${padding ? 'rounded-md bg-pampas p-5' : ''} `}>
       <WidgetTitle>{title}</WidgetTitle>
-      {bgImage && <img src={bgImage} alt={heading} className="rounded-md" />}
-      {authorImage && (
+      {backgroundMediaUrl && <img src={backgroundMediaUrl} alt={heading} className="rounded-md" />}
+      {authorMediaUrl && (
         <Link
-          to="/about"
-          className="relative mx-auto mt-[-75px] mb-5 block h-35 w-35 rounded-full border-4 border-white bg-cover bg-center transition-colors duration-300 ease-in-out hover:border-pearl-bush focus:border-pearl-bush"
+          to={link}
+          className="relative mx-auto mt-[-75px] mb-5 block h-35 w-35 overflow-hidden rounded-full border-4 border-white bg-cover bg-center transition-colors duration-300 ease-in-out hover:border-pearl-bush focus:border-pearl-bush"
         >
-          <img src={authorImage} alt={heading} className="rounded-full" />
+          <img src={authorMediaUrl} alt={heading} className="h-full w-full" />
         </Link>
       )}
       <div className="flex flex-col gap-y-5">
         {heading && (
           <h4>
-            <Link to="/about" className="transition-colors duration-300 ease-in-out hover:text-boulder focus:text-boulder">
+            <Link to={link} className="transition-colors duration-300 ease-in-out hover:text-boulder focus:text-boulder">
               {heading}
             </Link>
           </h4>
