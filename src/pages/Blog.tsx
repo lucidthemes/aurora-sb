@@ -1,23 +1,23 @@
 import { useParams, useSearchParams, Navigate } from 'react-router-dom';
 
 import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
-import { Sidebar } from '@components/Layout/Sidebar';
 import BlogList from '@features/blog/blogList';
 import BlogListLoading from '@features/blog/blogList/components/Loading';
 import BlogListTaxonomyHeader from '@features/blog/blogList/components/taxonomy/Header';
 import BlogListTaxonomyHeaderLoading from '@features/blog/blogList/components/taxonomy/HeaderLoading';
 import useBlogListTaxonomy from '@features/blog/blogList/hooks/useBlogListTaxonomy';
 import SearchForm from '@features/searchForm';
+import Sidebar from '@features/sidebar';
 
 export function Blog() {
   const [searchParams] = useSearchParams();
   const layout = searchParams.get('layout') || 'wide-small-small';
 
-  return <PageSidebarLayout content={<BlogList style={layout} />} sidebar={<Sidebar></Sidebar>} sidebarPosition="right" />;
+  return <PageSidebarLayout content={<BlogList style={layout} />} sidebar={<Sidebar name="sidebar-1" />} sidebarPosition="right" />;
 }
 
 export function BlogLeftSidebar() {
-  return <PageSidebarLayout content={<BlogList style="wide-small-small" />} sidebar={<Sidebar></Sidebar>} sidebarPosition="left" />;
+  return <PageSidebarLayout content={<BlogList style="wide-small-small" />} sidebar={<Sidebar name="sidebar-1" />} sidebarPosition="left" />;
 }
 
 export function BlogHiddenSidebar() {
@@ -56,7 +56,7 @@ export function BlogCategory() {
               <BlogList category={blogCategoryQuery.data.slug} style="wide-small-small" />
             </>
           }
-          sidebar={<Sidebar></Sidebar>}
+          sidebar={<Sidebar name="sidebar-1" />}
           sidebarPosition="right"
         />
       )}
@@ -92,7 +92,7 @@ export function BlogTag() {
               <BlogList tag={blogTagQuery.data.slug} style="wide-small-small" />
             </>
           }
-          sidebar={<Sidebar></Sidebar>}
+          sidebar={<Sidebar name="sidebar-1" />}
           sidebarPosition="right"
         />
       )}
@@ -115,7 +115,7 @@ export function BlogSearch() {
           <BlogList search={term} style="wide-small-small" />
         </>
       }
-      sidebar={<Sidebar></Sidebar>}
+      sidebar={<Sidebar name="sidebar-1" />}
       sidebarPosition="right"
     />
   );
@@ -149,7 +149,7 @@ export function BlogAuthor() {
               <BlogList author={blogAuthorQuery.data.id} style="wide-small-small" />
             </>
           }
-          sidebar={<Sidebar></Sidebar>}
+          sidebar={<Sidebar name="sidebar-1" />}
           sidebarPosition="right"
         />
       )}

@@ -1,11 +1,11 @@
 import { useParams, Navigate } from 'react-router-dom';
 
 import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
-import { Sidebar } from '@components/Layout/Sidebar';
 import useSinglePost from '@features/blog/blogPost/useSinglePost';
 import BlogPostHeader from '@features/blog/blogPost/components/header';
 import BlogPost from '@features/blog/blogPost';
 import BlogPostLoading from '@features/blog/blogPost/components/Loading';
+import Sidebar from '@features/sidebar';
 
 export default function SinglePost() {
   const { slug } = useParams();
@@ -21,6 +21,7 @@ export default function SinglePost() {
   const postOptions = post?.options;
   const postHeaderBesideSidebar = postOptions?.header?.besideSidebar ?? true;
   const postSidebarShow = postOptions?.sidebar.show ?? true;
+  const postSidebarOption = postOptions?.sidebar.option ?? 'sidebar-1';
   const postSidebarPosition = postOptions?.sidebar.position ?? 'right';
 
   return (
@@ -47,7 +48,7 @@ export default function SinglePost() {
                     <BlogPost post={post} />
                   </div>
                 }
-                sidebar={<Sidebar />}
+                sidebar={<Sidebar name={postSidebarOption} />}
                 sidebarPosition={postSidebarPosition}
               />
             </>
