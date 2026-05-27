@@ -41,35 +41,33 @@ export default function Slideshow({
 
   if (slideshowQuery.isSuccess && (!slideshowQuery.data || slideshowQuery.data.length === 0)) return <SlideshowError />;
 
-  const slides = slideshowQuery.data;
+  if (slideshowQuery.isSuccess && slideshowQuery.data && slideshowQuery.data.length > 0) {
+    const slides = slideshowQuery.data;
 
-  const heightClass = height === 'standard' ? 'md:h-125' : height === 'tall' ? 'md:h-150' : 'md:h-125';
-  const multiSlideClass = multiSlide ? '-mr-10' : '';
+    const heightClass = height === 'standard' ? 'md:h-125' : height === 'tall' ? 'md:h-150' : 'md:h-125';
+    const multiSlideClass = multiSlide ? '-mr-10' : '';
 
-  return (
-    <>
-      {slideshowQuery.isSuccess && slides && slides.length > 0 && (
-        <div className="embla-carousel relative" aria-label="Carousel">
-          <SlideshowNavigation scrollPrev={scrollPrev} scrollNext={scrollNext} navPosition={navPosition} heightClass={heightClass} />
-          <div className="embla overflow-hidden rounded-md" ref={emblaRef}>
-            <div className={`embla__container ${multiSlideClass} flex ${heightClass}`}>
-              {slides.map((slide) => (
-                <SlideshowSlide
-                  key={slide.id}
-                  slide={slide}
-                  button={button}
-                  layout={layout}
-                  align={align}
-                  excerptLength={excerptLength}
-                  multiSlide={multiSlide}
-                  heightClass={heightClass}
-                />
-              ))}
-            </div>
+    return (
+      <div className="embla-carousel relative" aria-label="Carousel">
+        <SlideshowNavigation scrollPrev={scrollPrev} scrollNext={scrollNext} navPosition={navPosition} heightClass={heightClass} />
+        <div className="embla overflow-hidden rounded-md" ref={emblaRef}>
+          <div className={`embla__container ${multiSlideClass} flex ${heightClass}`}>
+            {slides.map((slide) => (
+              <SlideshowSlide
+                key={slide.id}
+                slide={slide}
+                button={button}
+                layout={layout}
+                align={align}
+                excerptLength={excerptLength}
+                multiSlide={multiSlide}
+                heightClass={heightClass}
+              />
+            ))}
           </div>
-          <SlideshowDots scrollSnaps={scrollSnaps} selectedIndex={selectedIndex} scrollTo={scrollTo} />
         </div>
-      )}
-    </>
-  );
+        <SlideshowDots scrollSnaps={scrollSnaps} selectedIndex={selectedIndex} scrollTo={scrollTo} />
+      </div>
+    );
+  }
 }
