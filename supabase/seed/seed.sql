@@ -36,6 +36,19 @@ INSERT INTO public.instagram_feed_media (instagram_feed_id, media_id, position) 
 ('6a0b506f-1717-434c-8333-f7f4e8f5bb1b', '84df9dcd-325c-4507-914b-575aaccfd2e4', 8),
 ('6a0b506f-1717-434c-8333-f7f4e8f5bb1b', 'aba12b37-d555-4383-9db1-fbec6ae13a1d', 9);
 
+-- pages
+INSERT INTO public.pages (id, title, slug, content, status, created_at, updated_at, options) VALUES 
+('1e8eec3b-e186-41f9-b82d-11e011ea9b9e', 'About', 'about-right', null, 'published', '2026-05-28 11:09:58.06074+00', '2026-05-28 11:09:58.06074+00', '{"sidebar": {"show": true, "option": "sidebar-1", "position": "right"}}'), 
+('3005233b-6366-416e-aa6e-269a31348288', 'Contact', 'contact-left', null, 'published', '2026-05-28 11:19:20.340775+00', '2026-05-28 11:19:20.340775+00', '{"sidebar": {"show": true, "option": "sidebar-1", "position": "left"}}'), 
+('56cb89b8-ab2c-4286-ab2e-83f07b3e0050', 'About', 'about-left', null, 'published', '2026-05-28 11:10:08.794001+00', '2026-05-28 11:10:08.794001+00', '{"sidebar": {"show": true, "option": "sidebar-1", "position": "left"}}'), 
+('7f64412e-20d9-47a5-ad59-98a8e421aaad', 'Contact', 'contact', null, 'published', '2026-05-28 11:13:45.550422+00', '2026-05-28 11:13:45.550422+00', '{"sidebar": {"show": false}}'), 
+('8a9b16ee-6e48-4168-94ac-7bb8849c187a', 'About', 'about', null, 'published', '2026-05-28 09:48:04.250153+00', '2026-05-28 09:48:04.250153+00', '{"sidebar": {"show": false}}'), 
+('dfc79d6a-6a4a-4599-b714-cf2a5b856b0f', 'Contact', 'contact-right', null, 'published', '2026-05-28 11:19:10.172172+00', '2026-05-28 11:19:10.172172+00', '{"sidebar": {"show": true, "option": "sidebar-1", "position": "right"}}');
+
+-- post_authors
+INSERT INTO public.post_authors (id, name, slug, description, created_at) VALUES
+('2ad9506e-0d94-4170-ac6b-399675b3fc7e', 'Lucid Themes', 'lucid-themes', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.', CURRENT_DATE);
+
 -- post_categories
 INSERT INTO public.post_categories (id, name, slug, description, created_at) VALUES
 ('134368fa-d7f4-4010-9618-d0e8625cf013', 'Travel', 'travel', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.', CURRENT_DATE),
@@ -50,16 +63,11 @@ INSERT INTO public.post_tags (id, name, slug, description, created_at) VALUES
 ('aba8136e-12ab-42c9-b88b-ea65ff2ad89c', 'Lifestyle', 'lifestyle', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.', CURRENT_DATE),
 ('fd46239c-7ef4-4c47-a400-57446fedf3da', 'Outdoors', 'outdoors', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.', CURRENT_DATE);
 
--- post_authors
-INSERT INTO public.post_authors (id, name, slug, description, created_at) VALUES
-('2ad9506e-0d94-4170-ac6b-399675b3fc7e', 'Lucid Themes', 'lucid-themes', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est.', CURRENT_DATE);
-
 -- posts
 INSERT INTO public.posts (id, title, slug, author_id, media_id, excerpt, content, status, created_at, updated_at, options) VALUES 
 ('d5d045dc-6542-4dcd-8bd7-5b5ebb490c4f', 'Dune walk', 'dune-walk', '2ad9506e-0d94-4170-ac6b-399675b3fc7e', '5e793f0c-4f67-4661-ac27-95f86af5247d', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est. Suspendisse eleifend dui odio, id', null, 'published', '2026-05-11 11:00:00+00', '2026-05-11 11:48:39.870294+00', '{"header": {"show": true, "layout": "outside-above", "besideSidebar": false}, "sidebar": {"show": true, "option": "sidebar-1", "position": "right"}}'), 
 ('bfb70be6-1225-4ac5-b738-f4e72192132c', 'Old Town Centre', 'old-town-centre', '2ad9506e-0d94-4170-ac6b-399675b3fc7e', '65a55d48-b1e8-456f-b92a-33d22e64fae0', null, null, 'published', '2026-05-11 10:00:00+00', '2026-05-11 09:42:39+00', '{"header": {"show": true, "layout": "outside-below", "besideSidebar": true}, "sidebar": {"show": true, "option": "sidebar-1", "position": "right"}}'), 
 ('42335c3a-d1bf-458b-8039-f23aca8f825b', 'Beach Adventure', 'beach-adventure', '2ad9506e-0d94-4170-ac6b-399675b3fc7e', '5e793f0c-4f67-4661-ac27-95f86af5247d', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque nibh enim, quis euismod enim lacinia nec. Phasellus quam diam, semper in erat eu, efficitur molestie purus. Sed a elementum mi. Sed interdum mattis risus, sit amet eleifend ligula luctus ut. Sed ullamcorper lorem aliquam, tincidunt lorem et, ultrices est. Suspendisse eleifend dui odio, id', null, 'published', '2026-05-11 09:00:00+00', '2026-05-14 14:40:20.695056+00', '{"header": {"show": true, "layout": "split-wide", "besideSidebar": false}, "sidebar": {"show": true, "option": "sidebar-1", "position": "right"}}');
-
 
 -- posts_categories
 INSERT INTO public.posts_categories (id, category_id, post_id) VALUES 

@@ -48,6 +48,12 @@ All notable changes to this project will be documented in this file.
 - server sub folder
 - get post
 
+##### Page
+
+- page sub folder
+- get page fetch page from supabase
+- page schema
+
 ##### Sidebar
 
 - sidebar sub folder
@@ -131,6 +137,11 @@ All notable changes to this project will be documented in this file.
 - single post page to fetch from supabase
 - about, blog, contact, home, and single post to use sidebar fetched from supabase
 
+#### Routes
+
+- about page routes to use single page
+- contact page routes to use single page
+
 #### Schemas
 
 - move account schemas into features account folder
@@ -162,6 +173,11 @@ All notable changes to this project will be documented in this file.
 ##### Layout
 
 - sidebar
+
+#### Page
+
+- about
+- contact
 
 #### Routes
 
