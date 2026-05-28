@@ -33,35 +33,37 @@ export function BlogCategory() {
 
   const blogCategoryQuery = useBlogListTaxonomy({ taxonomy: 'category', slug: slug ?? '' });
 
-  if ((blogCategoryQuery.isSuccess && !blogCategoryQuery.data) || blogCategoryQuery.isError) return <Navigate to="/404" replace />;
+  if (blogCategoryQuery.isPending)
+    return (
+      <PageSidebarLayoutLoading
+        content={
+          <>
+            <BlogListTaxonomyHeaderLoading />
+            <BlogListLoading />
+          </>
+        }
+        sidebarPosition="right"
+      />
+    );
 
-  return (
-    <>
-      {blogCategoryQuery.isPending && (
-        <PageSidebarLayoutLoading
-          content={
-            <>
-              <BlogListTaxonomyHeaderLoading />
-              <BlogListLoading />
-            </>
-          }
-          sidebarPosition="right"
-        />
-      )}
-      {blogCategoryQuery.isSuccess && blogCategoryQuery.data && (
-        <PageSidebarLayout
-          content={
-            <>
-              <BlogListTaxonomyHeader heading={blogCategoryQuery.data.name} description={blogCategoryQuery.data.description} />
-              <BlogList category={blogCategoryQuery.data.slug} style="wide-small-small" />
-            </>
-          }
-          sidebar={<Sidebar name="sidebar-1" />}
-          sidebarPosition="right"
-        />
-      )}
-    </>
-  );
+  if (blogCategoryQuery.isSuccess && !blogCategoryQuery.data) return <Navigate to="/404" replace />;
+
+  if (blogCategoryQuery.isSuccess && blogCategoryQuery.data) {
+    const category = blogCategoryQuery.data;
+
+    return (
+      <PageSidebarLayout
+        content={
+          <>
+            <BlogListTaxonomyHeader heading={category.name} description={category.description} />
+            <BlogList category={category.slug} style="wide-small-small" />
+          </>
+        }
+        sidebar={<Sidebar name="sidebar-1" />}
+        sidebarPosition="right"
+      />
+    );
+  }
 }
 
 export function BlogTag() {
@@ -69,35 +71,37 @@ export function BlogTag() {
 
   const blogTagQuery = useBlogListTaxonomy({ taxonomy: 'tag', slug: slug ?? '' });
 
-  if ((blogTagQuery.isSuccess && !blogTagQuery.data) || blogTagQuery.isError) return <Navigate to="/404" replace />;
+  if (blogTagQuery.isPending)
+    return (
+      <PageSidebarLayoutLoading
+        content={
+          <>
+            <BlogListTaxonomyHeaderLoading />
+            <BlogListLoading />
+          </>
+        }
+        sidebarPosition="right"
+      />
+    );
 
-  return (
-    <>
-      {blogTagQuery.isPending && (
-        <PageSidebarLayoutLoading
-          content={
-            <>
-              <BlogListTaxonomyHeaderLoading />
-              <BlogListLoading />
-            </>
-          }
-          sidebarPosition="right"
-        />
-      )}
-      {blogTagQuery.isSuccess && blogTagQuery.data && (
-        <PageSidebarLayout
-          content={
-            <>
-              <BlogListTaxonomyHeader heading={blogTagQuery.data.name} description={blogTagQuery.data.description} />
-              <BlogList tag={blogTagQuery.data.slug} style="wide-small-small" />
-            </>
-          }
-          sidebar={<Sidebar name="sidebar-1" />}
-          sidebarPosition="right"
-        />
-      )}
-    </>
-  );
+  if (blogTagQuery.isSuccess && !blogTagQuery.data) return <Navigate to="/404" replace />;
+
+  if (blogTagQuery.isSuccess && blogTagQuery.data) {
+    const tag = blogTagQuery.data;
+
+    return (
+      <PageSidebarLayout
+        content={
+          <>
+            <BlogListTaxonomyHeader heading={tag.name} description={tag.description} />
+            <BlogList tag={tag.slug} style="wide-small-small" />
+          </>
+        }
+        sidebar={<Sidebar name="sidebar-1" />}
+        sidebarPosition="right"
+      />
+    );
+  }
 }
 
 export function BlogSearch() {
@@ -126,33 +130,35 @@ export function BlogAuthor() {
 
   const blogAuthorQuery = useBlogListTaxonomy({ taxonomy: 'author', slug: slug ?? '' });
 
-  if ((blogAuthorQuery.isSuccess && !blogAuthorQuery.data) || blogAuthorQuery.isError) return <Navigate to="/404" replace />;
+  if (blogAuthorQuery.isPending)
+    return (
+      <PageSidebarLayoutLoading
+        content={
+          <>
+            <BlogListTaxonomyHeaderLoading />
+            <BlogListLoading />
+          </>
+        }
+        sidebarPosition="right"
+      />
+    );
 
-  return (
-    <>
-      {blogAuthorQuery.isPending && (
-        <PageSidebarLayoutLoading
-          content={
-            <>
-              <BlogListTaxonomyHeaderLoading />
-              <BlogListLoading />
-            </>
-          }
-          sidebarPosition="right"
-        />
-      )}
-      {blogAuthorQuery.isSuccess && blogAuthorQuery.data && (
-        <PageSidebarLayout
-          content={
-            <>
-              <BlogListTaxonomyHeader heading={blogAuthorQuery.data.name} description={blogAuthorQuery.data.description} />
-              <BlogList author={blogAuthorQuery.data.id} style="wide-small-small" />
-            </>
-          }
-          sidebar={<Sidebar name="sidebar-1" />}
-          sidebarPosition="right"
-        />
-      )}
-    </>
-  );
+  if (blogAuthorQuery.isSuccess && !blogAuthorQuery.data) return <Navigate to="/404" replace />;
+
+  if (blogAuthorQuery.isSuccess && blogAuthorQuery.data) {
+    const author = blogAuthorQuery.data;
+
+    return (
+      <PageSidebarLayout
+        content={
+          <>
+            <BlogListTaxonomyHeader heading={author.name} description={author.description} />
+            <BlogList author={author.id} style="wide-small-small" />
+          </>
+        }
+        sidebar={<Sidebar name="sidebar-1" />}
+        sidebarPosition="right"
+      />
+    );
+  }
 }
