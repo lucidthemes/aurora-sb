@@ -1,8 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 
 import { Home, HomeClassic, HomeMagazine, HomeMinimal } from '@pages/Home';
-import { About, AboutRightSidebar, AboutLeftSidebar } from '@pages/About';
-import { Contact, ContactRightSidebar, ContactLeftSidebar } from '@pages/Contact';
+
+import SinglePage from '@pages/SinglePage';
 
 import { Blog, BlogLeftSidebar, BlogHiddenSidebar, BlogCategory, BlogTag, BlogSearch, BlogAuthor } from '@pages/Blog';
 import SinglePost from '@pages/SinglePost';
@@ -32,12 +32,12 @@ export default function AppRoutes() {
     { path: '/home-classic', element: <HomeClassic /> },
     { path: '/home-magazine', element: <HomeMagazine /> },
     { path: '/home-minimal', element: <HomeMinimal /> },
-    { path: '/about', element: <About /> },
-    { path: '/about-right', element: <AboutRightSidebar /> },
-    { path: '/about-left', element: <AboutLeftSidebar /> },
-    { path: '/contact', element: <Contact /> },
-    { path: '/contact-right', element: <ContactRightSidebar /> },
-    { path: '/contact-left', element: <ContactLeftSidebar /> },
+    { path: '/about', element: <SinglePage slug="about" /> },
+    { path: '/about-right', element: <SinglePage slug="about-right" /> },
+    { path: '/about-left', element: <SinglePage slug="about-left" /> },
+    { path: '/contact', element: <SinglePage slug="contact" /> },
+    { path: '/contact-right', element: <SinglePage slug="contact-right" /> },
+    { path: '/contact-left', element: <SinglePage slug="contact-left" /> },
     { path: '/blog', element: <Blog /> },
     { path: '/blog-left', element: <BlogLeftSidebar /> },
     { path: '/blog-hidden', element: <BlogHiddenSidebar /> },
