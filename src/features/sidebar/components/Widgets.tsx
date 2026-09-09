@@ -61,9 +61,7 @@ function renderWidget(widget: Widgets) {
 export default function SidebarWidgets({ widgets }: { widgets: Widgets[] | null }) {
   if (!widgets) return <p>No widgets found</p>;
 
-  const sortedWidgets = widgets.sort((a, b) => a.order - b.order);
-
-  const renderedWidgets = sortedWidgets.map((widget) => renderWidget(widget));
+  const renderedWidgets = widgets.map((widget) => renderWidget(widget));
 
   if (renderedWidgets) return renderedWidgets;
 }
