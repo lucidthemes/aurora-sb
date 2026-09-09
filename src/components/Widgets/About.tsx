@@ -26,9 +26,11 @@ export default function AboutWidget({
   centered = true,
   padding = true,
 }: AboutWidgetProps) {
+  const titleAlignOption = centered ? 'center' : 'left';
+
   return (
     <section className={`about-widget ${centered ? 'text-center' : ''} ${padding ? 'rounded-md bg-pampas p-5' : ''} `}>
-      <WidgetTitle>{title}</WidgetTitle>
+      <WidgetTitle align={titleAlignOption}>{title}</WidgetTitle>
       {backgroundImage && <img src={backgroundImage} alt={heading} className="rounded-md" />}
       {authorImage && (
         <Link
