@@ -9,7 +9,7 @@ import type { TagsWidgetTag } from './tags.schema';
 export async function getTagsWidgetTags(limit?: number): Promise<TagsWidgetTag[] | null> {
   let query = supabase.from('post_tags').select('id, name, slug');
 
-  if (limit) query = query.limit(limit);
+  if (limit && limit > 0) query = query.limit(limit);
 
   const { data, error } = await query;
 
