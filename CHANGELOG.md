@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 #### Components
 
+##### Content
+
+- content blocks integration with dashboard editor
+
 ##### Layout
 
 - page sidebar layout loading skeleton
@@ -63,6 +67,10 @@ All notable changes to this project will be documented in this file.
 #### Pages
 
 - not found page return to page button based on url parameter
+
+#### Schemas
+
+- content blocks schema
 
 #### Supabase
 
