@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+/* old content block schema - temp used for products only */
+
 const BaseBlockSchema = z.object({
   id: z.number().int().positive(),
   text: z.string(),
@@ -24,4 +26,9 @@ const BlockquoteBlockSchema = BaseBlockSchema.extend({
   cite: z.string().optional(),
 });
 
-export const ContentBlockSchema = z.discriminatedUnion('type', [HeadingBlockSchema, ParagraphBlockSchema, PullquoteBlockSchema, BlockquoteBlockSchema]);
+export const ContentBlockSchema = z.discriminatedUnion('type', [
+  HeadingBlockSchema,
+  ParagraphBlockSchema,
+  PullquoteBlockSchema,
+  BlockquoteBlockSchema,
+]);
