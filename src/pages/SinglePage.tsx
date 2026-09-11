@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 
 import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
 import PageTitle from '@components/UI/PageTitle';
-import PageContent from '@components/UI/PageContent';
+import PageContent from '@components/content';
 import ContactForm from '@features/contactForm';
 import useSinglePage from '@features/page/useSinglePage';
 import SinglePageLoading from '@features/page/Loading';

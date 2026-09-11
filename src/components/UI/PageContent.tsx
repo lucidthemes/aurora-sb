@@ -2,6 +2,8 @@ import type { ElementType } from 'react';
 
 import type { ContentBlock } from '@typings/contentBlock';
 
+/* old content block render - temp used for products only */
+
 interface PageContentProps {
   content: ContentBlock[];
 }

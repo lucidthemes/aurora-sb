@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
-import { ContentBlockSchema } from '@schemas/contentBlock.schema';
+import { ContentBlocksSchema } from '@schemas/contentBlocks.schema';
 
 export const PageSchema = z.object({
   title: z.string(),
-  content: z.array(ContentBlockSchema).nullable(),
+  content: z.array(ContentBlocksSchema).nullable(),
   options: z
     .object({
       sidebar: z.object({
