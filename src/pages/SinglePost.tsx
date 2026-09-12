@@ -1,6 +1,8 @@
 import { useParams, Navigate } from 'react-router-dom';
 
 import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
+import PageContent from '@components/content';
+import Container from '@components/Layout/Container';
 import useSinglePost from '@features/blog/blogPost/useSinglePost';
 import BlogPostHeader from '@features/blog/blogPost/components/header';
 import BlogPost from '@features/blog/blogPost';
@@ -12,7 +14,8 @@ export default function SinglePost() {
 
   const blogPostQuery = useSinglePost(slug ?? '');
 
-  if (blogPostQuery.isPending) return <PageSidebarLayoutLoading content={<BlogPostLoading />} sidebarPosition="right" />;
+  if (blogPostQuery.isPending)
+    return <PageSidebarLayoutLoading content={<BlogPostLoading />} sidebarPosition="right" />;
 
   if (blogPostQuery.isSuccess && !blogPostQuery.data) return <Navigate to="/404?returnto=blog" replace />;
 
@@ -30,9 +33,14 @@ export default function SinglePost() {
         {!postSidebarShow && (
           <>
             <BlogPostHeader post={post} />
-            <PageLayout>
+            <PageLayout fullWidth={true}>
               <div className="flex flex-col gap-y-10">
-                <BlogPost post={post} />
+                {post.content && <PageContent content={post.content} fullWidth={true} />}
+                <Container>
+                  <div className="flex flex-col gap-y-10">
+                    <BlogPost post={post} />
+                  </div>
+                </Container>
               </div>
             </PageLayout>
           </>
@@ -44,6 +52,7 @@ export default function SinglePost() {
               content={
                 <div className="flex flex-col gap-y-10">
                   {postHeaderBesideSidebar && <BlogPostHeader post={post} />}
+                  {post.content && <PageContent content={post.content} />}
                   <BlogPost post={post} />
                 </div>
               }

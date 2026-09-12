@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { ContentBlockSchema } from '@schemas/contentBlock.schema';
+import { ContentBlocksSchema } from '@schemas/contentBlocks.schema';
 
 import { PostAuthorSchema } from './author.schema';
 import { PostCategorySchema } from './category.schema';
@@ -24,7 +24,7 @@ export const PostSchema = z.object({
   tags: z.array(PostTagSchema),
   related: z.array(PostRelatedSchema),
   comments: z.array(PostCommentSchema),
-  content: z.array(ContentBlockSchema).nullable(),
+  content: z.array(ContentBlocksSchema).nullable(),
   status: z.enum(['draft', 'published']),
   created_at: z.string(),
   updated_at: z.string(),
