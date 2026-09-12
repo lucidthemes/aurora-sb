@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 
 import blockStyles from '../block.module.css';
 import { blockCustomClassesFormat } from '../block-utils';
+import { sanitizeBlockContent } from '../block-sanitize';
 
 import type { MediaTextContentBlock } from './schema';
 import mediaTextBlockStyles from './style.module.css';
@@ -31,6 +32,8 @@ export default function MediaTextBlockRender({ id, type, attributes }: MediaText
 
   const blockClass = blockStyles.block;
   const blockClasses = (blockClass + ' ' + blockCustomClasses).trim() + ' ' + mediaTextBlockClass;
+
+  const sanitizedText = sanitizeBlockContent({ value: text });
 
   return (
     <div
@@ -67,7 +70,7 @@ export default function MediaTextBlockRender({ id, type, attributes }: MediaText
         )}
       </div>
       <div className={mediaTextBlockContentClass}>
-        <p>{text}</p>
+        <p dangerouslySetInnerHTML={{ __html: sanitizedText }} />
       </div>
     </div>
   );

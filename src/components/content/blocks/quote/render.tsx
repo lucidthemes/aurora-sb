@@ -1,5 +1,6 @@
 import blockStyles from '../block.module.css';
 import { blockCustomClassesFormat } from '../block-utils';
+import { sanitizeBlockContent } from '../block-sanitize';
 
 import type { QuoteContentBlock } from './schema';
 import quoteBlockStyles from './style.module.css';
@@ -22,6 +23,11 @@ export default function QuoteBlockRender({ id, type, attributes }: QuoteContentB
 
   if (!content && !cite) return;
 
+  const sanitizedContent = content ? sanitizeBlockContent({ value: content }) : undefined;
+  const sanitizedCite = cite ? sanitizeBlockContent({ value: cite }) : undefined;
+
+  if (!sanitizedContent && !sanitizedCite) return;
+
   return (
     <blockquote
       {...blockAnchor}
@@ -31,8 +37,8 @@ export default function QuoteBlockRender({ id, type, attributes }: QuoteContentB
       data-block-width={blockWidth}
       data-block-align={blockAlign}
     >
-      <p>{content}</p>
-      <cite>{cite}</cite>
+      {sanitizedContent && <p dangerouslySetInnerHTML={{ __html: sanitizedContent }} />}
+      {sanitizedCite && <cite dangerouslySetInnerHTML={{ __html: sanitizedCite }} />}
     </blockquote>
   );
 }
