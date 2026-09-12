@@ -1,5 +1,6 @@
 import blockStyles from '../block.module.css';
 import { blockCustomClassesFormat } from '../block-utils';
+import { sanitizeBlockContent } from '../block-sanitize';
 
 import type { ParagraphContentBlock } from './schema';
 import paragraphBlockStyles from './style.module.css';
@@ -21,6 +22,10 @@ export default function ParagraphBlockRender({ id, type, attributes }: Paragraph
 
   if (!content) return;
 
+  const sanitizedContent = sanitizeBlockContent({ value: content });
+
+  if (!sanitizedContent) return;
+
   return (
     <p
       {...blockAnchor}
@@ -29,8 +34,7 @@ export default function ParagraphBlockRender({ id, type, attributes }: Paragraph
       data-block-type={type}
       data-block-width={blockWidth}
       data-block-align={blockAlign}
-    >
-      {content}
-    </p>
+      dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+    />
   );
 }

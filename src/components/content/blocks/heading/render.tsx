@@ -1,5 +1,6 @@
 import blockStyles from '../block.module.css';
 import { blockCustomClassesFormat } from '../block-utils';
+import { sanitizeBlockContent } from '../block-sanitize';
 
 import type { HeadingContentBlock } from './schema';
 import headingBlockStyles from './style.module.css';
@@ -23,6 +24,10 @@ export default function HeadingBlockRender({ id, type, attributes }: HeadingCont
 
   if (!content) return;
 
+  const sanitizedContent = sanitizeBlockContent({ value: content });
+
+  if (!sanitizedContent) return;
+
   return (
     <HeadingBlockTag
       {...blockAnchor}
@@ -31,8 +36,7 @@ export default function HeadingBlockRender({ id, type, attributes }: HeadingCont
       data-block-type={type}
       data-block-width={blockWidth}
       data-block-align={blockAlign}
-    >
-      {content}
-    </HeadingBlockTag>
+      dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+    />
   );
 }

@@ -1,5 +1,6 @@
 import blockStyles from '../block.module.css';
 import { blockCustomClassesFormat } from '../block-utils';
+import { sanitizeBlockContent } from '../block-sanitize';
 
 import type { PullquoteContentBlock } from './schema';
 import pullquoteBlockStyles from './style.module.css';
@@ -22,6 +23,11 @@ export default function PullquoteBlockRender({ id, type, attributes }: Pullquote
 
   if (!content && !cite) return;
 
+  const sanitizedContent = content ? sanitizeBlockContent({ value: content }) : undefined;
+  const sanitizedCite = cite ? sanitizeBlockContent({ value: cite }) : undefined;
+
+  if (!sanitizedContent && !sanitizedCite) return;
+
   return (
     <figure
       {...blockAnchor}
@@ -32,8 +38,8 @@ export default function PullquoteBlockRender({ id, type, attributes }: Pullquote
       data-block-align={blockAlign}
     >
       <blockquote>
-        <p>{content}</p>
-        <cite>{cite}</cite>
+        {sanitizedContent && <p dangerouslySetInnerHTML={{ __html: sanitizedContent }} />}
+        {sanitizedCite && <cite dangerouslySetInnerHTML={{ __html: sanitizedCite }} />}
       </blockquote>
     </figure>
   );
