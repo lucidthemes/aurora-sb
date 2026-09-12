@@ -1,5 +1,3 @@
-import PageContent from '@components/UI/PageContent';
-
 import type { Post } from './schemas/post.schema';
 import BlogPostNewsletter from './components/newsletter';
 import BlogPostTags from './components/tags';
@@ -14,7 +12,6 @@ export default function BlogPost({ post }: { post: Post }) {
 
   return (
     <>
-      <PageContent content={post.content ?? []} />
       <BlogPostNewsletter />
       <BlogPostTags tags={post.tags} />
       <BlogPostShare />
