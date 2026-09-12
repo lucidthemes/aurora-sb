@@ -4,10 +4,13 @@ import { createLogEvent } from '@lib/supabase/logEvent';
 import { NavigationSchema } from './navigation.schema';
 import type { Navigation } from './navigation.schema';
 
-export async function getNavigation(createdDate: string): Promise<{ previousPost?: Navigation | null; nextPost?: Navigation | null } | null> {
+export async function getNavigation(
+  createdDate: string
+): Promise<{ previousPost?: Navigation | null; nextPost?: Navigation | null } | null> {
   const { data: previousPostData, error: previousPostError } = await supabase
     .from('posts')
     .select('title, slug')
+    .eq('status', 'published')
     .lt('created_at', createdDate)
     .order('created_at', { ascending: false })
     .limit(1)
@@ -16,6 +19,7 @@ export async function getNavigation(createdDate: string): Promise<{ previousPost
   const { data: nextPostData, error: nextPostError } = await supabase
     .from('posts')
     .select('title, slug')
+    .eq('status', 'published')
     .gt('created_at', createdDate)
     .order('created_at', { ascending: true })
     .limit(1)
@@ -37,13 +41,21 @@ export async function getNavigation(createdDate: string): Promise<{ previousPost
   const nextParsed = NavigationSchema.safeParse(nextPostData);
 
   if (previousPostData && !previousParsed.success) {
-    await createLogEvent('error', 'FETCH_POST_NAVIGATION_PREVIOUS_INVALID_DATA', 'Fetch post navigation previous failed schema validation');
+    await createLogEvent(
+      'error',
+      'FETCH_POST_NAVIGATION_PREVIOUS_INVALID_DATA',
+      'Fetch post navigation previous failed schema validation'
+    );
 
     return null;
   }
 
   if (nextPostData && !nextParsed.success) {
-    await createLogEvent('error', 'FETCH_POST_NAVIGATION_NEXT_INVALID_DATA', 'Fetch post navigation previous failed schema validation');
+    await createLogEvent(
+      'error',
+      'FETCH_POST_NAVIGATION_NEXT_INVALID_DATA',
+      'Fetch post navigation previous failed schema validation'
+    );
 
     return null;
   }
