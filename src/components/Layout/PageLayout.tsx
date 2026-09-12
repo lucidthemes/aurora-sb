@@ -2,21 +2,21 @@ import type { ReactNode } from 'react';
 
 import Container from '@components/Layout/Container';
 
-interface PageLayoutProps {
-  children: ReactNode;
+export function PageLayout({ children, fullWidth = false }: { children: ReactNode; fullWidth?: boolean }) {
+  if (!fullWidth) return <Container>{children}</Container>;
+
+  if (fullWidth) return <div className="flex flex-col">{children}</div>;
 }
 
-interface PageSidebarLayoutProps {
+export function PageSidebarLayout({
+  content,
+  sidebar,
+  sidebarPosition = 'right',
+}: {
   content?: ReactNode;
   sidebar?: ReactNode;
   sidebarPosition?: 'left' | 'right';
-}
-
-export function PageLayout({ children }: PageLayoutProps) {
-  return <Container>{children}</Container>;
-}
-
-export function PageSidebarLayout({ content, sidebar, sidebarPosition = 'right' }: PageSidebarLayoutProps) {
+}) {
   const isLeft = sidebarPosition === 'left';
 
   return (
@@ -29,7 +29,13 @@ export function PageSidebarLayout({ content, sidebar, sidebarPosition = 'right' 
   );
 }
 
-export function PageSidebarLayoutLoading({ content, sidebarPosition = 'right' }: PageSidebarLayoutProps) {
+export function PageSidebarLayoutLoading({
+  content,
+  sidebarPosition = 'right',
+}: {
+  content?: ReactNode;
+  sidebarPosition?: 'left' | 'right';
+}) {
   const isLeft = sidebarPosition === 'left';
 
   return (

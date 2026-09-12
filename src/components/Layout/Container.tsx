@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 interface ContainerProps {
   children: ReactNode;
-  width?: string;
+  width?: 'standard' | 'wide' | 'full';
   customPadding?: string;
 }
 

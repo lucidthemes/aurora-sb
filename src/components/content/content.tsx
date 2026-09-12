@@ -81,11 +81,13 @@ function PageContentBlockRender({ block }: { block: ContentBlocks }) {
   }
 }
 
-export default function PageContent({ content }: { content: ContentBlocks[] }) {
+export default function PageContent({ content, fullWidth = false }: { content: ContentBlocks[]; fullWidth?: boolean }) {
   if (!content) return;
 
+  const fullWidthClasses = fullWidth ? 'full-width' : '';
+
   return (
-    <div className="post-content">
+    <div className={`post-content ${fullWidthClasses}`}>
       {content.map((block) => (
         <PageContentBlockRender key={block.id} block={block} />
       ))}
