@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 
 import { PageLayout, PageSidebarLayout, PageSidebarLayoutLoading } from '@components/Layout/PageLayout';
+import Container from '@components/Layout/Container';
 import PageTitle from '@components/UI/PageTitle';
 import PageContent from '@components/content';
 import ContactForm from '@features/contactForm';
@@ -26,10 +27,10 @@ export default function SinglePage({ slug }: { slug: string }) {
     return (
       <>
         {!pageSidebarShow && (
-          <PageLayout>
-            {page.title && <PageTitle>{page.title}</PageTitle>}
-            {page.content && <PageContent content={page.content} />}
-            {page.title.toLowerCase().includes('contact') && <ContactForm />}
+          <PageLayout fullWidth={true}>
+            <Container>{page.title && <PageTitle>{page.title}</PageTitle>}</Container>
+            {page.content && <PageContent content={page.content} fullWidth={true} />}
+            <Container>{page.title.toLowerCase().includes('contact') && <ContactForm />}</Container>
           </PageLayout>
         )}
         {pageSidebarShow && (

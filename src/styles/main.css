@@ -44,6 +44,7 @@
     font-size: 13px;
     line-height: 23px;
   }
+
   @media (max-width: 1023px) {
     h1 {
       font-size: 35px;
@@ -70,11 +71,13 @@
       line-height: 20px;
     }
   }
+
   p {
     font-size: 18px;
     color: var(--color-boulder);
     line-height: 33px;
   }
+
   .post-content {
     h1,
     h2,
@@ -85,12 +88,18 @@
       margin-top: 25px;
       margin-bottom: 15px;
     }
+
     p {
       margin-bottom: 25px;
       &:last-child {
         margin-bottom: 0;
       }
     }
+  }
+
+  .post-content.full-width *[class*='block-'] {
+    padding-inline: calc(var(--spacing) * 4);
+    margin-inline: auto;
   }
 }
 
