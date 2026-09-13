@@ -9,8 +9,6 @@ import BlogPostCommentsForm from './components/Form';
 export default function BlogPostComments({ postId, comments }: { postId: string; comments: PostComment[] }) {
   const { commentsList, commentsCount, commentReplyId, setCommentReplyId } = useComments({ comments });
 
-  if (!commentsList || commentsList.length === 0) return null;
-
   return (
     <section className="rounded-md bg-white p-5 md:p-7.5 lg:p-10">
       <SectionHeading heading={`Comments (${commentsCount})`} headingLevel="3" />
@@ -26,7 +24,9 @@ export default function BlogPostComments({ postId, comments }: { postId: string;
         ) : (
           <p className="rounded-sm bg-pampas p-5 text-center">No comments found</p>
         )}
-        {commentReplyId === null && <BlogPostCommentsForm postId={postId} commentReplyId={commentReplyId} setCommentReplyId={setCommentReplyId} />}
+        {commentReplyId === null && (
+          <BlogPostCommentsForm postId={postId} commentReplyId={commentReplyId} setCommentReplyId={setCommentReplyId} />
+        )}
       </div>
     </section>
   );
