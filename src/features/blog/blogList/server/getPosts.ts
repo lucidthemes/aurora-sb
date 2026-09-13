@@ -31,7 +31,13 @@ export async function getPosts({
   if (category || tag) {
     const table = category ? 'post_categories' : tag ? 'post_tags' : '';
 
-    const { data: taxonomyData, error: taxonomyError } = await supabase.from(table).select('id').eq('slug', category).maybeSingle();
+    const querySlug = category || tag;
+
+    const { data: taxonomyData, error: taxonomyError } = await supabase
+      .from(table)
+      .select('id')
+      .eq('slug', querySlug)
+      .maybeSingle();
 
     if (taxonomyError) {
       await createLogEvent('error', 'FETCH_BLOG_LIST_POSTS_TAXONOMY_FAILED', taxonomyError.message);
@@ -60,7 +66,6 @@ export async function getPosts({
           tag_id
         )`;
 
-  // main posts query
   let query = supabase
     .from('posts')
     .select(
@@ -104,15 +109,25 @@ export async function getPosts({
     .eq('status', 'published')
     .order('created_at', { ascending: false });
 
-  if (limit) query = query.limit(limit);
+  if (limit) {
+    query = query.limit(limit);
+  }
 
-  if (category && taxonomyId) query = query.eq('filter_categories.category_id', taxonomyId);
+  if (category && taxonomyId) {
+    query = query.eq('filter_categories.category_id', taxonomyId);
+  }
 
-  if (tag && taxonomyId) query = query.eq('filter_tags.tag_id', taxonomyId);
+  if (tag && taxonomyId) {
+    query = query.eq('filter_tags.tag_id', taxonomyId);
+  }
 
-  if (author) query = query.eq('author.id', author);
+  if (author) {
+    query = query.eq('author.id', author);
+  }
 
-  if (search) query = query.ilike('title', '%' + search + '%');
+  if (search) {
+    query = query.ilike('title', '%' + search + '%');
+  }
 
   if (showPagination) {
     const rangeFrom = (Number(blogListPage) - 1) * Number(postsPerPage);
@@ -142,7 +157,11 @@ export async function getPosts({
   const parsed = z.array(PostsSchema).safeParse(normalized);
 
   if (!parsed.success) {
-    await createLogEvent('error', 'FETCH_BLOG_LIST_POSTS_INVALID_DATA', 'Fetch blog list posts failed schema validation');
+    await createLogEvent(
+      'error',
+      'FETCH_BLOG_LIST_POSTS_INVALID_DATA',
+      'Fetch blog list posts failed schema validation'
+    );
 
     return null;
   }
