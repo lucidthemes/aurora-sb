@@ -14,14 +14,6 @@
   justify-content: end;
 }
 
-.block-button-link {
-  width: fit-content;
-  padding: 8px 16px;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  border-radius: 8px;
-}
-
-.block-button-link span {
-  cursor: text;
+.block-button a {
+  text-decoration: none !important;
 }
