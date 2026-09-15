@@ -14,16 +14,25 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement | HTMLAncho
   type?: 'button' | 'submit' | 'reset';
   variant?: Variant;
   className?: string;
+  target?: string;
 }
 
-export default function Button({ children, to, type = 'button', variant = 'primary', className = '', ...props }: ButtonProps) {
+export default function Button({
+  children,
+  to,
+  type = 'button',
+  variant = 'primary',
+  className = '',
+  target = '',
+  ...props
+}: ButtonProps) {
   const baseStyles = 'rounded-md cursor-pointer';
   const variantStyles = variants[variant] || variants.primary;
   const combinedClasses = `${baseStyles} ${variantStyles} ${className}`.trim();
 
   if (to) {
     return (
-      <Link to={to} className={combinedClasses} {...props}>
+      <Link to={to} className={combinedClasses} target={target} {...props}>
         {children}
       </Link>
     );
