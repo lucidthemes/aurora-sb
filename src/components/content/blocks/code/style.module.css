@@ -1,6 +1,4 @@
 .block-code {
-  background-color: var(--sidebar);
-  padding: 25px;
   white-space: pre-wrap;
   word-wrap: break-word;
 }
@@ -9,4 +7,6 @@
   display: flex;
   width: 100%;
   cursor: text;
+  background-color: var(--color-spring-wood);
+  padding: 25px;
 }

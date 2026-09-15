@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Button from '@components/UI/Button';
 
 import blockStyles from '../block.module.css';
 import { blockCustomClassesFormat } from '../block-utils';
@@ -19,7 +19,6 @@ export default function ButtonBlockRender({ id, type, attributes }: ButtonConten
   const text = attributes?.text?.value ?? '';
 
   const buttonBlockClass = buttonBlockStyles['block-button'];
-  const buttonBlockLinkClass = buttonBlockStyles['block-button-link'];
 
   const blockClass = blockStyles.block;
   const blockClasses = (blockClass + ' ' + blockCustomClasses).trim() + ' ' + buttonBlockClass;
@@ -33,9 +32,9 @@ export default function ButtonBlockRender({ id, type, attributes }: ButtonConten
       data-block-width={blockWidth}
       data-block-align={blockAlign}
     >
-      <Link className={buttonBlockLinkClass} to={link} target={newTab}>
-        <span>{text}</span>
-      </Link>
+      <Button to={link} target={newTab}>
+        {text}
+      </Button>
     </div>
   );
 }
