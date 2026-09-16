@@ -5,7 +5,6 @@
   hr {
     border: none;
     height: 2px;
-    background-color: var(--color-shark);
-    margin-inline: 15px;
+    background-color: var(--foreground);
   }
 }
