@@ -1,19 +1,17 @@
 .block-button {
   display: flex;
-}
 
-.block-button[data-block-align='left'] {
-  justify-content: start;
-}
+  &[data-block-align='left'] {
+    justify-content: start;
+  }
+  &[data-block-align='center'] {
+    justify-content: center;
+  }
+  &[data-block-align='right'] {
+    justify-content: end;
+  }
 
-.block-button[data-block-align='center'] {
-  justify-content: center;
-}
-
-.block-button[data-block-align='right'] {
-  justify-content: end;
-}
-
-.block-button a {
-  text-decoration: none !important;
+  a {
+    text-decoration: none !important;
+  }
 }
