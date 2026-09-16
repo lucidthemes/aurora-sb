@@ -74,6 +74,12 @@ export async function getPost(slug: string): Promise<Post | null> {
     return null;
   }
 
+  if (!data) {
+    await createLogEvent('error', 'FETCH_POST_NOT_FOUND', 'Post not found. Slug: ' + slug);
+
+    return null;
+  }
+
   const normalized = {
     ...data,
     categories: data?.categories.map((c) => c.category),
