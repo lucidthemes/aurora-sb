@@ -21,7 +21,8 @@ export async function getPostsWidgetPosts(limit?: number): Promise<PostsWidgetPo
     created_at
     `
     )
-    .eq('status', 'published');
+    .eq('status', 'published')
+    .order('created_at', { ascending: false });
 
   if (limit) query = query.limit(limit);
 
