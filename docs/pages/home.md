@@ -20,7 +20,7 @@ The app has four different page layouts for the home page - main, classic, magaz
 
 The default layout of the home page for the app features a slideshow, promo boxes, newsletter form, posts list, and sidebar
 
-### Route
+#### Route
 
 `/`
 
@@ -28,7 +28,7 @@ The default layout of the home page for the app features a slideshow, promo boxe
 
 A classic blog layout for the home page features a full-width slideshow, promo boxes, newsletter form, posts list, and a sidebar
 
-### Route
+#### Route
 
 `home-classic`
 
@@ -36,7 +36,7 @@ A classic blog layout for the home page features a full-width slideshow, promo b
 
 A magazine style layout for the home page with multiple posts list sections, different categories of posts, and featured posts
 
-### Route
+#### Route
 
 `home-magazine`
 
@@ -44,6 +44,6 @@ A magazine style layout for the home page with multiple posts list sections, dif
 
 A minimal layout for the home page with just a posts list in a two column grid layout style
 
-### Route
+#### Route
 
 `home-minimal`
