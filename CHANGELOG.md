@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - [Unreleased]
+
+### Changed
+
+#### Components
+
+##### Widgets
+
+- posts widget to fetch posts by order of created date
+
 ## [0.6.0] - 2026-09-26
 
 ### Added
