@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 
 - DOMPurify dependency
 
+#### Docs
+
+- docs folder
+- project docs
+
 #### Components
 
 ##### Content
