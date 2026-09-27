@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.2] - [unreleased]
+
+### Fixed
+
+#### Pages
+
+- home page promo box image urls
+
 ## [0.6.1] - 2026-09-27
 
 ### Changed
