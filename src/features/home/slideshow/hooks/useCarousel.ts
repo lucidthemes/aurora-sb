@@ -33,7 +33,11 @@ export default function useCarousel(loop?: boolean, autoplay?: boolean) {
     if (!emblaApi) return;
 
     onSelect();
-    setScrollSnaps(emblaApi.scrollSnapList());
+
+    const updateScrollSnaps = () => setScrollSnaps(emblaApi.scrollSnapList());
+
+    updateScrollSnaps();
+
     emblaApi.on('select', onSelect);
   }, [emblaApi, setScrollSnaps, onSelect]);
 
