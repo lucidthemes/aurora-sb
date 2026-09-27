@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 - posts widget to fetch posts by order of created date
 
+### Removed
+
+#### Public
+
+- posts images folder
+
 ## [0.6.0] - 2026-09-26
 
 ### Added
