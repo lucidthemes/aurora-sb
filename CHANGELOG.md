@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.6.1] - [Unreleased]
+## [0.6.1] - 2026-09-27
 
 ### Changed
+
+#### Root
+
+- updated dependencies
 
 #### Components
 
