@@ -5,7 +5,12 @@ import Autoplay from 'embla-carousel-autoplay';
 export default function useCarousel(loop?: boolean, autoplay?: boolean) {
   const autoplayOptions =
     autoplay === true
-      ? Autoplay({ delay: 5000, stopOnMouseEnter: true, stopOnInteraction: false, rootNode: (emblaRoot: HTMLElement) => emblaRoot.parentElement })
+      ? Autoplay({
+          delay: 5000,
+          stopOnMouseEnter: true,
+          stopOnInteraction: false,
+          rootNode: (emblaRoot: HTMLElement) => emblaRoot.parentElement,
+        })
       : Autoplay({ playOnInit: false, stopOnInteraction: true });
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: loop, align: 'start' }, [autoplayOptions]);
@@ -18,11 +23,15 @@ export default function useCarousel(loop?: boolean, autoplay?: boolean) {
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
+
+    const updateSelectedIndex = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+
+    updateSelectedIndex();
   }, [emblaApi, setSelectedIndex]);
 
   useEffect(() => {
     if (!emblaApi) return;
+
     onSelect();
     setScrollSnaps(emblaApi.scrollSnapList());
     emblaApi.on('select', onSelect);
